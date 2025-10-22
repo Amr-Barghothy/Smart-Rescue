@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Case</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="bg-[##fafbfd]">
+    <nav class="bg-[#00394F] text-white flex justify-between items-center px-6 py-3 shadow">
+        <div class="flex items-center space-x-3">
+            <img src="../images/logo.jpeg" alt="WAHA Logo" class="w-8 h-8 rounded-xl">
+            <a href="#" class="font-semibold text-lg">Smart Rescue</a>
+        </div>
+
+        <ul class="flex space-x-5 text-sm">
+            <li><a href="#" class="hover:text-gray-300">🏠Dashboard</a></li>
+            <li><a href="#" class="hover:text-gray-300"> ➕Create Case</a></li>
+            <li><a href="#" class="hover:text-gray-300">🤝 Volunteer</a></li>
+            <li><a href="#" class="hover:text-gray-300">🧰Services</a></li>
+            <li><a href="#" class="hover:text-gray-300">🌐Language</a></li>
+            <li><a href="#" class="hover:text-gray-300">🚪Logout</a></li>
+        </ul>
+    </nav>
+    <div class="w-40/100 mx-auto">
+        <div class="my-7">
+            <h1 class="text-2xl text-[#f17e46] font-bold mb-2">Report a New Case</h1>
+            <p class="text-gray-500">Help your community by reporting issues that need attention</p>
+        </div>
+        <div class="border-1 border-gray-300 rounded-lg p-7">
+            <div class="mb-2">
+                <p class="font-bold text-900 text-lg">Case Details</p>
+                <p class="text-gray-500 text-base text-lg">Fill in the information about the case you want to report</p>
+            </div>
+            <form action="/create_a_case" method="post">
+                <div class="mb-2 flex flex-col my-8">
+                    <label for="title" class="font-bold">Case Title *</label>
+                    <input type="text" name="title" id="title" placeholder="Brief description of a issue"
+                           class="focus-within:outline-double focus-within:outline-cyan-500 rounded-md p-2 bg-[#f8fafc] placeholder:text-gray-500">
+                </div>
+                <div class="mb-2 flex gap-2 my-8">
+                    <div class="flex flex-col flex-1">
+                        <label for="category" class="font-bold">Category*</label>
+                        <select name="category" id="category" class=" bg-[#f8fafc] p-2 rounded-md">
+                            <option value="" disabled selected hidden class="text-red-200">Select a category
+                            </option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col flex-1">
+                        <label for="authorities" class="font-bold">Specialized Authorities*</label>
+                        <select name="authorities" id="authorities" class=" bg-[#f8fafc] p-2 rounded-md">
+                            <option value="" disabled selected hidden class="text-red-200">Select an authority type
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-2 flex items-center gap-x-4 my-8">
+                    <div class="flex flex-col flex-1">
+                        <label for="location" class="font-bold">Location *</label>
+                        <div class="flex flex-1 gap-x-2">
+                            <input type="text" name="location" id="location"
+                                   class="focus-within:outline-double focus-within:outline-cyan-500 rounded-md p-2 bg-[#f8fafc] placeholder:text-gray-500 w-full">
+                            <button class="border-gray-300 border-1 p-2 rounded-md hover:bg-red-400 cursor-pointer">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                                    <path d="M12 2a7.008 7.008 0 0 0-7 7c0 5.353 6.036 11.45 6.293 11.707l.707.707.707-.707C12.964 20.45 19 14.353 19 9a7.008 7.008 0 0 0-7-7zm0 16.533C10.471 16.825 7 12.553 7 9a5 5 0 0 1 10 0c0 3.546-3.473 7.823-5 9.533z"/>
+                                    <path d="M12 6a3 3 0 1 0 3 3 3 3 0 0 0-3-3zm0 4a1 1 0 1 1 1-1 1 1 0 0 1-1 1z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col flex-1">
+                        <label for="status" class="font-bold">Danger Level*</label>
+                        <select name="status" id="status" class=" bg-[#f8fafc] p-2 rounded-md">
+                            <option value="" disabled selected hidden class="text-red-200">Select The Status
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-2 flex flex-col my-8">
+                    <p>Describe the Case</p>
+                    <div class="flex bg-[#f1f5f9] rounded-lg">
+                        <button class="flex-1 bg-[#f1f5f9] rounded-lg p-1 cursor-pointer">Text</button>
+                        <button class="flex-1 bg-[#f1f5f9] rounded-lg p-1 cursor-pointer">Voice</button>
+                        <button class="flex-1 bg-[#f1f5f9] rounded-lg p-1 cursor-pointer">Image</button>
+                    </div>
+                </div>
+                <div class="flex gap-x-8 mt-12 mb-3">
+                    <button type="submit"
+                            class="hover:bg-red-400 hover:border-red-500 border-1  flex-1 text-center rounded-lg text-[#f17e46] border-gray-400 hover:text-white p-2 cursor-pointer">
+                        Submit Case
+                    </button>
+                    <a href="/dashboard"
+                       class="hover:bg-[#003247]  flex-1 text-center rounded-lg border-1 border-gray-400 text-blue-800 hover:text-white p-2">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -29,5 +29,12 @@ def about(request):
     return render(request, "about.html", context)
 
 
+def index(request):
+    return render(request, 'index.html')
 
 
+def create_case_page(request):
+    if not "id" in request.session:
+        messages.error(request, "You need to login first")
+        return redirect(index)
+    return render(request, 'create_case.html')
