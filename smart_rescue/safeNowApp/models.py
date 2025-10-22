@@ -66,6 +66,7 @@ class User(models.Model):
     
 
 
+
 class CaseEmergency(models.Model):
     title = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
