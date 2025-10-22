@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Rescue Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- Navbar -->
+    <nav class="bg-[#00394F] text-white flex justify-between items-center px-6 py-3 shadow">
+        <div class="flex items-center space-x-3">
+            <img src="../images/logo.jpeg"  alt="WAHA Logo" class="w-8 h-8 rounded-xl">
+            <a href="#" class="font-semibold text-lg">Smart Rescue</a>
+        </div>
+
+        <ul class="flex space-x-5 text-sm">
+            <li><a href="#" class="hover:text-gray-300">🏠Dashboard</a></li>
+            <li><a href="#" class="hover:text-gray-300"> ➕Create Case</a></li>
+            <li><a href="#" class="hover:text-gray-300">🤝 Volunteer</a></li>
+            <li><a href="#" class="hover:text-gray-300">🧰Services</a></li>
+            <li><a href="#" class="hover:text-gray-300">🌐Language</a></li>
+            <li><a href="#" class="hover:text-gray-300">🚪Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header -->
+    <header class="px-6 mt-6">
+        <h2 class="text-xl font-semibold text-orange-600">Recent Cases Dashboard</h2>
+        <p class="text-gray-500 text-sm">Monitor and track reported cases in your community</p>
+    </header>
+
+    <!-- Search & Filter -->
+    <section class="flex justify-between items-center px-6 mt-4">
+        <input type="text" placeholder="🔍 Search cases..."
+            class="border border-gray-300 rounded-lg px-4 py-2 w-1/3 focus:ring-2 focus:ring-teal-500">
+        <div class="text-sm text-gray-600 space-x-4">
+            <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded"> <select name="level" id="">
+                    <option value="">All Levels</option>
+                </select></span>
+            <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded"> <select name="category" id="">
+                    <option value="">All Categories</option>
+                </select></span>
+        </div>
+    </section>
+
+    <!-- Cases -->
+    <main class="grid md:grid-cols-2 gap-6 px-6 mt-6 pb-10">
+
+        <!-- Case 1 -->
+        <article class="bg-white border border-gray-100 rounded-xl shadow-sm p-5 flex justify-between">
+            <div>
+                <h3 class="font-semibold">Street Light Outage</h3>
+                <p class="text-xs mt-1">
+                    <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded">Infrastructure</span>
+                    <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded">Public Works</span>
+                </p>
+                <p class="text-gray-500 text-sm mt-2"> <img src="../images/location.png" class="w-8 h-8 inline-block" alt=""> Main
+                    Street, Downtown • <img src="../images/time.png" class="w-8 h-8 inline-block" alt=""> 2 hours ago</p>
+                <p class="text-sm mt-2">Multiple street lights are not working, creating safety concerns at night.</p>
+                <p class="text-sm mt-3"><img src="../images/warning.png" class="w-8 h-8 inline-block" alt=""> Danger Level: <span
+                        class="bg-yellow-200 text-yellow-800 px-2 py-1 rounded text-xs">Medium</span></p>
+            </div>
+            <div class="text-right">
+                <img src="../images/Qr-3.png" class="w-16 h-16">
+                <p class="text-xs text-gray-400 mt-1">Case #001</p>
+            </div>
+        </article>
+
+        <!-- Case 2 -->
+        <article class="bg-white border border-gray-100 rounded-xl shadow-sm p-5 flex justify-between">
+            <div>
+                <h3 class="font-semibold">Medical Emergency Access</h3>
+                <p class="text-xs mt-1">
+                    <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded">Emergency</span>
+                    <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded">Traffic Police</span>
+                </p>
+                <p class="text-gray-500 text-sm mt-2"><img src="../images/location.png" class="w-8 h-8 inline-block" alt=""> City
+                    Hospital • <img src="../images/time.png" class="w-8 h-8 inline-block" alt=""> 30 minutes ago</p>
+                <p class="text-sm mt-2">Ambulance access blocked by illegally parked vehicles.</p>
+                <p class="text-sm mt-3"><img src="../images/warning.png" class="w-8 h-8 inline-block" alt=""> Danger Level: <span
+                        class="bg-red-500 text-white px-2 py-1 rounded text-xs">Critical</span></p>
+            </div>
+            <div class="text-right">
+                <img src="../images/Qr-3.png" class="w-16 h-16">
+                <p class="text-xs text-gray-400 mt-1">Case #002</p>
+            </div>
+        </article>
+
+        <!-- Case 3 -->
+        <article class="bg-white border border-gray-100 rounded-xl shadow-sm p-5 flex justify-between">
+            <div>
+                <h3 class="font-semibold">Water Leak</h3>
+                <p class="text-xs mt-1">
+                    <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded">Weather</span>
+                    <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded">Municipality</span>
+                </p>
+                <p class="text-gray-500 text-sm mt-2"><img src="../images/location.png" class="w-8 h-8 inline-block" alt=""> South
+                    District • <img src="../images/time.png" class="w-8 h-8 inline-block" alt=""> 3 hours ago</p>
+                <p class="text-sm mt-2">Underpass filled with rainwater, blocking traffic flow completely.</p>
+                <p class="text-sm mt-3"><img src="../images/warning.png" class="w-8 h-8 inline-block" alt=""> Danger Level: <span
+                        class="bg-red-500 text-white px-2 py-1 rounded text-xs">High</span></p>
+            </div>
+            <div class="text-right">
+                <img src="../images/Qr-3.png" class="w-16 h-16">
+                <p class="text-xs text-gray-400 mt-1">Case #003</p>
+            </div>
+        </article>
+
+        <!-- Case 4 -->
+        <article class="bg-white border border-gray-100 rounded-xl shadow-sm p-5 flex justify-between">
+            <div>
+                <h3 class="font-semibold">Playground Safety Issue</h3>
+                <p class="text-xs mt-1">
+                    <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded">Emergency</span>
+                    <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded">Police</span>
+                </p>
+                <p class="text-gray-500 text-sm mt-2"><img src="../images/location.png" class="w-8 h-8 inline-block" alt="">
+                    Highway 9 • <img src="../images/time.png" class="w-8 h-8 inline-block" alt=""> 1 hour ago</p>
+                <p class="text-sm mt-2">Two-vehicle collision with moderate injuries reported.</p>
+                <p class="text-sm mt-3"><img src="../images/warning.png" class="w-8 h-8 inline-block" alt=""> Danger Level: <span
+                        class="bg-yellow-200 text-yellow-800 px-2 py-1 rounded text-xs">Medium</span></p>
+            </div>
+            <div class="text-right">
+                <img src="../images/Qr-3.png" class="w-16 h-16">
+                <p class="text-xs text-gray-400 mt-1">Case #004</p>
+            </div>
+        </article>
+
+        <!-- Case 5 -->
+        <article class="bg-white border border-gray-100 rounded-xl shadow-sm p-5 flex justify-between">
+            <div>
+                <h3 class="font-semibold">Pothole Damage</h3>
+                <p class="text-xs mt-1">
+                    <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded">Electricity</span>
+                    <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded">Utility</span>
+                </p>
+                <p class="text-gray-500 text-sm mt-2"><img src="../images/location.png" class="w-8 h-8 inline-block" alt=""> West
+                    End • <img src="../images/time.png" class="w-8 h-8 inline-block" alt=""> 4 hours ago</p>
+                <p class="text-sm mt-2">Entire block without power due to transformer issue.</p>
+                <p class="text-sm mt-3"><img src="../images/warning.png" class="w-8 h-8 inline-block" alt=""> Danger Level: <span       
+                        class="bg-green-500 text-white px-2 py-1 rounded text-xs">Low</span></p>
+            </div>
+            <div class="text-right">
+                <img src="../images/Qr-3.png" class="w-16 h-16">
+                <p class="text-xs text-gray-400 mt-1">Case #005</p>
+            </div>
+        </article>
+
+        <!-- Case 6 -->
+        <article class="bg-white border border-gray-100 rounded-xl shadow-sm p-5 flex justify-between">
+            <div>
+                <h3 class="font-semibold">Fire Hazard</h3>
+                <p class="text-xs mt-1">
+                    <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded">Inspection</span>
+                    <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded">Public Works</span>
+                </p>
+                <p class="text-gray-500 text-sm mt-2"><img src="../images/location.png" class="w-8 h-8 inline-block" alt="">
+                    Riverside Bridge • <img src="../images/time.png" class="w-8 h-8 inline-block" alt=""> 6 hours ago</p>
+                <p class="text-sm mt-2">Visible cracks on bridge foundation detected by citizens.</p>
+                <p class="text-sm mt-3"><img src="../images/warning.png" class="w-8 h-8 inline-block" alt=""> Danger Level:
+                    <span class="bg-red-500 text-white px-2 py-1 rounded text-xs">High</span>
+                </p>
+            </div>
+            <div class="text-right">
+                <img src="../images/Qr-3.png" class="w-16 h-16">
+                <p class="text-xs text-gray-400 mt-1">Case #006</p>
+            </div>
+        </article>
+
+    </main>
+
+</body>
+
+</html>
