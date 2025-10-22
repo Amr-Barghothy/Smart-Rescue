@@ -14,6 +14,7 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
+
 class CaseEmergency(models.Model):
     title = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
@@ -27,12 +28,6 @@ class CaseEmergency(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-class Services(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)
-    location = models.CharField(max_length=255)
-    category = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    rating = models.IntegerField()
-    owner = models.ForeignKey(User, related_name="services", on_delete=models.CASCADE)
-    updated_at = models.DateTimeField(auto_now=True)
+
+
+    

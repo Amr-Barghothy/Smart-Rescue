@@ -1,7 +1,8 @@
 from django.shortcuts import render
+from .models import *     
 
-# Create your views here.
+def dashboard_view(request):
+    cases = CaseEmergency.objects.all()
+    return render(request, 'dashboard.html', {'cases': cases})
 
 
-def index(request):
-    return render(request, 'index.html')
