@@ -1,5 +1,5 @@
 /smart_rescue/safeNowApp/migrations/
-/db.sqlite3/
+/db.sqlite3
 /.venv/
 /.idea/
 __pycache__/

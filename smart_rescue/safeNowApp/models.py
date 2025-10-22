@@ -7,7 +7,6 @@ class UserManager(models.Manager):
     def basic_validator_login(self, postData):
         errors = {}
         user = User.objects.filter(email = postData['email'])
-        # add keys and values to errors dictionary for each invalid field
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
         if not EMAIL_REGEX.match(postData['email']):
             errors['email'] = "Wrong email address!"
@@ -25,7 +24,6 @@ class UserManager(models.Manager):
     def basic_validator_reg(self, postData):
         errors = {}
         new_user = User.objects.filter(email = postData['email'])
-        # add keys and values to errors dictionary for each invalid field       
         if len(postData['password']) < 8:
             errors["password"] = "Password should be at least 8 characters"  
         if len(postData['confirmpassword']) < 8:
@@ -102,16 +100,13 @@ def create_user(post):
     hash1 = bcrypt.hashpw(user_password.encode(), bcrypt.gensalt()).decode()
     return User.objects.create( firstname = post['firstname'], lastname= post['lastname'] , phonenumber = post['phonenumber'], email =  post['email'], password = hash1, DOB = post['DOB'],address=post['address'])
 
-def login_user(post):
-    user_exist = User.objects.filter(email=post.POST['email'])
+def login_user(post,session):
+    user_exist = User.objects.filter(email=post['email'])
     if user_exist:
-        logged_user = user_exist[0] 
-        if bcrypt.checkpw(post.POST['password'].encode(), logged_user.password.encode()):
-            post.session['user_id'] = logged_user.id
+        logged_user = user_exist[0]
+        if bcrypt.checkpw(post['password'].encode(), logged_user.password.encode()):
+            session['user_id'] = logged_user.id
             return True
-            
-        else:
-            print("Failed password")    
-            return False            
-    else:
-        return False  
+    return False
+    
+    

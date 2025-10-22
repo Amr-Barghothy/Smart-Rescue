@@ -46,20 +46,22 @@ def logout_form(request):
     
 def login_user_form(request):
     if request.method == 'POST':
-            errors = models.User.objects.basic_validator_login(request.POST)
-            if len(errors) > 0:
-                for key, value in errors.items():
-                    messages.error(request, value)
-                    print("Errors") 
-                    return redirect('/')  
-            else:
-                user = models.login_user(request)
-                if (user):
-                    return redirect('/dashboard')
-                else:
-                    return render(request, 'index.html')
+        errors = models.User.objects.basic_validator_login(request.POST)
+    if errors:
+        for key, value in errors.items():
+            messages.error(request, value)
+        return redirect('/')
     else:
-        return render(request, 'index.html')
+        user = models.login_user(request.POST, request.session)
+        if user:
+            return redirect('/dashboard')
+        else:
+            messages.error(request, "Invalid email or password")
+            return redirect('/')
+
+        
+    
+    
     
 def register(request):
     return create_user_form(request)
