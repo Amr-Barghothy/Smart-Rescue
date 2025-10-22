@@ -78,7 +78,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'smartrescue',
         'USER': 'root',
-        'PASSWORD': '035530ar',
+        'PASSWORD': 'ezzedinhassoun',
         'HOST': 'localhost',
         'PORT': '3306',
     }
