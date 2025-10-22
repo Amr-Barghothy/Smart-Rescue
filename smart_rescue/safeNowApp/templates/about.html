@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Smart Rescue</title>
+    {% load static %}
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-white text-gray-800">
+
+    <nav class="bg-[#04364A] text-white py-3">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <img src="{% static 'images/Logo.png' %}" alt="Smart Rescue" class="w-8 h-8" />
+                <a href="#" class="font-semibold text-orange-400">Smart Rescue</a>
+            </div>
+            <ul class="flex gap-6 text-sm items-center">
+                <li><a href="#" class="hover:text-orange-400"> 🏠Dashboard</a></li>
+                <li><a href="#" class="hover:text-orange-400"> ➕Create Case</a></li>
+                <li><a href="#" class="hover:text-orange-400">🤝Volunteer</a></li>
+                <li><a href="#" class="hover:text-orange-400">🧰Services</a></li>
+                <li>
+                <li><a href="#" class="hover:text-orange-400">🌐Language</a></li>
+                <li><a href="{% url 'aboutus' %}" class="hover:text-orange-400">ℹ️About Us</a></li>
+
+
+                </li>
+                <li><a href="#" class="text-red-400 hover:text-red-300">🚪Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="bg-[#04364A] text-white text-center py-16">
+        <div class="max-w-5xl mx-auto px-4">
+            <img src="{% static 'images/logo.png' %}" alt="Smart Rescue Logo" class="mx-auto mb-6 w-16">
+            <h2 class="text-3xl md:text-4xl font-semibold mb-3">About Smart Rescue</h2>
+            <p class="text-gray-300 max-w-2xl mx-auto">
+                Empowering communities to report and respond to working at height emergencies with speed, precision, and
+                care.
+            </p>
+        </div>
+    </section>
+
+    <section class="bg-gray-50 py-16">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-10 px-6">
+            <div class="md:w-1/2">
+                <h3 class="text-lg font-semibold mb-4 text-gray-900">Our Mission</h3>
+                <p class="text-gray-700 mb-4 leading-relaxed">
+                    The Working at Height Association (WAHA) is dedicated to ensuring the safety of workers and
+                    individuals in elevated environments.
+                    Smart Rescue is our innovative digital platform that bridges the gap between those in need and
+                    specialized rescue authorities.
+                </p>
+                <p class="text-gray-700 leading-relaxed">
+                    We believe that every second counts in emergency situations. Our platform leverages modern
+                    technology to streamline case reporting,
+                    coordinate volunteer responders, and provide real-time updates to ensure rapid and effective rescue
+                    operations.
+                </p>
+            </div>
+
+            <div class="md:w-1/2 bg-white border border-gray-200 rounded-lg shadow-md p-6">
+                <h4 class="text-lg font-semibold mb-4 text-gray-900">What We Do </h4>
+                <br>
+                <ul>
+                    <li>Emergency Response Coordination <p>Connect citizens with specialized rescue authorities
+                            instantly
+
+                        </p>
+                    </li>
+                    <br>
+                    <li>Volunteer Network
+
+                        <p>Build a community of trained volunteers ready to assist
+
+                        </p>
+                    </li>
+                    <br>
+                    <li>Precise Location Tracking
+
+                        <p>GPS and map integration for accurate incident reporting
+                        </p>
+                    </li>
+
+                </ul>
+                <ul class="space-y-4 text-gray-700">
+                    {% for item in what_we_do %}
+                    <li>
+                        <div class="flex items-start gap-3">
+                            <div class="text-blue-600 text-xl">{{ item.icon }}</div>
+                            <div>
+                                <p class="font-semibold">{{ item.title }}</p>
+                                <p class="text-sm text-gray-500">{{ item.description }}</p>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-[#04364A] text-white py-16">
+        <div class="max-w-5xl mx-auto text-center">
+            <h4 class="text-xl font-semibold mb-10">Platform Features</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                {% for feature in features %}
+                <div>
+                    <div class="text-4xl mb-3">{{ feature.icon }}</div>
+                    <h5 class="font-semibold">{{ feature.title }}</h5>
+                    <p class="text-gray-300 text-sm mt-2">{{ feature.description }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-gray-50 py-16">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h4 class="text-xl font-semibold mb-10 text-gray-900">Our Core Values</h4>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                {% for value in values %}
+                <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-5">
+                    <h5 class="font-semibold mb-2">{{ value.title }}</h5>
+                    <p class="text-sm text-gray-600">{{ value.description }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-[#04364A] text-white text-center py-16">
+        <div class="max-w-4xl mx-auto px-6">
+            <h4 class="text-xl font-semibold mb-3">Join Us in Making a Difference</h4>
+            <p class="text-gray-300 mb-8">
+                Whether you need assistance or want to volunteer, Smart Rescue connects you to a network dedicated to
+                saving lives.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <div>
+                    <a href="#"
+                       class="bg-white text-[#04364A] font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition">
+                        Report a Case
+                    </a>
+                </div>
+                <div>
+                    <a href="#"
+                       class="bg-white text-[#04364A] font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition">
+                        Become a Volunteer
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
