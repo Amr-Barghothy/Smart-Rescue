@@ -18,8 +18,8 @@ def create_user_form(request):
         if len(errors) > 0:
             for key, value in errors.items():
                 messages.error(request, value)
-            print("Errors") 
-            return redirect('/')    
+            print("Errors")
+            return redirect('/')
         else:
             new_user = models.create_user(request.POST)
             request.session['user_id'] = new_user.id
@@ -30,7 +30,7 @@ def create_user_form(request):
 def display_dashboard(request):
     if 'user_id' in request.session:
         context = {
-            
+
             'current_year': datetime.now().year,
         }
         return render(request, 'dashboard.html', context)
@@ -43,7 +43,7 @@ def logout_form(request):
         return redirect('/')
     else:
         return redirect('/')
-    
+
 def login_user_form(request):
     if request.method == 'POST':
         errors = models.User.objects.basic_validator_login(request.POST)
@@ -59,9 +59,17 @@ def login_user_form(request):
             messages.error(request, "Invalid email or password")
             return redirect('/')
 
-        
-    
-    
-    
+
+
+
+
 def register(request):
     return create_user_form(request)
+    return render(request, 'index.html')
+
+
+def create_case_page(request):
+    if not "id" in request.session:
+        messages.error(request, "You need to login first")
+        return redirect(index)
+    return render(request, 'create_case.html')

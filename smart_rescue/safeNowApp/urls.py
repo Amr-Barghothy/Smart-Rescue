@@ -7,6 +7,5 @@ urlpatterns = [
     path('loginuserform', views.login_user_form, name='loginuserform'),    # Login POST
     path('dashboard', views.display_dashboard, name='dashboard'),          # User dashboard
     path('logoutform', views.logout_form, name='logoutform'),              # Logout
+    path('create_case', views.create_case_page),
 ]
-
-    
