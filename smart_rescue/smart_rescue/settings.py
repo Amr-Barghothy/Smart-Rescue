@@ -75,12 +75,9 @@ WSGI_APPLICATION = 'smart_rescue.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'smartrescue',
-        'USER': 'root',
-        'PASSWORD': '035530ar',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        
     }
 }
 
