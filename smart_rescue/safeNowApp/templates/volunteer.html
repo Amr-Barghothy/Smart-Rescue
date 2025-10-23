@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Volunteer </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[##fafbfd]">
+
+  <nav class="between bg-gradient-to-r from-red-500 to-pink-500 p-12 text-white flex justify-between items-center px-6 py-3 shadow">
+    <div class="flex items-center space-x-3">
+        <img src="{% static 'images/Logo.png' %}" alt="Smart Rescue" class="w-8 h-8 rounded-xl" />
+        <a href="#" class="font-semibold text-lg">Smart Rescue</a>
+      </div>
+        <ul class="flex space-x-5 text-sm">
+            <li><a href="/dashboard" class="hover:text-orange-400">🏠Dashboard</a></li>
+            <li><a href="/create_case" class="hover:text-orange-400"> ➕Create Case</a></li>
+            <li><a href="#" class="hover:text-orange-400">🤝 Volunteer</a></li>
+            <li><a href="/services" class="hover:text-orange-400">🧰Services</a></li>
+            <li><a href="#" class="hover:text-orange-400">🌐Language</a></li>
+            <li><a href="{% url 'about' %}" class="hover:text-orange-400">ℹ️About Us</a></li>
+            <li><a href="/logoutform" class="hover:text-orange-400">🚪Logout</a></li>
+        </ul>
+  </nav>
+
+  <!-- Header -->
+  <div class="text-center mt-10">
+    <div class="text-5xl text-blue-500 mb-2">🤝</div>
+    <h1 class="text-2xl font-semibold">Become a Volunteer</h1>
+    <p class="text-gray-500">Share your skills and help others in your community</p>
+  </div>
+
+  <!-- Form -->
+  <div class="max-w-2xl mx-auto bg-white mt-10 shadow rounded-lg p-8">
+    <h2 class="text-lg font-semibold mb-2">Volunteer Service Information</h2>
+    <p class="text-gray-500 mb-6">Tell us about the service you'd like to provide</p>
+
+    <form method="POST" class="space-y-4">
+      {% csrf_token %}
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {{ form.full_name.label_tag }} {{ form.full_name }}
+        {{ form.email.label_tag }} {{ form.email }}
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {{ form.phone.label_tag }} {{ form.phone }}
+        {{ form.location.label_tag }} {{ form.location }}
+      </div>
+
+      {{ form.service_type.label_tag }} {{ form.service_type }}
+      {{ form.category.label_tag }} {{ form.category }}
+      {{ form.availability.label_tag }} {{ form.availability }}
+      {{ form.description.label_tag }} {{ form.description }}
+
+      {% if success %}
+      <div class="bg-red-400 text-white p-3 rounded-md">
+        ❤️ Thank you for volunteering!<br>
+        Your service will help people in need. We'll review your submission and add it to our volunteer directory.
+      </div>
+      {% endif %}
+
+      <div class="flex justify-between mt-6">
+        <button type="reset" class="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600 transition">Cancel</button>
+        <button type="submit" class="bg-teal-500 text-white px-6 py-2 rounded-md hover:bg-teal-600 transition">Submit Service</button>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>
