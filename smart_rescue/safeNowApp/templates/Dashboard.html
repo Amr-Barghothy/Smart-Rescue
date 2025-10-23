@@ -11,20 +11,19 @@
 
 <body class="bg-[##fafbfd]">
 
-    <nav
-            class="between bg-gradient-to-r from-red-500 to-pink-500 p-12 text-white flex justify-between items-center px-6 py-3 shadow">
+    <nav class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow">
         <div class="flex items-center space-x-3">
-            <img src="{% static 'images/Logo.png' %}" alt="WAHA Logo" class="w-8 h-8 rounded-xl">
-            <a href="#" class="font-semibold text-lg">Smart Rescue</a>
+            <img src="{% static 'images/Logo.png' %}" alt="WAHA Logo" class="w-12 h-12 rounded-xl">
+            <a href="/dashboard" class="font-semibold text-2xl">Smart Rescue</a>
         </div>
-        <ul class="flex space-x-5 text-sm">
-            <li><a href="/dashboard" class="hover:text-orange-400">🏠Dashboard</a></li>
-            <li><a href="/create_case" class="hover:text-orange-400"> ➕Create Case</a></li>
-            <li><a href="#" class="hover:text-orange-400">🤝 Volunteer</a></li>
-            <li><a href="/services" class="hover:text-orange-400">🧰Services</a></li>
-            <li><a href="#" class="hover:text-orange-400">🌐Language</a></li>
-            <li><a href="{% url 'about' %}" class="hover:text-orange-400">ℹ️About Us</a></li>
-            <li><a href="/logoutform" class="hover:text-orange-400">🚪Logout</a></li>
+        <ul class="flex space-x-5 text-lg">
+            <li><a href="/dashboard" class="hover:text-gray-300">🏠Dashboard</a></li>
+            <li><a href="/create_case" class="hover:text-gray-300"> ➕Create Case</a></li>
+            <li><a href="#" class="hover:text-gray-300">🤝 Volunteer</a></li>
+            <li><a href="/services" class="hover:text-gray-300">🧰Services</a></li>
+            <li><a href="#" class="hover:text-gray-300">🌐Language</a></li>
+            <li><a href="{% url 'about' %}" class="hover:text-gray-300">ℹ️About Us</a></li>
+            <li><a href="/logoutform" class="hover:text-gray-300">🚪Logout</a></li>
         </ul>
     </nav>
 
