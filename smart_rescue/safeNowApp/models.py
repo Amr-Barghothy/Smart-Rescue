@@ -2,54 +2,60 @@ from django.db import models
 import bcrypt
 import re
 
+
 # Create your models here.
 class UserManager(models.Manager):
     def basic_validator_login(self, postData):
         errors = {}
-        user = User.objects.filter(email = postData['email'])
+        user = User.objects.filter(email=postData['email'])
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
         if not EMAIL_REGEX.match(postData['email']):
             errors['email'] = "Wrong email address!"
         if len(postData['password']) < 8:
-            errors["password"] = "Password should be at least 8 characters"    
-        if len(postData['email']) == 0 :   
-            errors["emailrequired"] = "Email is required!"  
-        if len(postData['password']) == 0 :   
-            errors["passwordrequired"] = "Password is required!"    
-         
+            errors["password"] = "Password should be at least 8 characters"
+        if len(postData['email']) == 0:
+            errors["emailrequired"] = "Email is required!"
+        if len(postData['password']) == 0:
+            errors["passwordrequired"] = "Password is required!"
+
         if not len(user):
-            errors['emailnewuser'] = "Email is not registered" 
+            errors['emailnewuser'] = "Email is not registered"
         return errors
 
     def basic_validator_reg(self, postData):
         errors = {}
-        new_user = User.objects.filter(email = postData['email'])
+        new_user = User.objects.filter(email=postData['email'])
         if len(postData['password']) < 8:
-            errors["password"] = "Password should be at least 8 characters"  
+            errors["password"] = "Password should be at least 8 characters"
         if len(postData['confirmpassword']) < 8:
-            errors["confirmpassword"] = "Confirm Password should be at least 8 characters" 
+            errors["confirmpassword"] = "Confirm Password should be at least 8 characters"
         if len(postData['lastname']) < 3:
-            errors["lastname"] = "Last name should be at least 3 characters" 
+            errors["lastname"] = "Last name should be at least 3 characters"
         if len(postData['firstname']) < 3:
-            errors["firstname"] = "First Name should be at least 3 characters" 
+            errors["firstname"] = "First Name should be at least 3 characters"
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
         if not EMAIL_REGEX.match(postData['email']):
             errors['email'] = "Wrong email address!"
         if postData['password'] != postData['confirmpassword']:
             errors['password_confirm'] = "Password Dosent Match!"
-        if len(postData['email']) == 0 :   
-            errors["emailrequired"] = "Email is required!"  
-        if len(postData['password']) == 0 :   
+        if len(postData['email']) == 0:
+            errors["emailrequired"] = "Email is required!"
+        if len(postData['password']) == 0:
             errors["passwordrequired"] = "Password is required!"
-        if len(postData['confirmpassword']) == 0 :   
+        if len(postData['confirmpassword']) == 0:
             errors["confirmpasswordrequired"] = "Confrim password is required!"
-        if len(postData['lastname']) == 0 :   
+        if len(postData['lastname']) == 0:
             errors["lastnamerequired"] = "Last name is required!"
-        if len(postData['firstname']) == 0 :   
-            errors["firstnamerequired"] = "First name is required!"   
+        if len(postData['firstname']) == 0:
+            errors["firstnamerequired"] = "First name is required!"
         if len(new_user):
-            errors['emailnewuser'] = "Email already exist" 
+            errors['emailnewuser'] = "Email already exist"
+        if len(postData['role']) == 0:
+            errors["role"] = "Role is required"
+        elif postData['role'] != "user" and postData['role'] != "volunteer":
+            errors["role"] = "You can't use this role"
         return errors
+
 
 class User(models.Model):
     firstname = models.CharField(max_length=255)
@@ -62,9 +68,7 @@ class User(models.Model):
     phonenumber = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    objects=UserManager()
-    
-
+    objects = UserManager()
 
 
 class CaseEmergency(models.Model):
@@ -74,11 +78,13 @@ class CaseEmergency(models.Model):
     long = models.FloatField()
     lat = models.FloatField()
     description = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='images/',blank=True)
-    audio = models.FileField(upload_to='audio/',blank=True)
+    image = models.ImageField(upload_to='images/', blank=True)
+    audio = models.FileField(upload_to='audio/', blank=True)
+    authorities = models.CharField(max_length=255)
     created_by = models.ForeignKey(User, related_name="cases", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
 
 class Services(models.Model):
     title = models.CharField(max_length=255)
@@ -89,19 +95,25 @@ class Services(models.Model):
     rating = models.IntegerField()
     owner = models.ForeignKey(User, related_name="services", on_delete=models.CASCADE)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
+
 def get_users():
     return User.objects.all()
 
+
 def get_user(id):
-    return User.objects.get(id = id)
+    return User.objects.get(id=id)
+
 
 def create_user(post):
     user_password = post['password']
     hash1 = bcrypt.hashpw(user_password.encode(), bcrypt.gensalt()).decode()
-    return User.objects.create( firstname = post['firstname'], lastname= post['lastname'] , phonenumber = post['phonenumber'], email =  post['email'], password = hash1, DOB = post['DOB'],address=post['address'])
+    return User.objects.create(firstname=post['firstname'], lastname=post['lastname'], phonenumber=post['phonenumber'],
+                               email=post['email'], password=hash1, DOB=post['DOB'], address=post['address'],
+                               role=post['role'])
 
-def login_user(post,session):
+
+def login_user(post, session):
     user_exist = User.objects.filter(email=post['email'])
     if user_exist:
         logged_user = user_exist[0]
@@ -109,5 +121,7 @@ def login_user(post,session):
             session['user_id'] = logged_user.id
             return True
     return False
-    
-    
+
+
+def create_case(post):
+    return CaseEmergency.objects.create(title=post['title'], category=post['category'], )
