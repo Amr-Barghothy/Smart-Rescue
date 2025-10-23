@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 import bcrypt
 import re
@@ -24,6 +26,7 @@ class UserManager(models.Manager):
 
     def basic_validator_reg(self, postData):
         errors = {}
+        current_year = datetime.now().year
         new_user = User.objects.filter(email=postData['email'])
         if len(postData['password']) < 8:
             errors["password"] = "Password should be at least 8 characters"
@@ -54,6 +57,10 @@ class UserManager(models.Manager):
             errors["role"] = "Role is required"
         elif postData['role'] != "user" and postData['role'] != "volunteer":
             errors["role"] = "You can't use this role"
+        elif postData['role'] == "volunteer":
+            user_year = int(postData['DOB'][:4])
+            if (current_year - user_year) < 18:
+                errors['age'] = "You must be 18-year old to perform this action"
         return errors
 
 
@@ -71,6 +78,22 @@ class User(models.Model):
     objects = UserManager()
 
 
+class CaseEmergencyManager(models.Manager):
+    def emergency_validator(self, postData):
+        errors = {}
+        if postData["title"] == '':
+            errors["title"] = "Title is required!"
+        if postData["category"] == '':
+            errors["category"] = "Category is required!"
+        if postData["authorities"] == '':
+            errors["authorities"] = "Authority is required!"
+        if postData["location"] == '':
+            errors["location"] = "Location is required!"
+        if postData['status'] == '':
+            errors["status"] = "Status is required!"
+        return errors
+
+
 class CaseEmergency(models.Model):
     title = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
@@ -85,6 +108,7 @@ class CaseEmergency(models.Model):
     current_status = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = CaseEmergencyManager()
 
 
 class Services(models.Model):
@@ -124,5 +148,14 @@ def login_user(post, session):
     return False
 
 
-def create_case(post):
-    return CaseEmergency.objects.create(title=post['title'], category=post['category'], )
+def create_case(post, image, audio_data, text_description):
+    return CaseEmergency.objects.create(title=post.get("title"),
+                                        category=post.get("category"),
+                                        authorities=post.get("authorities"),
+                                        lat=33.7490,
+                                        long=-84.3880,
+                                        description=text_description,
+                                        image=image,
+                                        audio=audio_data,
+                                        status=post.get("status"),
+                                        current_status="PENDING", )
