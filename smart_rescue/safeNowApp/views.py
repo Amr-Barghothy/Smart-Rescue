@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 from elevenlabs.client import ElevenLabs
 from openai import OpenAI
 
+
 def dashboard_view(request):
     cases = CaseEmergency.objects.all()
     return render(request, 'dashboard.html', {'cases': cases})
@@ -128,30 +129,26 @@ def volunteer(request):
 
 
 def report_case(request):
+    if not "user_id" in request.session:
+        messages.error(request, "You need to login first")
+        return redirect(index)
+    errors = CaseEmergency.objects.emergency_validator(request.POST)
+    if len(errors) > 0:
+        for key, value in errors.items():
+            messages.error(request, value)
+        return redirect(create_case_page)
     if request.method == "POST":
         text_description = request.POST.get("description", "")
         audio_data = request.POST.get("audio_data")
         image = request.FILES.get("image")
-        audio_bytes = ""
         if audio_data:
             header, encoded = audio_data.split(",", 1)
             audio_bytes = base64.b64decode(encoded)
             audio_text = transcribe_audio(audio_bytes)
             text_description += " " + audio_text
             # ai_response = text_analysis(text_description)
-        CaseEmergency.objects.create(
-            title=request.POST.get("title"),
-            category=request.POST.get("category"),
-            authorities=request.POST.get("authorities"),
-            lat=33.7490,
-            long=-84.3880,
-            description=text_description,
-            image=image,
-            audio=audio_bytes,
-            status=request.POST.get("status"),
-            current_status="PENDING",
-        )
-        return redirect(success_description)
+        create_case(request.POST, image, audio_data, text_description)
+        return redirect(create_case_page)
 
     return render(request, 'create_case.html')
 
@@ -172,7 +169,6 @@ def transcribe_audio(audio_bytes):
     print(result)
     print(result.text)
     return result.text
-
 
 
 def text_analysis(text):
