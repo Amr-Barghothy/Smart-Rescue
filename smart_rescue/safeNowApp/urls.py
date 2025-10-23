@@ -13,5 +13,7 @@ urlpatterns = [
     path('services', views.show_services, name='services'),
     path('volunteer', views.volunteer),
     path('report_case', views.report_case, name='report_case'),
+    path('success', views.success_description, name='success'),
+    path("chat_ai", views.chat_ai, name="chat_ai"),
 
 ]
