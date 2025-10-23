@@ -119,6 +119,13 @@ def show_services(request):
     return render(request, 'services.html')
 
 
+def volunteer(request):
+    if not "user_id" in request.session:
+        messages.error(request, "You need to login first")
+        return redirect(index)
+    return render(request, 'volunteer.html')
+
+
 def report_case(request):
     if request.method == "POST":
         text_description = request.POST.get("description", "")
@@ -130,7 +137,7 @@ def report_case(request):
             audio_bytes = base64.b64decode(encoded)
             audio_text = transcribe_audio(audio_bytes)
             text_description += " " + audio_text
-            ai_response = text_analysis(text_description)
+            # ai_response = text_analysis(text_description)
         CaseEmergency.objects.create(
             title=request.POST.get("title"),
             category=request.POST.get("category"),
@@ -141,6 +148,7 @@ def report_case(request):
             image=image,
             audio=audio_bytes,
             status=request.POST.get("status"),
+            current_status="PENDING",
         )
         return redirect(create_case_page)
 

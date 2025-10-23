@@ -82,6 +82,7 @@ class CaseEmergency(models.Model):
     audio = models.FileField(upload_to='audio/', blank=True)
     authorities = models.CharField(max_length=255)
     created_by = models.ForeignKey(User, related_name="cases", on_delete=models.CASCADE)
+    current_status = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
