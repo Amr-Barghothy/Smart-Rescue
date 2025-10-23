@@ -3,6 +3,7 @@ import os
 
 import openai
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from datetime import datetime
 from django.contrib import messages
 from django.shortcuts import render
@@ -193,3 +194,38 @@ def text_analysis(text):
     )
     print(completion.choices[0].message.content)
     return completion.choices[0].message.content
+
+def success_description(request):
+    if request.method == "POST":
+        description = request.POST.get("description")
+        return render(request, "success_description.html", {"description": description})
+    return render(request, "create_case.html")
+
+def chat_ai(request):
+    if request.method == "POST":
+        user_message = request.POST.get("message")
+        case_description = request.POST.get("case_description")
+
+        prompt = f"""
+        You are Smart Rescue Assistant. 
+        The user reported this case: "{case_description}".
+        Now they said: "{user_message}".
+        Give them advice and helpful guidance related to the case.
+        """
+
+        try:
+            response = openai.ChatCompletion.create(
+                model="gpt-4o-mini",
+                messages=[{"role": "system", "content": "You are a helpful emergency advisor."},
+                          {"role": "user", "content": prompt}]
+            )
+
+            ai_reply = response.choices[0].message.content
+            return JsonResponse({"reply": ai_reply})
+
+        except Exception as e:
+            return JsonResponse({"reply": f"⚠️ Error: {str(e)}"})
+    # if request.method == "POST":
+    #     text_description = request.POST.get("description", "")
+    #     ai_response = text_analysis(text_description)
+    #     return render(request, 'success.html', {'description': ai_response})

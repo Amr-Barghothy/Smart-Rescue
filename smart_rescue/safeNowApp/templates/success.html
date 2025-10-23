@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Rescue Assistant</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-slate-900 to-blue-900 text-white min-h-screen flex items-center justify-center">
+
+  <div class="w-full max-w-2xl bg-slate-800 rounded-2xl shadow-lg p-6 space-y-6">
+    <h1 class="text-2xl font-bold text-center text-orange-400">🚨 Smart Rescue Assistant</h1>
+    <p class="text-center text-slate-300">AI guidance for your reported case</p>
+
+    <!-- Case Description -->
+    <div class="bg-slate-700 p-4 rounded-xl">
+      <h2 class="font-semibold text-lg text-orange-300 mb-2">Case Description</h2>
+      <p id="case-description" class="text-slate-200">{{ description }}</p>
+    </div>
+
+    <!-- Chat Messages -->
+    <div id="chat-box" class="bg-slate-700 rounded-xl h-80 overflow-y-auto p-4 space-y-4"></div>
+
+    <!-- Input Section -->
+    <div class="flex space-x-2">
+      <input id="user-message" type="text" placeholder="Type your message..."
+        class="flex-1 p-3 rounded-xl bg-slate-600 text-white focus:outline-none focus:ring-2 focus:ring-orange-400">
+      <button id="send-btn"
+        class="bg-orange-500 hover:bg-orange-600 transition text-white font-semibold px-5 rounded-xl">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById("chat-box");
+    const sendBtn = document.getElementById("send-btn");
+    const userMessageInput = document.getElementById("user-message");
+    const caseDescription = document.getElementById("case-description").innerText;
+
+    function appendMessage(sender, text) {
+      const div = document.createElement("div");
+      div.classList.add("p-3", "rounded-xl", "max-w-[80%]");
+      if (sender === "user") {
+        div.classList.add("bg-blue-600", "ml-auto");
+      } else {
+        div.classList.add("bg-slate-600", "mr-auto");
+      }
+      div.innerText = text;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const message = userMessageInput.value.trim();
+      if (!message) return;
+      appendMessage("user", message);
+      userMessageInput.value = "";
+
+      const loadingMsg = document.createElement("div");
+      loadingMsg.classList.add("italic", "text-slate-400");
+      loadingMsg.innerText = "AI is thinking...";
+      chatBox.appendChild(loadingMsg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      try {
+        const response = await fetch("{% url 'chat_ai' %}", {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: new URLSearchParams({
+            message: message,
+            case_description: caseDescription
+          })
+        });
+        const data = await response.json();
+        loadingMsg.remove();
+        appendMessage("ai", data.reply);
+      } catch (error) {
+        loadingMsg.remove();
+        appendMessage("ai", "⚠️ Error sending message.");
+      }
+    }
+
+    sendBtn.addEventListener("click", sendMessage);
+    userMessageInput.addEventListener("keypress", e => {
+      if (e.key === "Enter") sendMessage();
+    });
+  </script>
+
+</body>
+</html>
+
+
+
+
+
+
