@@ -1,8 +1,14 @@
 from django.shortcuts import render, redirect
 from datetime import datetime
 from django.contrib import messages
-from django.shortcuts import render
 from .models import *
+import base64
+from openai import OpenAI
+
+
+
+
+
 
 
 def dashboard_view(request):
@@ -111,3 +117,40 @@ def show_services(request):
         messages.error(request, "You need to login first")
         return redirect(index)
     return render(request, 'services.html')
+
+
+def report_case(request):
+   if request.method == "POST":
+       text_description = request.POST.get("description", "")
+       audio_data = request.POST.get("audio_data")
+       image = request.FILES.get("image")
+       # If user recorded audio, convert Base64 to bytes and transcribe
+       if audio_data:
+           header, encoded = audio_data.split(",", 1)
+           audio_bytes = base64.b64decode(encoded)
+           # Transcribe with AI
+           audio_text = transcribe_audio(audio_bytes)
+           text_description += " " + audio_text  # Append transcription to description
+       # Save report
+       CaseEmergency.objects.create(
+           title=request.POST.get("title"),
+           category=request.POST.get("category"),
+           authorities=request.POST.get("authorities"),
+           lat=33.7490,
+           long=-84.3880,
+           description=text_description,
+           image=image,
+           audio=audio_bytes,
+           status=request.POST.get("status"),
+       )
+       return redirect(create_case_page)
+   return render(request, 'create_case.html')
+
+def transcribe_audio(audio_bytes):
+    
+    response = OpenAI.Audio.transcribe.create(
+        model="whisper-1",
+        file=audio_bytes
+    )
+    return response['text']
+           
