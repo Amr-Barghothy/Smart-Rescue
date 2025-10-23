@@ -9,28 +9,22 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-white text-gray-800">
-
-    <nav class="between bg-gradient-to-r from-red-500 to-pink-500 p-12 text-white flex justify-between items-center px-6 py-3 shadow">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <img src="{% static 'images/Logo.png' %}" alt="Smart Rescue" class="w-8 h-8" />
-                <a href="#" class="font-semibold text-orange-400">Smart Rescue</a>
-            </div>
-            <ul class="flex gap-6 text-sm items-center">
-                <li><a href="#" class="hover:text-orange-400"> 🏠Dashboard</a></li>
-                <li><a href="#" class="hover:text-orange-400"> ➕Create Case</a></li>
-                <li><a href="#" class="hover:text-orange-400">🤝Volunteer</a></li>
-                <li><a href="#" class="hover:text-orange-400">🧰Services</a></li>
-                <li>
-                <li><a href="#" class="hover:text-orange-400">🌐Language</a></li>
-                <li><a href="{% url 'about' %}" class="hover:text-orange-400">ℹ️About Us</a></li>
-
-
-                </li>
-                <li><a href="#" class="text-red-400 hover:text-red-300">🚪Logout</a></li>
-            </ul>
+<body class="bg-[##fafbfd]">
+    <nav
+            class="between bg-gradient-to-r from-red-500 to-pink-500 p-12 text-white flex justify-between items-center px-6 py-3 shadow">
+        <div class="flex items-center space-x-3">
+            <img src="{% static 'images/Logo.png' %}" alt="WAHA Logo" class="w-8 h-8 rounded-xl">
+            <a href="#" class="font-semibold text-lg">Smart Rescue</a>
         </div>
+        <ul class="flex space-x-5 text-sm">
+            <li><a href="/dashboard" class="hover:text-orange-400">🏠Dashboard</a></li>
+            <li><a href="/create_case" class="hover:text-orange-400"> ➕Create Case</a></li>
+            <li><a href="#" class="hover:text-orange-400">🤝 Volunteer</a></li>
+            <li><a href="/services" class="hover:text-orange-400">🧰Services</a></li>
+            <li><a href="#" class="hover:text-orange-400">🌐Language</a></li>
+            <li><a href="{% url 'about' %}" class="hover:text-orange-400">ℹ️About Us</a></li>
+            <li><a href="/logoutform" class="hover:text-orange-400">🚪Logout</a></li>
+        </ul>
     </nav>
 
     <section class="bg-[#04364A] text-white text-center py-16">
@@ -67,9 +61,9 @@
                 <br>
                 <ul>
                     <li>Emergency Response Coordination <p>Connect citizens with specialized rescue authorities
-                            instantly
+                        instantly
 
-                        </p>
+                    </p>
                     </li>
                     <br>
                     <li>Volunteer Network

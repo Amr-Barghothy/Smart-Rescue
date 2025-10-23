@@ -4,21 +4,23 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    {% load static %}
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
-    <nav class="bg-[#00394F] text-white flex justify-between items-center px-6 py-3 shadow">
+<body class="bg-[##fafbfd]">
+    <nav
+            class="between bg-gradient-to-r from-red-500 to-pink-500 p-12 text-white flex justify-between items-center px-6 py-3 shadow">
         <div class="flex items-center space-x-3">
-            <img src="../images/Image-removebg-preview.png" alt="WAHA Logo" class="w-8 h-8 rounded-xl">
+            <img src="{% static 'images/Logo.png' %}" alt="WAHA Logo" class="w-8 h-8 rounded-xl">
             <a href="#" class="font-semibold text-lg">Smart Rescue</a>
         </div>
-
         <ul class="flex space-x-5 text-sm">
-            <li><a href="/dashboard" class="hover:text-gray-300">🏠Dashboard</a></li>
-            <li><a href="/create_case" class="hover:text-gray-300"> ➕Create Case</a></li>
-            <li><a href="#" class="hover:text-gray-300">🤝 Volunteer</a></li>
-            <li><a href="/services" class="hover:text-gray-300">🧰Services</a></li>
-            <li><a href="#" class="hover:text-gray-300">🌐Language</a></li>
-            <li><a href="/logoutform" class="hover:text-gray-300">🚪Logout</a></li>
+            <li><a href="/dashboard" class="hover:text-orange-400">🏠Dashboard</a></li>
+            <li><a href="/create_case" class="hover:text-orange-400"> ➕Create Case</a></li>
+            <li><a href="#" class="hover:text-orange-400">🤝 Volunteer</a></li>
+            <li><a href="/services" class="hover:text-orange-400">🧰Services</a></li>
+            <li><a href="#" class="hover:text-orange-400">🌐Language</a></li>
+            <li><a href="{% url 'about' %}" class="hover:text-orange-400">ℹ️About Us</a></li>
+            <li><a href="/logoutform" class="hover:text-orange-400">🚪Logout</a></li>
         </ul>
     </nav>
     <main class="w-85/100 mx-auto my-10">
