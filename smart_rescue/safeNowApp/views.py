@@ -1,15 +1,15 @@
+import base64
+import os
+
+import openai
 from django.shortcuts import render, redirect
 from datetime import datetime
 from django.contrib import messages
+from django.shortcuts import render
 from .models import *
-import base64
+from dotenv import load_dotenv
+from elevenlabs.client import ElevenLabs
 from openai import OpenAI
-
-
-
-
-
-
 
 def dashboard_view(request):
     cases = CaseEmergency.objects.all()
@@ -120,37 +120,72 @@ def show_services(request):
 
 
 def report_case(request):
-   if request.method == "POST":
-       text_description = request.POST.get("description", "")
-       audio_data = request.POST.get("audio_data")
-       image = request.FILES.get("image")
-       # If user recorded audio, convert Base64 to bytes and transcribe
-       if audio_data:
-           header, encoded = audio_data.split(",", 1)
-           audio_bytes = base64.b64decode(encoded)
-           # Transcribe with AI
-           audio_text = transcribe_audio(audio_bytes)
-           text_description += " " + audio_text  # Append transcription to description
-       # Save report
-       CaseEmergency.objects.create(
-           title=request.POST.get("title"),
-           category=request.POST.get("category"),
-           authorities=request.POST.get("authorities"),
-           lat=33.7490,
-           long=-84.3880,
-           description=text_description,
-           image=image,
-           audio=audio_bytes,
-           status=request.POST.get("status"),
-       )
-       return redirect(create_case_page)
-   return render(request, 'create_case.html')
+    if request.method == "POST":
+        text_description = request.POST.get("description", "")
+        audio_data = request.POST.get("audio_data")
+        image = request.FILES.get("image")
+        audio_bytes = ""
+        if audio_data:
+            header, encoded = audio_data.split(",", 1)
+            audio_bytes = base64.b64decode(encoded)
+            audio_text = transcribe_audio(audio_bytes)
+            text_description += " " + audio_text
+            ai_response = text_analysis(text_description)
+        CaseEmergency.objects.create(
+            title=request.POST.get("title"),
+            category=request.POST.get("category"),
+            authorities=request.POST.get("authorities"),
+            lat=33.7490,
+            long=-84.3880,
+            description=text_description,
+            image=image,
+            audio=audio_bytes,
+            status=request.POST.get("status"),
+        )
+        return redirect(create_case_page)
+
+    return render(request, 'create_case.html')
+
+
+load_dotenv()
+api_key = os.getenv("ELEVENLABS_API_KEY")
+client = ElevenLabs(api_key=api_key)
+
 
 def transcribe_audio(audio_bytes):
-    
-    response = OpenAI.Audio.transcribe.create(
-        model="whisper-1",
-        file=audio_bytes
+    result = client.speech_to_text.convert(
+        file=audio_bytes,
+        model_id="scribe_v1",
+        diarize=True,
+        timestamps_granularity="word"
+
     )
-    return response['text']
-           
+    print(result)
+    print(result.text)
+    return result.text
+
+
+
+def text_analysis(text):
+    deep_api = os.getenv("DEEP_SEEK_API_KEY")
+    deepseek = OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key=deep_api,
+    )
+
+    completion = deepseek.chat.completions.create(
+        extra_headers={
+            "HTTP-Referer": "<YOUR_SITE_URL>",  # Optional. Site URL for rankings on openrouter.ai.
+            "X-Title": "<YOUR_SITE_NAME>",  # Optional. Site title for rankings on openrouter.ai.
+        },
+        extra_body={},
+        model="deepseek/deepseek-chat-v3.1:free",
+        messages=[
+            {
+                "role": "user",
+                "content": text
+            }
+        ]
+    )
+    print(completion.choices[0].message.content)
+    return completion.choices[0].message.content
