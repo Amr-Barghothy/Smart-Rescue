@@ -16,7 +16,7 @@
         <ul class="flex space-x-5 text-lg">
             <li><a href="/dashboard" class="hover:text-gray-300">🏠Dashboard</a></li>
             <li><a href="/create_case" class="hover:text-gray-300"> ➕Create Case</a></li>
-            <li><a href="#" class="hover:text-gray-300">🤝 Volunteer</a></li>
+            <li><a href="/volunteer" class="hover:text-gray-300">🤝 Volunteer</a></li>
             <li><a href="/services" class="hover:text-gray-300">🧰Services</a></li>
             <li><a href="#" class="hover:text-gray-300">🌐Language</a></li>
             <li><a href="{% url 'about' %}" class="hover:text-gray-300">ℹ️About Us</a></li>
@@ -33,7 +33,8 @@
                 <p class="font-bold text-900 text-lg">Case Details</p>
                 <p class="text-gray-500 text-base text-lg">Fill in the information about the case you want to report</p>
             </div>
-            <form action="/create_a_case" method="post">
+            <form action="/report_case" method="post">
+                {% csrf_token %}
                 <div class="mb-2 flex flex-col my-8">
                     <label for="title" class="font-bold">Case Title *</label>
                     <input type="text" name="title" id="title" placeholder="Brief description of a issue"
@@ -81,10 +82,18 @@
                 <div class="mb-2 flex flex-col my-8">
                     <p>Describe the Case</p>
                     <div class="flex bg-[#f1f5f9] rounded-lg">
-                        <button class="flex-1 bg-[#f1f5f9] rounded-lg p-1 cursor-pointer">Text</button>
-                        <button class="flex-1 bg-[#f1f5f9] rounded-lg p-1 cursor-pointer">Voice</button>
-                        <button class="flex-1 bg-[#f1f5f9] rounded-lg p-1 cursor-pointer">Image</button>
+                        <button type="button" class="flex-1 bg-[#f1f5f9] rounded-lg p-1 cursor-pointer" id="text-btn">Text</button>
+                        <button type="button" class="flex-1 bg-[#f1f5f9] rounded-lg p-1 cursor-pointer"id="voice-btn">Voice</button>
+                        <button type="button" class="flex-1 bg-[#f1f5f9] rounded-lg p-1 cursor-pointer" id="image-btn">Image</button>
                     </div>
+                    <textarea name="text_description" id="text-description" placeholder="Type your description here" class="hidden mt-2 p-2 border rounded w-full"></textarea>
+    <input type="file" name="image_file" id="image-upload" accept="image/*" class="hidden mt-2">
+    <input type="hidden" name="audio_data" id="audio_data">
+    <div id="voice-controls" class="hidden mt-2 flex items-center gap-2">
+        <button type="button" id="record-btn" class="bg-red-500 text-white px-4 py-2 rounded">Start Recording</button>
+        <span id="record-status">Not recording</span>
+    </div>
+
                 </div>
                 <div class="flex gap-x-8 mt-12 mb-3">
                     <button type="submit"
@@ -95,6 +104,72 @@
                        class="hover:bg-[#003247]  flex-1 text-center rounded-lg border-1 border-gray-400 text-blue-800 hover:text-white p-2">Cancel</a>
                 </div>
             </form>
+            <script>
+let mediaRecorder;
+let audioChunks = [];
+
+const textBtn = document.getElementById('text-btn');
+const voiceBtn = document.getElementById('voice-btn');
+const imageBtn = document.getElementById('image-btn');
+
+const textArea = document.getElementById('text-description');
+const imageInput = document.getElementById('image-upload');
+const voiceControls = document.getElementById('voice-controls');
+const recordBtn = document.getElementById('record-btn');
+const recordStatus = document.getElementById('record-status');
+const audioInput = document.getElementById('audio_data');
+
+// Show Text description
+textBtn.addEventListener('click', () => {
+    textArea.classList.remove('hidden');
+    voiceControls.classList.add('hidden');
+    imageInput.classList.add('hidden');
+});
+
+// Show Voice recorder
+voiceBtn.addEventListener('click', () => {
+    voiceControls.classList.remove('hidden');
+    textArea.classList.add('hidden');
+    imageInput.classList.add('hidden');
+});
+
+// Show Image uploader
+imageBtn.addEventListener('click', () => {
+    imageInput.classList.remove('hidden');
+    textArea.classList.add('hidden');
+    voiceControls.classList.add('hidden');
+});
+
+// Voice recording logic
+recordBtn.addEventListener('click', async () => {
+    if (!mediaRecorder || mediaRecorder.state === "inactive") {
+        // Start recording
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+        mediaRecorder.ondataavailable = e => {
+            audioChunks.push(e.data);
+        }
+        mediaRecorder.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            const reader = new FileReader();
+            reader.readAsDataURL(audioBlob);
+            reader.onloadend = () => {
+                audioInput.value = reader.result; // Base64 encoded audio
+            }
+        }
+        mediaRecorder.start();
+        recordStatus.textContent = "Recording...";
+        recordBtn.textContent = "Stop Recording";
+    } else if (mediaRecorder.state === "recording") {
+        // Stop recording
+        mediaRecorder.stop();
+        recordStatus.textContent = "Recording stopped";
+        recordBtn.textContent = "Start Recording";
+    }
+});
+</script>
+            
         </div>
     </div>
 </body>
