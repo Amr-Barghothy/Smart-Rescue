@@ -63,6 +63,16 @@ class UserManager(models.Manager):
                 errors['age'] = "You must be 18-year old to perform this action"
         return errors
 
+    
+    def basic_validator_volunteer(self, postData):
+        errors = {}
+        current_year = datetime.now().year
+        user_year = int(postData['DOB'][:4])
+        if (current_year - user_year) < 18:
+            errors['age'] = "You must be 18-year old to perform this action"
+        return errors
+    
+
 
 class User(models.Model):
     firstname = models.CharField(max_length=255)
@@ -75,6 +85,7 @@ class User(models.Model):
     phonenumber = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_volunteer = models.BooleanField(default=False)
     objects = UserManager()
 
 
@@ -83,14 +94,14 @@ class CaseEmergencyManager(models.Manager):
         errors = {}
         if postData["title"] == '':
             errors["title"] = "Title is required!"
-        if postData["category"] == '':
-            errors["category"] = "Category is required!"
-        if postData["authorities"] == '':
-            errors["authorities"] = "Authority is required!"
+        # if postData["category"] == '':
+        #     errors["category"] = "Category is required!"
+        # if postData["authorities"] == '':
+        #     errors["authorities"] = "Authority is required!"
         if postData["location"] == '':
             errors["location"] = "Location is required!"
-        if postData['status'] == '':
-            errors["status"] = "Status is required!"
+        # if postData['status'] == '':
+        #     errors["status"] = "Status is required!"
         return errors
 
 
@@ -159,3 +170,21 @@ def create_case(post, image, audio_data, text_description):
                                         audio=audio_data,
                                         status=post.get("status"),
                                         current_status="PENDING", )
+
+def create_volunteer(postData):
+    new_volunteer = User.objects.create(
+        firstname=postData['firstname'],
+        lastname=postData['lastname'],
+        email=postData['email'],
+        password=postData['password'],
+        DOB=postData['DOB'],
+        phone=postData['phone'],
+        address=postData['address'],
+        is_volunteer=True,
+    )
+    return new_volunteer
+
+def cancel_volunteer(postData):
+    volunteer = User.objects.get(id=postData['volunteer_id'])
+    volunteer.is_volunteer = False
+    volunteer.save()

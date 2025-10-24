@@ -11,22 +11,21 @@
 
 <body class="bg-[##fafbfd]">
 
-  <nav
-    class="between bg-gradient-to-r from-red-500 to-pink-500 p-12 text-white flex justify-between items-center px-6 py-3 shadow">
-    <div class="flex items-center space-x-3">
-      <img src="{% static 'images/Logo.png' %}" alt="Smart Rescue" class="w-8 h-8 rounded-xl" />
-      <a href="#" class="font-semibold text-lg">Smart Rescue</a>
-    </div>
-    <ul class="flex space-x-5 text-sm">
-      <li><a href="/dashboard" class="hover:text-orange-400">🏠Dashboard</a></li>
-      <li><a href="/create_case" class="hover:text-orange-400"> ➕Create Case</a></li>
-      <li><a href="#" class="hover:text-orange-400">🤝 Volunteer</a></li>
-      <li><a href="/services" class="hover:text-orange-400">🧰Services</a></li>
-      <li><a href="#" class="hover:text-orange-400">🌐Language</a></li>
-      <li><a href="{% url 'about' %}" class="hover:text-orange-400">ℹ️About Us</a></li>
-      <li><a href="/logoutform" class="hover:text-orange-400">🚪Logout</a></li>
-    </ul>
-  </nav>
+  <nav class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow">
+        <div class="flex items-center space-x-3">
+            <img src="{% static 'images/Logo.png' %}" alt="WAHA Logo" class="w-12 h-12 rounded-xl">
+            <a href="/dashboard" class="font-semibold text-2xl">Smart Rescue</a>
+        </div>
+        <ul class="flex space-x-5 text-lg">
+            <li><a href="/dashboard" class="hover:text-gray-300">🏠Dashboard</a></li>
+            <li><a href="/create_case" class="hover:text-gray-300"> ➕Create Case</a></li>
+            <li><a href="/volunteer" class="hover:text-gray-300">🤝 Volunteer</a></li>
+            <li><a href="/services" class="hover:text-gray-300">🧰Services</a></li>
+            <li><a href="#" class="hover:text-gray-300">🌐Language</a></li>
+            <li><a href="{% url 'about' %}" class="hover:text-gray-300">ℹ️About Us</a></li>
+            <li><a href="/logoutform" class="hover:text-gray-300">🚪Logout</a></li>
+        </ul>
+    </nav>
 
   <div class="text-center mt-10">
     <div class="text-5xl text-blue-500 mb-2">🤝</div>
@@ -105,18 +104,21 @@
   </div>
 
   <div class="flex justify-between mt-6">
-    <button type="reset"
+    <button type="reset" 
       class="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600 transition">
       Cancel
     </button>
 
-    <button type="submit"
+    <button type="submit" formaction="{% url 'volunteer_service_submit' %}"
       class="bg-teal-500 text-white px-6 py-2 rounded-md hover:bg-teal-600 transition">
       Submit Service
     </button>
+
   </div>
 
 </form>
+
+      
 
     {% if success %}
     <div class="bg-red-400 text-white p-3 rounded-md">

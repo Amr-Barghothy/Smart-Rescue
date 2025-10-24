@@ -27,10 +27,16 @@ def about(request):
         "features": [
             {"title": "Real-Time Reporting",
              "description": "Submit cases with text, voice, or image uploads for comprehensive incident documentation."},
+            {"title": "AI Assistance",
+             "description": "Our AI translates voice to text and helps categorize cases for quick processing."},
             {"title": "Quality Assurance",
              "description": "Rate and review services to maintain high standards of emergency response."},
             {"title": "Community Driven",
              "description": "Volunteers can register and contribute their skills to help those in need."},
+            {"title": "User-Friendly Interface",
+             "description": "Simple, intuitive design for easy navigation."},
+            {"title": "Multi-Language Support",
+             "description": "Accessible in multiple languages for wider usability."},
         ],
         "extra_text": [
             {"title": "Safety First",
@@ -39,6 +45,12 @@ def about(request):
              "description": "Leveraging cutting-edge technology to improve emergency response capabilities"},
             {"title": "Collaboration",
              "description": "Building strong partnerships between authorities, volunteers, and communities"},
+        ],
+        "core_values": [
+            {"title": "Accessibility", "description": "Making emergency reporting easy for everyone, anywhere."},
+            {"title": "Transparency", "description": "Keeping users informed about the status of their reports."},
+            {"title": "Innovation", "description": "Leveraging AI and smart technology to improve emergency services."},
+            {"title": "Empathy", "description": "Understanding the urgency of emergencies and prioritizing human life."},
         ],
     }
     return render(request, "about.html", context)
@@ -122,10 +134,60 @@ def show_services(request):
 
 
 def volunteer(request):
+    
     if not "user_id" in request.session:
         messages.error(request, "You need to login first")
         return redirect(index)
     return render(request, 'volunteer.html')
+
+def volunteer_service_submit(request):
+    if request.method == "POST":
+        errors = User.objects.basic_validator_volunteer(request.POST)
+        if len(errors) > 0:
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect(volunteer)
+        else:
+            create_volunteer(request.POST)
+            messages.success(request, "You have successfully registered as a volunteer")
+            return redirect(volunteer)
+    return render(request,'services.html')
+
+def become_a_volunteer(request):
+    if request.method == "POST":
+        errors = User.objects.basic_validator_volunteer(request.POST)
+        if len(errors) > 0:
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect(volunteer)
+        else:
+            create_volunteer(request.POST)
+            messages.success(request, "You have successfully registered as a volunteer")
+            return redirect(volunteer)
+    return render(request, 'volunteer.html')
+        
+def cancel_service(request):
+    if request.method == "POST":
+        errors = User.objects.basic_validator_volunteer(request.POST)
+        if len(errors) > 0:
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect(volunteer)
+        else:
+            cancel_volunteer(request.POST)
+            messages.success(request, "You have successfully canceled your volunteer service")
+            return redirect(volunteer)
+
+
+
+    
+
+
+
+    
+
+
+
 
 
 def report_case(request):
