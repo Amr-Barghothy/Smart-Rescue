@@ -42,10 +42,9 @@
             <div class="md:w-1/2">
                 <h3 class="text-lg font-semibold mb-4 text-gray-900">Our Mission</h3>
                 <p class="text-gray-700 mb-4 leading-relaxed">
-                    The Working at Height Association (WAHA) is dedicated to ensuring the safety of workers and
-                    individuals in elevated environments.
-                    Smart Rescue is our innovative digital platform that bridges the gap between those in need and
-                    specialized rescue authorities.
+                    At Smart Rescue, our mission is to make emergency reporting simple, fast, and accessible for everyone.
+                    We aim to bridge the gap between citizens and emergency services by providing an intelligent platform
+                    that allows users to report incidents, upload images, and even describe cases via voice, while automatically connecting them to the appropriate authorities.
                 </p>
                 <p class="text-gray-700 leading-relaxed">
                     We believe that every second counts in emergency situations. Our platform leverages modern
@@ -115,7 +114,7 @@
         <div class="max-w-6xl mx-auto px-6 text-center">
             <h4 class="text-xl font-semibold mb-10 text-gray-900">Our Core Values</h4>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                {% for value in values %}
+                {% for value in core_values %}
                 <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-5">
                     <h5 class="font-semibold mb-2">{{ value.title }}</h5>
                     <p class="text-sm text-gray-600">{{ value.description }}</p>
@@ -134,16 +133,19 @@
             </p>
             <div class="flex flex-col md:flex-row justify-center gap-4">
                 <div>
-                    <a href="#"
+                    <a href="{% url 'create_case' %}"
                        class="bg-white text-[#04364A] font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition">
                         Report a Case
                     </a>
                 </div>
                 <div>
-                    <a href="#"
+                    
+                    <a href="{% url 'Become_a_volunteer' %}" 
                        class="bg-white text-[#04364A] font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition">
                         Become a Volunteer
                     </a>
+                
+
                 </div>
             </div>
         </div>
