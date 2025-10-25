@@ -183,7 +183,7 @@ def volunteer_service_submit(request):
             create_service(request.POST["title"], request.POST["description"], request.POST["location"],
                            request.POST["availability"], request.POST["category"], user)
             messages.success(request, "You have successfully registered as a volunteer")
-            return redirect(volunteer)
+            return redirect(show_services)
     return render(request, 'services.html')
 
 

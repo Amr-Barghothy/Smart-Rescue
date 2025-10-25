@@ -32,26 +32,24 @@ msgstr "الإنقاذ الذكي"
 #: safeNowApp/templates/Dashboard.html:28 safeNowApp/templates/about.html:29
 #: safeNowApp/templates/create_case.html:27
 #: safeNowApp/templates/services.html:26 safeNowApp/templates/volunteer.html:30
-msgid "🏠Dashboard"
-msgstr "🏠 الصفحة الرئيسية"
+msgid "Dashboard"
+msgstr "الصفحة الرئيسية"
 
 #: safeNowApp/templates/Dashboard.html:31 safeNowApp/templates/about.html:32
 #: safeNowApp/templates/create_case.html:30
 #: safeNowApp/templates/services.html:29 safeNowApp/templates/volunteer.html:33
-msgid "➕Create Case"
-msgstr "➕ إنشاء بلاغ"
+msgid "Create Case"
+msgstr "إنشاء بلاغ"
 
 #: safeNowApp/templates/Dashboard.html:34 safeNowApp/templates/about.html:35
 #: safeNowApp/templates/create_case.html:33
 #: safeNowApp/templates/services.html:32 safeNowApp/templates/volunteer.html:36
-msgid "🤝 Volunteer"
-msgstr "🤝 التطوع"
 
 #: safeNowApp/templates/Dashboard.html:36 safeNowApp/templates/about.html:37
 #: safeNowApp/templates/create_case.html:35
 #: safeNowApp/templates/services.html:34 safeNowApp/templates/volunteer.html:38
-msgid "🧰Services"
-msgstr "🧰 الخدمات"
+msgid "Services"
+msgstr " الخدمات"
 
 #: safeNowApp/templates/Dashboard.html:39 safeNowApp/templates/about.html:40
 #: safeNowApp/templates/create_case.html:38
@@ -62,14 +60,14 @@ msgstr "اللغة"
 #: safeNowApp/templates/Dashboard.html:63 safeNowApp/templates/about.html:64
 #: safeNowApp/templates/create_case.html:62
 #: safeNowApp/templates/services.html:61 safeNowApp/templates/volunteer.html:65
-msgid "ℹ️About Us"
-msgstr "ℹ️ من نحن"
+msgid "️About Us"
+msgstr "من نحن"
 
 #: safeNowApp/templates/Dashboard.html:65 safeNowApp/templates/about.html:66
 #: safeNowApp/templates/create_case.html:64
 #: safeNowApp/templates/services.html:63 safeNowApp/templates/volunteer.html:67
-msgid "🚪Logout"
-msgstr "🚪 تسجيل الخروج"
+msgid "Logout"
+msgstr "تسجيل الخروج"
 
 #: safeNowApp/templates/Dashboard.html:70
 #| msgid "Smart Rescue Dashboard"
@@ -198,8 +196,6 @@ msgid "Become a Volunteer"
 msgstr "كن متطوعًا"
 
 #: safeNowApp/templates/create_case.html:8
-msgid "Create Case"
-msgstr "إنشاء بلاغ"
 
 #: safeNowApp/templates/create_case.html:71
 msgid "Report a New Case"

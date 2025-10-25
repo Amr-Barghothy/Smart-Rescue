@@ -11,6 +11,7 @@ const voiceControls = document.getElementById("voice-controls");
 const recordBtn = document.getElementById("record-btn");
 const recordStatus = document.getElementById("record-status");
 const audioInput = document.getElementById("audio_data");
+console.log("script loaded");
 
 // Show Text description
 textBtn.addEventListener("click", () => {
@@ -72,3 +73,19 @@ recordBtn.addEventListener("click", async () => {
         recordBtn.textContent = "Start Recording";
     }
 });
+
+
+function initLanguageMenu() {
+    const menuItem = document.querySelector('.language-menu');
+    if (!menuItem) return;
+    const dropdown = menuItem.querySelector('.dropdown');
+    console.log(dropdown);
+    let timer;
+
+    clearTimeout(timer);
+    dropdown.classList.remove('hidden');
+
+    menuItem.addEventListener('mouseleave', () => {
+        timer = setTimeout(() => dropdown.classList.add('hidden'), 200);
+    });
+}

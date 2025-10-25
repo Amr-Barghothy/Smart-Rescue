@@ -32,7 +32,7 @@
                     <a href="/create_case" class="hover:text-gray-300">{% trans "Create Case" %}</a>
                 </div>
             </li>
-            {% if user.role == volunteer %}
+            {% if user.role == "volunteer" %}
             <li>
                 <div class="flex items-center space-x-1">
                     <span class="material-icons">volunteer_activism</span>
@@ -43,17 +43,16 @@
             <li>
                 <div class="flex items-center space-x-1">
                     <span class="material-symbols-outlined">heart_arrow</span>
-                    <li><a href="/services" class="hover:text-gray-300">{% trans "Services" %}</a></li>
+                    <a href="/services" class="hover:text-gray-300">{% trans "Services" %}</a>
                 </div>
             </li>
-            <li class="relative group">
-                <div class="flex items-center space-x-1">
+            <li class="relative language-menu" onmouseenter="initLanguageMenu()">
+                <div class="flex items-center space-x-1 cursor-pointer">
                     <span class="material-icons">language</span>
-
-
-                    <a href="#" class="hover:text-gray-300">{% trans "Language" %}</a>
+                    <span class="hover:text-gray-300">{% trans "Language" %}</span>
                 </div>
-                <ul class="absolute left-0 mt-1 hidden group-hover:block bg-white text-black rounded shadow-lg w-40 z-10">
+
+                <ul class="dropdown absolute left-0 mt-1 hidden bg-white text-black rounded shadow-lg w-40 z-10">
                     <li>
                         <form action="{% url 'set_language' %}" method="post">
                             {% csrf_token %}
@@ -76,17 +75,16 @@
             </li>
 
 
-            </li>
             <li>
                 <div class="flex items-center space-x-1">
                     <span class="material-icons">info</span>
-                    <a href="{% url 'about' %}" class="hover:text-gray-300">About Us</a>
+                    <a href="{% url 'about' %}" class="hover:text-gray-300">{% trans "About Us" %}</a>
                 </div>
             </li>
             <li>
                 <div class="flex items-center space-x-1">
                     <span class="material-icons">logout</span>
-                    <a href="/logoutform" class="hover:text-gray-300">Logout</a>
+                    <a href="/logoutform" class="hover:text-gray-300">{% trans "Logout" %}</a>
                 </div>
             </li>
         </ul>
@@ -274,8 +272,8 @@
                 </ul>
                 {% endif %}
             </form>
-            <script src="{% static 'script.js' %}"></script>
         </div>
     </div>
+    <script src="{% static 'script.js' %}"></script>
 </body>
 </html>
