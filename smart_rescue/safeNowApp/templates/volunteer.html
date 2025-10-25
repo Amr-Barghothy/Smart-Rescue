@@ -6,39 +6,56 @@
 <html lang="{{ LANGUAGE_CODE }}">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{% trans "Volunteer" %}</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{% trans "Volunteer" %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=heart_arrow"/>
 </head>
 
 <body class="bg-[##fafbfd]">
 
- <nav
-      class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow"
-    >
-      <div class="flex items-center space-x-3">
-        <img
-          src="{% static 'images/Logo.png' %}"
-          alt="WAHA Logo"
-          class="w-12 h-12 rounded-xl"
-        />
-        <a href="/dashboard" class="font-semibold text-2xl">{% trans "Smart Rescue" %}</a>
-      </div>
-      <ul class="flex space-x-5 text-lg">
-        <li>
-          <a href="/dashboard" class="hover:text-gray-300">{% trans "🏠Dashboard" %}</a>
-        </li>
-        <li>
-          <a href="/create_case" class="hover:text-gray-300">{% trans "➕Create Case" %}</a>
-        </li>
-        <li>
-          <a href="/volunteer" class="hover:text-gray-300">{% trans "🤝 Volunteer" %}</a>
-        </li>
-        <li><a href="/services" class="hover:text-gray-300">{% trans "🧰Services" %}</a></li>
+ <nav class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow sticky top-0">
+        <div class="flex items-center space-x-3">
+            <img src="{% static 'images/Logo.png' %}" alt="WAHA Logo" class="w-12 h-12 rounded-xl">
+            <a href="/dashboard" class="font-semibold text-2xl">Smart Rescue</a>
+        </div>
+        <ul class="flex space-x-5 text-lg">
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">home</span>
+          <a href="/dashboard" class="hover:text-gray-300">{% trans "Dashboard" %}</a>
+                </div>
+            </li>
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">add</span>
+          <a href="/create_case" class="hover:text-gray-300">{% trans "Create Case" %}</a>
+                </div>
+            </li>
+            {% if user.role == volunteer %}
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">volunteer_activism</span>
+          <a href="/volunteer" class="hover:text-gray-300">{% trans "Volunteer" %}</a>
+                </div>
+            </li>
+            {% endif %}
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-symbols-outlined">heart_arrow</span>
+        <li><a href="/services" class="hover:text-gray-300">{% trans "Services" %}</a></li>
+                </div>
+            </li>
+                             <li class="relative group">
+                                                <div class="flex items-center space-x-1">
+                                                                                                                                                                         <span class="material-icons">language</span>
 
-<li class="relative group">
-  <a href="#" class="hover:text-gray-300">🌐 {% trans "Language" %}</a>
+
+  <a href="#" class="hover:text-gray-300">{% trans "Language" %}</a>
+                                                                </div
   <ul class="absolute left-0 mt-1 hidden group-hover:block bg-white text-black rounded shadow-lg w-40 z-10">
     <li>
       <form action="{% url 'set_language' %}" method="post">
@@ -60,12 +77,22 @@
     </li>
   </ul>
 </li>
-
-        <li>
-          <a href="{% url 'about' %}" class="hover:text-gray-300">{% trans "ℹ️About Us" %}</a>
-        </li>
-        <li><a href="/logoutform" class="hover:text-gray-300">{% trans "🚪Logout" %}</a></li>
-      </ul>
+                
+                                                       
+            </li>
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">info</span>
+                    <a href="{% url 'about' %}" class="hover:text-gray-300">About Us</a>
+                </div>
+            </li>
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">logout</span>
+                    <a href="/logoutform" class="hover:text-gray-300">Logout</a>
+                </div>
+            </li>
+        </ul>
     </nav>
 
   <div class="text-center mt-10">
@@ -78,8 +105,20 @@
     <h2 class="text-lg font-semibold mb-2">{% trans "Volunteer Service Information" %}</h2>
     <p class="text-gray-500 mb-6"> {% trans "Tell us about the service you'd like to provide" %}</p>
 
-<form class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-md space-y-6">
+<form  action="{% url 'volunteer_service_submit' %}" method="post" class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-md space-y-6">
 
+  <div>
+                <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        placeholder="Moving, Cleaning..."
+                        class="w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500
+             focus:border-blue-500 focus:outline-none transition"
+                >
+            </div>
+  
   <div>
     <label for="location" class="block text-sm font-medium text-gray-700 mb-1">{% trans "Location" %}</label>
     <input
@@ -141,8 +180,8 @@
       placeholder="Describe the service you offer..."
       class="w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500
              focus:border-blue-500 focus:outline-none transition"
-    ></textarea>
-  </div>
+                ></textarea>
+            </div>
 
   <div class="flex justify-between mt-6">
     <button type="reset" 
@@ -150,16 +189,15 @@
       {% trans "Cancel" %}
     </button>
 
-    <button type="submit" formaction="{% url 'volunteer_service_submit' %}"
+    <button type="submit"
       class="bg-teal-500 text-white px-6 py-2 rounded-md hover:bg-teal-600 transition">
       {% trans "Submit Service" %}
     </button>
 
-  </div>
+            </div>
 
-</form>
+        </form>
 
-      
 
     {% if success %}
     <div class="bg-red-400 text-white p-3 rounded-md">

@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from . import views
 
@@ -8,7 +10,6 @@ urlpatterns = [
     path('dashboard', views.display_dashboard, name='dashboard'),          # User dashboard
     path('logoutform', views.logout_form, name='logoutform'),    
     path('about', views.about,name='about'),
-    path('aboutus', views.about_view,name='aboutus'),
     path('create_case', views.create_case_page,name='create_case'),
     path('services', views.show_services, name='services'),
     path('volunteer', views.volunteer),
@@ -22,3 +23,7 @@ urlpatterns = [
     
 
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -9,34 +9,52 @@
     {% load static %}
     <title>{% trans "Smart Rescue Dashboard" %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
-  </head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=heart_arrow"/>
+</head>
 
   <body class="bg-[##fafbfd]">
-    <nav
-      class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow"
-    >
-      <div class="flex items-center space-x-3">
-        <img
-          src="{% static 'images/Logo.png' %}"
-          alt="WAHA Logo"
-          class="w-12 h-12 rounded-xl"
-        />
-        <a href="/dashboard" class="font-semibold text-2xl">{% trans "Smart Rescue" %}</a>
-      </div>
-      <ul class="flex space-x-5 text-lg">
-        <li>
-          <a href="/dashboard" class="hover:text-gray-300">{% trans "🏠Dashboard" %}</a>
-        </li>
-        <li>
-          <a href="/create_case" class="hover:text-gray-300">{% trans "➕Create Case" %}</a>
-        </li>
-        <li>
-          <a href="/volunteer" class="hover:text-gray-300">{% trans "🤝 Volunteer" %}</a>
-        </li>
-        <li><a href="/services" class="hover:text-gray-300">{% trans "🧰Services" %}</a></li>
+    
+<nav class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow sticky top-0">
+        <div class="flex items-center space-x-3">
+            <img src="{% static 'images/Logo.png' %}" alt="WAHA Logo" class="w-12 h-12 rounded-xl">
+            <a href="/dashboard" class="font-semibold text-2xl">Smart Rescue</a>
+        </div>
+        <ul class="flex space-x-5 text-lg">
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">home</span>
+          <a href="/dashboard" class="hover:text-gray-300">{% trans "Dashboard" %}</a>
+                </div>
+            </li>
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">add</span>
+          <a href="/create_case" class="hover:text-gray-300">{% trans "Create Case" %}</a>
+                </div>
+            </li>
+            {% if user.role == volunteer %}
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">volunteer_activism</span>
+          <a href="/volunteer" class="hover:text-gray-300">{% trans "Volunteer" %}</a>
+                </div>
+            </li>
+            {% endif %}
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-symbols-outlined">heart_arrow</span>
+        <li><a href="/services" class="hover:text-gray-300">{% trans "Services" %}</a></li>
+                </div>
+            </li>
+                             <li class="relative group">
+                                                <div class="flex items-center space-x-1">
+                                                                                                                                                                         <span class="material-icons">language</span>
 
-<li class="relative group">
-  <a href="#" class="hover:text-gray-300">🌐 {% trans "Language" %}</a>
+
+  <a href="#" class="hover:text-gray-300">{% trans "Language" %}</a>
+                                                                </div
   <ul class="absolute left-0 mt-1 hidden group-hover:block bg-white text-black rounded shadow-lg w-40 z-10">
     <li>
       <form action="{% url 'set_language' %}" method="post">
@@ -58,12 +76,22 @@
     </li>
   </ul>
 </li>
-
-        <li>
-          <a href="{% url 'about' %}" class="hover:text-gray-300">{% trans "ℹ️About Us" %}</a>
-        </li>
-        <li><a href="/logoutform" class="hover:text-gray-300">{% trans "🚪Logout" %}</a></li>
-      </ul>
+                
+                                                       
+            </li>
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">info</span>
+                    <a href="{% url 'about' %}" class="hover:text-gray-300">About Us</a>
+                </div>
+            </li>
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">logout</span>
+                    <a href="/logoutform" class="hover:text-gray-300">Logout</a>
+                </div>
+            </li>
+        </ul>
     </nav>
 
     <header class="px-6 mt-6">
@@ -92,53 +120,31 @@
     </section>
 
     <main class="grid md:grid-cols-2 gap-6 px-6 mt-6 pb-10">
-      <article
-        class="bg-white border border-gray-100 rounded-xl shadow-sm p-5 flex justify-between"
-      >
         {% for case in cases %}
-        <div>
-          <h3 class="font-semibold">{{ case.title }}</h3>
-          <p class="text-xs mt-1">
-            <span
-              class="bg-{{ tag.bg_color }} text-{{ tag.text_color }} px-2 py-1 rounded"
-              >{{ tag.name }}</span
-            >
-          </p>
-          <p class="text-gray-500 text-sm mt-2">
-            <img
-              src="{% static 'images/location.png' %}"
-              class="w-8 h-8 inline-block"
-              alt=""
-            />
-            {{ case.location }} •
-            <img
-              src="{% static 'images/time.png' %}"
-              class="w-8 h-8 inline-block"
-              alt=""
-            />
-            {{ case.time_ago }}
-          </p>
-          <p class="text-sm mt-2">{{ case.description }}</p>
-          <p class="text-sm mt-3">
-            <img
-              src="{% static 'images/warning.png' %}"
-              class="w-8 h-8 inline-block"
-              alt=""
-            />
-            {% trans "Danger Level:" %}
-            <span
-              class="bg-{{ case.danger_bg }} text-{{ case.danger_text }} px-2 py-1 rounded text-xs"
-            >
-              {{ case.danger_level }}</span
-            >
-          </p>
-        </div>
-        <div class="text-right">
-          <img src="{% static 'images/Qr-3.png' %}" class="w-16 h-16" />
-          <p class="text-xs text-gray-400 mt-1">{% trans "Case #" %}{{ case.id }}</p>
-        </div>
+
+        <article class="bg-white border border-gray-100 rounded-xl shadow-sm p-5 flex justify-between">
+            <div>
+                <h3 class="font-semibold">{{ case.title }}</h3>
+                <p class="text-xs mt-1">
+                    <span class="bg-{{ tag.bg_color }} text-{{ tag.text_color }} px-2 py-1 rounded">{{ tag.name }}</span>
+                </p>
+                <p class="text-gray-500 text-sm mt-2">
+                    <img src="{% static 'images/location.png' %}" class="w-8 h-8 inline-block" alt="">
+                    {{ case.location }}
+                    • <img src="{% static 'images/time.png' %}" class="w-8 h-8 inline-block" alt=""> {{ case.time_ago }}
+                </p>
+                <p class="text-sm mt-2">{{ case.description }}</p>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">warning</span>
+                    <p class="text-sm mt-3">{% trans "Danger Level:" %}: {{ case.status }}</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <img src="{{case.qr_code.url}}" class="w-16 h-16">
+                <p class="text-xs text-gray-400 mt-1">{% trans "Case #" %}{{ case.id }}</p>
+            </div>
+        </article>
         {% endfor %}
-      </article>
     </main>
   </body>
 </html>
