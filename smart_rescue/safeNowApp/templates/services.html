@@ -109,7 +109,6 @@
         </section>
         <div class="grid grid-cols-3 gap-10 my-10 ">
             {% for service in services %}
-
             <div class="rounded-lg border-1 border-gray-400 p-4 h-100">
                 <div class="flex justify-between">
                     <div class="flex-col">
@@ -118,7 +117,35 @@
                         <p class="bg-[#003247] w-fit text-white rounded-lg p-1 text-xs">{{service.category}}</p>
                     </div>
                     <div class="flex-col">
-                        <p>⭐⭐⭐⭐⭐</p>
+                        <div class="flex flex-col items-start">
+
+                            {% if service.id in rated_service_ids %}
+
+                            <div class="flex space-x-1">
+                                {% for i in "12345" %}
+
+                                <span class="text-3xl {% if i|add:" 0" <= service.service_rating.all.0.rating %}text-yellow-400{% else %}text-gray-300{% endif %}">
+                                &#9733;
+                                </span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <form action="/rate_a_service/{{service.id}}" method="post"
+                                  class="flex items-center space-x-2">
+                                {% csrf_token %}
+                                <input type="hidden" name="service_id" value="{{ service.id }}">
+                                <!-- Star buttons -->
+                                {% for i in "12345" %}
+                                <button type="button" class="star text-gray-300 text-3xl hover:text-yellow-400"
+                                        data-value="{{ i }}">&#9733;
+                                </button>
+                                {% endfor %}
+                                <input type="hidden" name="rating" value="0">
+                            </form>
+                            {% endif %}
+
+                        </div>
+
                         <p class="text-xs text-gray-500">{% trans "5.0 (18 rating)" %}</p>
                     </div>
                 </div>
@@ -143,6 +170,6 @@
         </div>
     </main>
     <script src="{% static 'script.js' %}"></script>
-
+    <script src="{% static 'rating.js' %}"></script>
 </body>
 </html>

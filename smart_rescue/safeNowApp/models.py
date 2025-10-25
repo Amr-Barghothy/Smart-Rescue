@@ -143,7 +143,7 @@ class Services(models.Model):
 
 class ServiceRating(models.Model):
     rating = models.IntegerField()
-    user_id = models.ForeignKey(User, related_name="user_rating", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name="user_rating", on_delete=models.CASCADE)
     service = models.ForeignKey(Services,related_name="service_rating",on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -213,6 +213,16 @@ def get_all_cases():
 def get_all_services():
     return Services.objects.all()
 
+def get_service_by_id(service_id):
+    return Services.objects.get(id=service_id)
+
+def rate_service(service_id, user_id,rate):
+    service = get_service_by_id(service_id)
+    user = get_user(user_id)
+    return ServiceRating.objects.create(service=service, user=user, rating=rate)
+
+def get_all_ratings():
+    return ServiceRating.objects.all()
 
 def create_service(title, description, location, category,availability,user):
     return Services.objects.create(title = title, description = description,location = location,category = category,owner=user,rating=0,availability = availability,status = "ACTIVE")

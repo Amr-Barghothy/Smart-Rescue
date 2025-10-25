@@ -79,13 +79,13 @@ function initLanguageMenu() {
     const menuItem = document.querySelector('.language-menu');
     if (!menuItem) return;
     const dropdown = menuItem.querySelector('.dropdown');
-    console.log(dropdown);
     let timer;
-
     clearTimeout(timer);
     dropdown.classList.remove('hidden');
 
-    menuItem.addEventListener('mouseleave', () => {
+    dropdown.addEventListener('mouseleave', () => {
+        console.log("wow")
         timer = setTimeout(() => dropdown.classList.add('hidden'), 200);
     });
 }
+
