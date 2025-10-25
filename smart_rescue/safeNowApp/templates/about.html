@@ -7,22 +7,63 @@
     <title>About | Smart Rescue</title>
     {% load static %}
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=heart_arrow"/>
+
 </head>
 
 <body class="bg-[##fafbfd]">
-    <nav class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow">
+    <nav class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow sticky top-0">
         <div class="flex items-center space-x-3">
             <img src="{% static 'images/Logo.png' %}" alt="WAHA Logo" class="w-12 h-12 rounded-xl">
             <a href="/dashboard" class="font-semibold text-2xl">Smart Rescue</a>
         </div>
         <ul class="flex space-x-5 text-lg">
-            <li><a href="/dashboard" class="hover:text-gray-300">🏠Dashboard</a></li>
-            <li><a href="/create_case" class="hover:text-gray-300"> ➕Create Case</a></li>
-            <li><a href="/volunteer" class="hover:text-gray-300">🤝 Volunteer</a></li>
-            <li><a href="/services" class="hover:text-gray-300">🧰Services</a></li>
-            <li><a href="#" class="hover:text-gray-300">🌐Language</a></li>
-            <li><a href="{% url 'about' %}" class="hover:text-gray-300">ℹ️About Us</a></li>
-            <li><a href="/logoutform" class="hover:text-gray-300">🚪Logout</a></li>
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">home</span>
+                    <a href="/dashboard" class="hover:text-gray-300">Dashboard</a>
+                </div>
+            </li>
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">add</span>
+                    <a href="/create_case" class="hover:text-gray-300">Create Case</a>
+                </div>
+            </li>
+            {% if user.is_volunteer %}
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">volunteer_activism</span>
+                    <a href="/volunteer" class="hover:text-gray-300">Volunteer</a>
+                </div>
+            </li>
+            {% endif %}
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-symbols-outlined">heart_arrow</span>
+                    <a href="/services" class="hover:text-gray-300">Services</a>
+                </div>
+            </li>
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">language</span>
+                    <a href="#" class="hover:text-gray-300">Language</a>
+                </div>
+            </li>
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">info</span>
+                    <a href="{% url 'about' %}" class="hover:text-gray-300">About Us</a>
+                </div>
+            </li>
+            <li>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">logout</span>
+                    <a href="/logoutform" class="hover:text-gray-300">Logout</a>
+                </div>
+            </li>
         </ul>
     </nav>
 
@@ -42,9 +83,12 @@
             <div class="md:w-1/2">
                 <h3 class="text-lg font-semibold mb-4 text-gray-900">Our Mission</h3>
                 <p class="text-gray-700 mb-4 leading-relaxed">
-                    At Smart Rescue, our mission is to make emergency reporting simple, fast, and accessible for everyone.
-                    We aim to bridge the gap between citizens and emergency services by providing an intelligent platform
-                    that allows users to report incidents, upload images, and even describe cases via voice, while automatically connecting them to the appropriate authorities.
+                    At Smart Rescue, our mission is to make emergency reporting simple, fast, and accessible for
+                    everyone.
+                    We aim to bridge the gap between citizens and emergency services by providing an intelligent
+                    platform
+                    that allows users to report incidents, upload images, and even describe cases via voice, while
+                    automatically connecting them to the appropriate authorities.
                 </p>
                 <p class="text-gray-700 leading-relaxed">
                     We believe that every second counts in emergency situations. Our platform leverages modern
@@ -139,12 +183,12 @@
                     </a>
                 </div>
                 <div>
-                    
-                    <a href="{% url 'Become_a_volunteer' %}" 
+
+                    <a href="{% url 'Become_a_volunteer' %}"
                        class="bg-white text-[#04364A] font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition">
                         Become a Volunteer
                     </a>
-                
+
 
                 </div>
             </div>

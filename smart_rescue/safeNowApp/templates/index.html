@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +20,8 @@
                 <div>
                     <span class="material-icons text-5xl mb-4">emergency</span>
                     <h1 class="text-4xl font-bold mb-6">Smart Rescue</h1>
-                    <p class="text-lg opacity-90">Your reliable emergency response system. Quick, efficient, and always ready.</p>
+                    <p class="text-lg opacity-90">Your reliable emergency response system. Quick, efficient, and always
+                        ready.</p>
                 </div>
                 <br>
                 <div class="space-y-6">
@@ -38,25 +37,25 @@
                         <span class="material-icons">support_agent</span>
                         <p>24/7 Emergency support</p>
                     </div>
-                   
+
                     <div class="flex items-center space-x-4">
                         <span class="material-icons">call</span>
                         <p><a href="tel:+1234567890" class="text-white underline hover:text-red-200">+1234567890</a>
-</p>
+                        </p>
                     </div>
-                    
-        
+
+
                 </div>
             </div>
 
             <!-- Forms Section -->
             <div class="w-full md:w-1/2 p-8 md:p-12">
                 {% if messages %}
-                    <ul class="mb-6">
-                        {% for message in messages %}
-                            <li class="text-red-500">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                <ul class="mb-6">
+                    {% for message in messages %}
+                    <li class="text-red-500">{{ message }}</li>
+                    {% endfor %}
+                </ul>
                 {% endif %}
 
                 <!-- LOGIN FORM -->
@@ -67,15 +66,24 @@
                         {% csrf_token %}
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Email Address</label>
-                            <input type="email" name="email" required class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500" placeholder="Enter your email">
+                            <input type="email" name="email" required
+                                   class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500"
+                                   placeholder="Enter your email">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Password</label>
-                            <input type="password" name="password" required class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500" placeholder="Enter your password">
+                            <input type="password" name="password" required
+                                   class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500"
+                                   placeholder="Enter your password">
                         </div>
-                        <button type="submit" class="w-full bg-gradient-to-r from-pink-500 to-red-500 text-white py-3 rounded-md font-medium shadow-lg hover:shadow-xl">Sign In</button>
+                        <button type="submit"
+                                class="w-full bg-gradient-to-r from-pink-500 to-red-500 text-white py-3 rounded-md font-medium shadow-lg hover:shadow-xl">
+                            Sign In
+                        </button>
                     </form>
-                    <p class="text-center mt-4">Don't have an account? <a href="#register" class="text-pink-500 font-bold">Create Account</a></p>
+                    <p class="text-center mt-4">Don't have an account? <a href="#register"
+                                                                          class="text-pink-500 font-bold" id="show-register">Create
+                        Account</a></p>
                 </div>
 
                 <!-- REGISTER FORM -->
@@ -86,58 +94,86 @@
                         {% csrf_token %}
                         <div>
                             <label class="block text-sm font-medium text-gray-700">First Name</label>
-                            <input type="text" name="firstname" required class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500" placeholder="Enter your first name">
+                            <input type="text" name="firstname" required
+                                   class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500"
+                                   placeholder="Enter your first name">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Last Name</label>
-                            <input type="text" name="lastname" required class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500" placeholder="Enter your last name">
+                            <input type="text" name="lastname" required
+                                   class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500"
+                                   placeholder="Enter your last name">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Email</label>
-                            <input type="email" name="email" required class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500" placeholder="Enter your email">
+                            <input type="email" name="email" required
+                                   class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500"
+                                   placeholder="Enter your email">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Phone Number</label>
-                            <input type="text" name="phonenumber" required class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500" placeholder="Enter your phone number">
+                            <input type="text" name="phonenumber" required
+                                   class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500"
+                                   placeholder="Enter your phone number">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Address</label>
-                            <input type="text" name="address" required class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500" placeholder="Enter your address">
+                            <input type="text" name="address" required
+                                   class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500"
+                                   placeholder="Enter your address">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Date of Birth</label>
-                            <input type="date" name="DOB" required class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500">
+                            <input type="date" name="DOB" required
+                                   class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Password</label>
-                            <input type="password" name="password" required class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500" placeholder="Enter your password">
+                            <input type="password" name="password" required
+                                   class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500"
+                                   placeholder="Enter your password">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Confirm Password</label>
-                            <input type="password" name="confirmpassword" required class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500" placeholder="Confirm your password">
+                            <input type="password" name="confirmpassword" required
+                                   class="w-full px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500"
+                                   placeholder="Confirm your password">
                         </div>
                         <div class="flex items-center space-x-2">
                             <label for="user" class="block text-sm font-medium text-gray-700 mr-4">User</label>
-                            <input type="radio" id="user" name="role" value="user" required class=" w-4 h-4 px-4 py-3  rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500">
+                            <input type="radio" id="user" name="role" value="user" required
+                                   class=" w-4 h-4 px-4 py-3  rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500">
                         </div>
                         <div class="flex items-center space-x-2">
-                            <label for="volunteer" class="block text-sm font-medium text-gray-700 mr-4">Volunteer</label>
-                            <input type="radio" id="volunteer" value="volunteer" name="role" required class=" w-4 h-4 px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500">
+                            <label for="volunteer"
+                                   class="block text-sm font-medium text-gray-700 mr-4">Volunteer</label>
+                            <input type="radio" id="volunteer" value="volunteer" name="role" required
+                                   class=" w-4 h-4 px-4 py-3 rounded-md border-2 border-gray-200 focus:ring-2 focus:ring-pink-500">
                         </div>
-                        <button type="submit" class="w-full bg-gradient-to-r from-pink-500 to-red-500 text-white py-3 rounded-md font-medium shadow-lg hover:shadow-xl">Register</button>
+                        <button type="submit"
+                                class="w-full bg-gradient-to-r from-pink-500 to-red-500 text-white py-3 rounded-md font-medium shadow-lg hover:shadow-xl">
+                            Register
+                        </button>
                     </form>
-                    <p class="text-center mt-4">Already have an account? <a href="#login" class="text-pink-500 font-bold">Sign In</a></p>
+                    <p class="text-center mt-4">Already have an account? <a href="#login"
+                                                                            class="text-pink-500 font-bold" id="show-login">Sign In</a>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- CSS-only toggle using :target -->
-    <style>
-        #register:target { display: block; }
-        #register:target ~ #login { display: none; }
-        #login:target { display: block; }
-        #login:target ~ #register { display: none; }
-    </style>
+    <script>
+        document.getElementById('show-register').addEventListener('click', () => {
+            document.getElementById('login').classList.add('hidden');
+            document.getElementById('register').classList.remove('hidden');
+        });
+
+        document.getElementById('show-login').addEventListener('click', () => {
+            document.getElementById('register').classList.add('hidden');
+            document.getElementById('login').classList.remove('hidden');
+        });
+    </script>
 </body>
 </html>

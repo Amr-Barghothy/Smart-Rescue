@@ -13,15 +13,13 @@ class UserManager(models.Manager):
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
         if not EMAIL_REGEX.match(postData['email']):
             errors['email'] = "Wrong email address!"
-        if len(postData['password']) < 8:
-            errors["password"] = "Password should be at least 8 characters"
         if len(postData['email']) == 0:
             errors["emailrequired"] = "Email is required!"
         if len(postData['password']) == 0:
             errors["passwordrequired"] = "Password is required!"
 
         if not len(user):
-            errors['emailnewuser'] = "Email is not registered"
+            errors['emailnewuser'] = "Email or password is wrong"
         return errors
 
     def basic_validator_reg(self, postData):
@@ -66,10 +64,16 @@ class UserManager(models.Manager):
     
     def basic_validator_volunteer(self, postData):
         errors = {}
-        current_year = datetime.now().year
-        user_year = int(postData['DOB'][:4])
-        if (current_year - user_year) < 18:
-            errors['age'] = "You must be 18-year old to perform this action"
+        if postData["title"] == '' :
+            errors["title"] = "Title is required"
+        if postData["description"] == '' :
+            errors["description"] = "Description is required"
+        if postData["location"] == '' :
+            errors["location"] = "Location is required"
+        if postData["availability"] == '' :
+            errors["availability"] = "Availability is required"
+        if not "category" in postData:
+            errors["category"] = "Category is required"
         return errors
     
 
@@ -94,14 +98,14 @@ class CaseEmergencyManager(models.Manager):
         errors = {}
         if postData["title"] == '':
             errors["title"] = "Title is required!"
-        # if postData["category"] == '':
-        #     errors["category"] = "Category is required!"
-        # if postData["authorities"] == '':
-        #     errors["authorities"] = "Authority is required!"
+        if not "category" in postData:
+            errors["category"] = "Category is required!"
+        if not "authorities" in postData:
+            errors["authorities"] = "Authority is required!"
         if postData["location"] == '':
             errors["location"] = "Location is required!"
-        # if postData['status'] == '':
-        #     errors["status"] = "Status is required!"
+        if not "status" in postData:
+            errors["status"] = "Status is required!"
         return errors
 
 
@@ -117,6 +121,8 @@ class CaseEmergency(models.Model):
     authorities = models.CharField(max_length=255)
     created_by = models.ForeignKey(User, related_name="cases", on_delete=models.CASCADE)
     current_status = models.CharField(max_length=255)
+    pdf_file = models.FileField(upload_to='cases/', null=True, blank=True)
+    qr_code = models.ImageField(upload_to='cases/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = CaseEmergencyManager()
@@ -127,11 +133,20 @@ class Services(models.Model):
     description = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField()
     owner = models.ForeignKey(User, related_name="services", on_delete=models.CASCADE)
+    availability = models.CharField(max_length=255)
+    status = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
+class ServiceRating(models.Model):
+    rating = models.IntegerField()
+    user_id = models.ForeignKey(User, related_name="user_rating", on_delete=models.CASCADE)
+    service = models.ForeignKey(Services,related_name="service_rating",on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 def get_users():
     return User.objects.all()
@@ -159,7 +174,7 @@ def login_user(post, session):
     return False
 
 
-def create_case(post, image, audio_data, text_description):
+def create_case(post, image, audio_data, text_description,user):
     return CaseEmergency.objects.create(title=post.get("title"),
                                         category=post.get("category"),
                                         authorities=post.get("authorities"),
@@ -169,7 +184,8 @@ def create_case(post, image, audio_data, text_description):
                                         image=image,
                                         audio=audio_data,
                                         status=post.get("status"),
-                                        current_status="PENDING", )
+                                        current_status="PENDING",
+                                        created_by=user)
 
 def create_volunteer(postData):
     new_volunteer = User.objects.create(
@@ -188,3 +204,15 @@ def cancel_volunteer(postData):
     volunteer = User.objects.get(id=postData['volunteer_id'])
     volunteer.is_volunteer = False
     volunteer.save()
+
+
+def get_all_cases():
+    return CaseEmergency.objects.all()
+
+
+def get_all_services():
+    return Services.objects.all()
+
+
+def create_service(title, description, location, category,availability,user):
+    return Services.objects.create(title = title, description = description,location = location,category = category,owner=user,rating=0,availability = availability,status = "ACTIVE")
