@@ -20,39 +20,44 @@
     <nav class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow sticky top-0">
         <div class="flex items-center space-x-3">
             <img src="{% static 'images/Logo.png' %}" alt="WAHA Logo" class="w-12 h-12 rounded-xl">
-            <a href="/dashboard" class="font-semibold text-2xl">Smart Rescue</a>
+            <a href="/dashboard" class="font-semibold text-2xl">{% trans "Smart Rescue" %}</a>
         </div>
         <ul class="flex space-x-5 text-lg">
             <li>
                 <div class="flex items-center space-x-1">
-                    <span class="material-icons">home</span>
+                    <span class="material-icons">{% trans "home" %}</span>
                     <a href="/dashboard" class="hover:text-gray-300">{% trans "Dashboard" %}</a>
                 </div>
             </li>
             <li>
                 <div class="flex items-center space-x-1">
-                    <span class="material-icons">add</span>
+                    <span class="material-icons">{% trans "add" %}</span>
                     <a href="/create_case" class="hover:text-gray-300">{% trans "Create Case" %}</a>
                 </div>
             </li>
             {% if user.role == "volunteer" %}
             <li>
                 <div class="flex items-center space-x-1">
-                    <span class="material-icons">volunteer_activism</span>
+                    <span class="material-icons">{% trans "volunteer_activism" %}</span>
                     <a href="/volunteer" class="hover:text-gray-300">{% trans "Volunteer" %}</a>
                 </div>
             </li>
             {% endif %}
             <li>
+  <div class="flex items-center space-x-1">
+    <span class="material-icons">list</span>
+    <a href="{% url 'my_cases' %}" class="hover:text-gray-300">{% trans "My Cases" %}</a>
+  </div>
+            <li>
                 <div class="flex items-center space-x-1">
-                    <span class="material-symbols-outlined">heart_arrow</span>
+                    <span class="material-symbols-outlined">{% trans "heart_arrow" %}</span>
                     <a href="/services" class="hover:text-gray-300">{% trans "Services" %}</a>
                 </div>
             </li>
 
             <li class="relative language-menu" onmouseenter="initLanguageMenu()">
                 <div class="flex items-center space-x-1 cursor-pointer">
-                    <span class="material-icons">language</span>
+                    <span class="material-icons">{% trans "language" %}</span>
                     <span class="hover:text-gray-300">{% trans "Language" %}</span>
                 </div>
 
@@ -81,13 +86,13 @@
 
             <li>
                 <div class="flex items-center space-x-1">
-                    <span class="material-icons">info</span>
+                    <span class="material-icons">{% trans "info" %}</span>
                     <a href="{% url 'about' %}" class="hover:text-gray-300">{% trans "About Us" %}</a>
                 </div>
             </li>
             <li>
                 <div class="flex items-center space-x-1">
-                    <span class="material-icons">logout</span>
+                    <span class="material-icons">{% trans "logout" %}</span>
                     <a href="/logoutform" class="hover:text-gray-300">{% trans "Logout" %}</a>
                 </div>
             </li>

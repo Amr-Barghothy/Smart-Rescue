@@ -381,3 +381,29 @@ def set_language(request):
        translation.activate(lang)
        request.session[translation.LANGUAGE_SESSION_KEY] = lang
    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+def my_cases(request):
+    if "user_id" not in request.session:
+        messages.error(request, "You need to login first.")
+        return redirect(index)
+
+    user = get_user(request.session['user_id'])
+
+    if request.method == "POST":
+        case_id = request.POST.get("case_id")
+        new_status = request.POST.get("status")
+        case = CaseEmergency.objects.filter(id=case_id, created_by=user).first()
+        if case:
+            case.status = new_status
+            case.save()
+        return redirect("my_cases")
+
+    cases = CaseEmergency.objects.filter(created_by=user).order_by('-id')
+
+    context = {
+        "user": user,
+        "cases": cases,
+    }
+    return render(request, "my_cases.html", context)
+
+    
