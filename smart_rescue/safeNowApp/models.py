@@ -125,3 +125,22 @@ def login_user(post, session):
 
 def create_case(post):
     return CaseEmergency.objects.create(title=post['title'], category=post['category'], )
+
+
+
+
+
+class Volunteer(models.Model):
+    full_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    location = models.CharField(max_length=100, blank=True, null=True)
+    service_type = models.CharField(max_length=100)
+    category = models.CharField(max_length=100)
+    availability = models.CharField(max_length=100, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to='volunteers/', blank=True, null=True)
+
+    def __str__(self):
+        return self.full_name
+

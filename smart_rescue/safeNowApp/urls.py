@@ -11,4 +11,12 @@ urlpatterns = [
     path('aboutus', views.about_view,name='aboutus'),
     path('create_case', views.create_case_page),
     path('services', views.show_services, name='services'),
+    path('volunteer/', views.volunteer, name='volunteer'),
+    path('volunteer/volunteer_form', views.volunteer_form, name='volunteer_form'),
+    path('volunteers/', views.volunteers_list, name='volunteers_list'),
+    path('search-cases/', views.search_cases, name='search_cases'),
+
+
 ]
+
+

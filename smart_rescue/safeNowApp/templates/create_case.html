@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Create Case</title>
@@ -7,8 +8,10 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
+
 <body class="bg-[##fafbfd]">
-    <nav class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow">
+    <nav
+        class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow">
         <div class="flex items-center space-x-3">
             <img src="{% static 'images/Logo.png' %}" alt="WAHA Logo" class="w-12 h-12 rounded-xl">
             <a href="/dashboard" class="font-semibold text-2xl">Smart Rescue</a>
@@ -34,10 +37,11 @@
                 <p class="text-gray-500 text-base text-lg">Fill in the information about the case you want to report</p>
             </div>
             <form action="/create_a_case" method="post">
+                {% csrf_token %}
                 <div class="mb-2 flex flex-col my-8">
                     <label for="title" class="font-bold">Case Title *</label>
                     <input type="text" name="title" id="title" placeholder="Brief description of a issue"
-                           class="focus-within:outline-double focus-within:outline-cyan-500 rounded-md p-2 bg-[#f8fafc] placeholder:text-gray-500">
+                        class="focus-within:outline-double focus-within:outline-cyan-500 rounded-md p-2 bg-[#f8fafc] placeholder:text-gray-500">
                 </div>
                 <div class="mb-2 flex gap-2 my-8">
                     <div class="flex flex-col flex-1">
@@ -61,11 +65,12 @@
                         <label for="location" class="font-bold">Location *</label>
                         <div class="flex flex-1 gap-x-2">
                             <input type="text" name="location" id="location"
-                                   class="focus-within:outline-double focus-within:outline-cyan-500 rounded-md p-2 bg-[#f8fafc] placeholder:text-gray-500 w-full">
+                                class="focus-within:outline-double focus-within:outline-cyan-500 rounded-md p-2 bg-[#f8fafc] placeholder:text-gray-500 w-full">
                             <button class="border-gray-300 border-1 p-2 rounded-md hover:bg-red-400 cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-                                    <path d="M12 2a7.008 7.008 0 0 0-7 7c0 5.353 6.036 11.45 6.293 11.707l.707.707.707-.707C12.964 20.45 19 14.353 19 9a7.008 7.008 0 0 0-7-7zm0 16.533C10.471 16.825 7 12.553 7 9a5 5 0 0 1 10 0c0 3.546-3.473 7.823-5 9.533z"/>
-                                    <path d="M12 6a3 3 0 1 0 3 3 3 3 0 0 0-3-3zm0 4a1 1 0 1 1 1-1 1 1 0 0 1-1 1z"/>
+                                    <path
+                                        d="M12 2a7.008 7.008 0 0 0-7 7c0 5.353 6.036 11.45 6.293 11.707l.707.707.707-.707C12.964 20.45 19 14.353 19 9a7.008 7.008 0 0 0-7-7zm0 16.533C10.471 16.825 7 12.553 7 9a5 5 0 0 1 10 0c0 3.546-3.473 7.823-5 9.533z" />
+                                    <path d="M12 6a3 3 0 1 0 3 3 3 3 0 0 0-3-3zm0 4a1 1 0 1 1 1-1 1 1 0 0 1-1 1z" />
                                 </svg>
                             </button>
                         </div>
@@ -88,14 +93,15 @@
                 </div>
                 <div class="flex gap-x-8 mt-12 mb-3">
                     <button type="submit"
-                            class="hover:bg-red-400 hover:border-red-500 border-1  flex-1 text-center rounded-lg text-[#f17e46] border-gray-400 hover:text-white p-2 cursor-pointer">
+                        class="hover:bg-red-400 hover:border-red-500 border-1  flex-1 text-center rounded-lg text-[#f17e46] border-gray-400 hover:text-white p-2 cursor-pointer">
                         Submit Case
                     </button>
                     <a href="/dashboard"
-                       class="hover:bg-[#003247]  flex-1 text-center rounded-lg border-1 border-gray-400 text-blue-800 hover:text-white p-2">Cancel</a>
+                        class="hover:bg-[#003247]  flex-1 text-center rounded-lg border-1 border-gray-400 text-blue-800 hover:text-white p-2">Cancel</a>
                 </div>
             </form>
         </div>
     </div>
 </body>
+
 </html>

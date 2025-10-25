@@ -1,0 +1,14 @@
+{% if cases %}
+<div class="grid md:grid-cols-2 gap-6">
+    {% for case in cases %}
+    <div class="bg-white border rounded-xl shadow-sm p-5">
+        <h3 class="font-semibold text-lg">{{ case.title }}</h3>
+        <p class="text-sm mt-1 text-gray-600">{{ case.category }}</p>
+        <p class="text-sm mt-2 text-gray-500">{{ case.description }}</p>
+        <p class="text-xs text-gray-400 mt-3">Case #{{ case.id }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-gray-500 text-sm">No cases found...</p>
+{% endif %}

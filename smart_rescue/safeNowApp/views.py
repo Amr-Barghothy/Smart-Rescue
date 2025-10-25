@@ -3,7 +3,7 @@ from datetime import datetime
 from django.contrib import messages
 from django.shortcuts import render
 from .models import *
-
+from django.db.models import Q
 
 def dashboard_view(request):
     cases = CaseEmergency.objects.all()
@@ -111,3 +111,60 @@ def show_services(request):
         messages.error(request, "You need to login first")
         return redirect(index)
     return render(request, 'services.html')
+
+
+
+def volunteer(request):
+    if request.method == 'POST':
+        form = Volunteer(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your application has been submitted successfully!')
+            return redirect('volunteer')
+    else:
+        form = Volunteer()
+        
+    context = {
+        'form': form,
+    }
+    return render(request, 'volunteer.html', context)
+
+def volunteer_form(request):
+    if request.method == 'POST':
+        form = Volunteer(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your application has been submitted successfully!')
+            return redirect('volunteer')
+    else:
+        form = Volunteer()
+        
+    context = {
+        'form': form,
+    }
+    return render(request, 'volunteer.html', context)
+
+
+def volunteers_list(request):
+    volunteers = Volunteer.objects.all().order_by('-id')
+    return render(request, 'volunteers_list.html', {'volunteers': volunteers})
+
+
+
+def search_cases(request):
+    search = request.GET.get('search', '')
+
+    cases = CaseEmergency.objects.filter(
+        Q(title__icontains=search) |
+        Q(category__icontains=search) |
+        Q(description__icontains=search)
+    )
+
+    return render(request, 'case_search_results.html', {'cases': cases})
+
+
+
+
+
+
+
