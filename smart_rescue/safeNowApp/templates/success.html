@@ -1,21 +1,24 @@
 {% load static %}
+{% load i18n %}
+
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Rescue Assistant</title>
+  <title>{% trans "Smart Rescue Assistant" %}</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gradient-to-br from-slate-900 to-blue-900 text-white min-h-screen flex items-center justify-center">
 
   <div class="w-full max-w-2xl bg-slate-800 rounded-2xl shadow-lg p-6 space-y-6">
-    <h1 class="text-2xl font-bold text-center text-orange-400">🚨 Smart Rescue Assistant</h1>
-    <p class="text-center text-slate-300">AI guidance for your reported case</p>
+    <h1 class="text-2xl font-bold text-center text-orange-400">{% trans "🚨 Smart Rescue Assistant" %}</h1>
+    <p class="text-center text-slate-300">{% trans "AI guidance for your reported case" %}</p>
 
     <!-- Case Description -->
     <div class="bg-slate-700 p-4 rounded-xl">
-      <h2 class="font-semibold text-lg text-orange-300 mb-2">Case Description</h2>
+      <h2 class="font-semibold text-lg text-orange-300 mb-2">{% trans "Case Description" %}</h2>
       <p id="case-description" class="text-slate-200">{{ description }}</p>
     </div>
 
@@ -27,7 +30,7 @@
       <input id="user-message" type="text" placeholder="Type your message..."
         class="flex-1 p-3 rounded-xl bg-slate-600 text-white focus:outline-none focus:ring-2 focus:ring-orange-400">
       <button id="send-btn"
-        class="bg-orange-500 hover:bg-orange-600 transition text-white font-semibold px-5 rounded-xl">Send</button>
+        class="bg-orange-500 hover:bg-orange-600 transition text-white font-semibold px-5 rounded-xl">{% trans "Send" %}</button>
     </div>
   </div>
 

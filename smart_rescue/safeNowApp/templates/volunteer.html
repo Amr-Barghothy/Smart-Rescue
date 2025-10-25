@@ -1,46 +1,87 @@
 {% load static %}
+{% load i18n %}
+
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="{{ LANGUAGE_CODE }}">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Volunteer </title>
+  <title>{% trans "Volunteer" %}</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-[##fafbfd]">
 
-  <nav class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow">
-        <div class="flex items-center space-x-3">
-            <img src="{% static 'images/Logo.png' %}" alt="WAHA Logo" class="w-12 h-12 rounded-xl">
-            <a href="/dashboard" class="font-semibold text-2xl">Smart Rescue</a>
-        </div>
-        <ul class="flex space-x-5 text-lg">
-            <li><a href="/dashboard" class="hover:text-gray-300">🏠Dashboard</a></li>
-            <li><a href="/create_case" class="hover:text-gray-300"> ➕Create Case</a></li>
-            <li><a href="/volunteer" class="hover:text-gray-300">🤝 Volunteer</a></li>
-            <li><a href="/services" class="hover:text-gray-300">🧰Services</a></li>
-            <li><a href="#" class="hover:text-gray-300">🌐Language</a></li>
-            <li><a href="{% url 'about' %}" class="hover:text-gray-300">ℹ️About Us</a></li>
-            <li><a href="/logoutform" class="hover:text-gray-300">🚪Logout</a></li>
-        </ul>
+ <nav
+      class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow"
+    >
+      <div class="flex items-center space-x-3">
+        <img
+          src="{% static 'images/Logo.png' %}"
+          alt="WAHA Logo"
+          class="w-12 h-12 rounded-xl"
+        />
+        <a href="/dashboard" class="font-semibold text-2xl">{% trans "Smart Rescue" %}</a>
+      </div>
+      <ul class="flex space-x-5 text-lg">
+        <li>
+          <a href="/dashboard" class="hover:text-gray-300">{% trans "🏠Dashboard" %}</a>
+        </li>
+        <li>
+          <a href="/create_case" class="hover:text-gray-300">{% trans "➕Create Case" %}</a>
+        </li>
+        <li>
+          <a href="/volunteer" class="hover:text-gray-300">{% trans "🤝 Volunteer" %}</a>
+        </li>
+        <li><a href="/services" class="hover:text-gray-300">{% trans "🧰Services" %}</a></li>
+
+<li class="relative group">
+  <a href="#" class="hover:text-gray-300">🌐 {% trans "Language" %}</a>
+  <ul class="absolute left-0 mt-1 hidden group-hover:block bg-white text-black rounded shadow-lg w-40 z-10">
+    <li>
+      <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="language" value="en">
+        <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-200">
+          English
+        </button>
+      </form>
+    </li>
+    <li>
+      <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="language" value="ar">
+        <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-200">
+          العربية
+        </button>
+      </form>
+    </li>
+  </ul>
+</li>
+
+        <li>
+          <a href="{% url 'about' %}" class="hover:text-gray-300">{% trans "ℹ️About Us" %}</a>
+        </li>
+        <li><a href="/logoutform" class="hover:text-gray-300">{% trans "🚪Logout" %}</a></li>
+      </ul>
     </nav>
 
   <div class="text-center mt-10">
     <div class="text-5xl text-blue-500 mb-2">🤝</div>
-    <h1 class="text-2xl font-semibold">Become a Volunteer</h1>
-    <p class="text-gray-500">Share your skills and help others in your community</p>
+    <h1 class="text-2xl font-semibold">{% trans "Become a Volunteer" %}</h1>
+    <p class="text-gray-500">{% trans "Share your skills and help others in your community" %}</p>
   </div>
 
   <div class="max-w-2xl mx-auto bg-white mt-10 shadow rounded-lg p-8">
-    <h2 class="text-lg font-semibold mb-2">Volunteer Service Information</h2>
-    <p class="text-gray-500 mb-6">Tell us about the service you'd like to provide</p>
+    <h2 class="text-lg font-semibold mb-2">{% trans "Volunteer Service Information" %}</h2>
+    <p class="text-gray-500 mb-6"> {% trans "Tell us about the service you'd like to provide" %}</p>
 
 <form class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-md space-y-6">
 
   <div>
-    <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+    <label for="location" class="block text-sm font-medium text-gray-700 mb-1">{% trans "Location" %}</label>
     <input
       type="text"
       id="location"
@@ -52,7 +93,7 @@
   </div>
 
   <div>
-    <label for="service_type" class="block text-sm font-medium text-gray-700 mb-1">Service Type</label>
+    <label for="service_type" class="block text-sm font-medium text-gray-700 mb-1">{% trans "Service Type" %}</label>
     <input
       type="text"
       id="service_type"
@@ -64,23 +105,23 @@
   </div>
 
   <div>
-    <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+    <label for="category" class="block text-sm font-medium text-gray-700 mb-1">{% trans "Category" %}</label>
     <select
       id="category"
       name="category"
       class="w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500
              focus:border-blue-500 focus:outline-none transition"
     >
-      <option value="">Select a category</option>
-      <option value="rescue">Rescue</option>
-      <option value="medical">Medical</option>
-      <option value="technical">Technical</option>
-      <option value="logistics">Logistics</option>
+      <option value="">{% trans "Select a category" %}</option>
+      <option value="rescue">{% trans "Rescue" %}</option>
+      <option value="medical">{% trans "Medical" %}</option>
+      <option value="technical">{% trans "Technical" %}</option>
+      <option value="logistics">{% trans "Logistics" %}</option>
     </select>
   </div>
 
   <div>
-    <label for="availability" class="block text-sm font-medium text-gray-700 mb-1">Availability</label>
+    <label for="availability" class="block text-sm font-medium text-gray-700 mb-1">{% trans "Availability" %}</label>
     <input
       type="text"
       id="availability"
@@ -92,7 +133,7 @@
   </div>
 
   <div>
-    <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Service Description</label>
+    <label for="description" class="block text-sm font-medium text-gray-700 mb-1">{% trans "Service Description" %}</label>
     <textarea
       id="description"
       name="description"
@@ -106,12 +147,12 @@
   <div class="flex justify-between mt-6">
     <button type="reset" 
       class="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600 transition">
-      Cancel
+      {% trans "Cancel" %}
     </button>
 
     <button type="submit" formaction="{% url 'volunteer_service_submit' %}"
       class="bg-teal-500 text-white px-6 py-2 rounded-md hover:bg-teal-600 transition">
-      Submit Service
+      {% trans "Submit Service" %}
     </button>
 
   </div>
@@ -122,8 +163,8 @@
 
     {% if success %}
     <div class="bg-red-400 text-white p-3 rounded-md">
-      ❤️ Thank you for volunteering!<br>
-      Your service will help people in need. We'll review your submission and add it to our volunteer directory.
+     {% trans  "❤️ Thank you for volunteering!" %}<br>
+      {% trans "Your service will help people in need. We'll review your submission and add it to our volunteer directory." %}
     </div>
     {% endif %}
 

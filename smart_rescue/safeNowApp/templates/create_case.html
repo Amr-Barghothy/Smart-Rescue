@@ -1,8 +1,11 @@
+{% load i18n %}
+
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="{{ LANGUAGE_CODE }}">
   <head>
     <meta charset="UTF-8" />
-    <title>Create Case</title>
+    <title>{% trans "Create Case" %}</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
@@ -17,46 +20,70 @@
           alt="WAHA Logo"
           class="w-12 h-12 rounded-xl"
         />
-        <a href="/dashboard" class="font-semibold text-2xl">Smart Rescue</a>
+        <a href="/dashboard" class="font-semibold text-2xl">{% trans "Smart Rescue" %}</a>
       </div>
       <ul class="flex space-x-5 text-lg">
         <li>
-          <a href="/dashboard" class="hover:text-gray-300">🏠Dashboard</a>
+          <a href="/dashboard" class="hover:text-gray-300">{% trans "🏠Dashboard" %}</a>
         </li>
         <li>
-          <a href="/create_case" class="hover:text-gray-300"> ➕Create Case</a>
+          <a href="/create_case" class="hover:text-gray-300">{% trans "➕Create Case" %}</a>
         </li>
         <li>
-          <a href="/volunteer" class="hover:text-gray-300">🤝 Volunteer</a>
+          <a href="/volunteer" class="hover:text-gray-300">{% trans "🤝 Volunteer" %}</a>
         </li>
-        <li><a href="/services" class="hover:text-gray-300">🧰Services</a></li>
-        <li><a href="#" class="hover:text-gray-300">🌐Language</a></li>
+        <li><a href="/services" class="hover:text-gray-300">{% trans "🧰Services" %}</a></li>
+
+<li class="relative group">
+  <a href="#" class="hover:text-gray-300">🌐 {% trans "Language" %}</a>
+  <ul class="absolute left-0 mt-1 hidden group-hover:block bg-white text-black rounded shadow-lg w-40 z-10">
+    <li>
+      <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="language" value="en">
+        <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-200">
+          English
+        </button>
+      </form>
+    </li>
+    <li>
+      <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="language" value="ar">
+        <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-200">
+          العربية
+        </button>
+      </form>
+    </li>
+  </ul>
+</li>
+
         <li>
-          <a href="{% url 'about' %}" class="hover:text-gray-300">ℹ️About Us</a>
+          <a href="{% url 'about' %}" class="hover:text-gray-300">{% trans "ℹ️About Us" %}</a>
         </li>
-        <li><a href="/logoutform" class="hover:text-gray-300">🚪Logout</a></li>
+        <li><a href="/logoutform" class="hover:text-gray-300">{% trans "🚪Logout" %}</a></li>
       </ul>
     </nav>
+
     <div class="w-40/100 mx-auto">
       <div class="my-7">
         <h1 class="text-2xl text-[#f17e46] font-bold mb-2">
-          Report a New Case
+          {% trans "Report a New Case" %}
         </h1>
         <p class="text-gray-500">
-          Help your community by reporting issues that need attention
-        </p>
+          {% trans "Help your community by reporting issues that need attention" %} </p>
       </div>
       <div class="border-1 border-gray-300 rounded-lg p-7">
         <div class="mb-2">
-          <p class="font-bold text-900 text-lg">Case Details</p>
+          <p class="font-bold text-900 text-lg">{% trans "Case Details" %}</p>
           <p class="text-gray-500 text-base text-lg">
-            Fill in the information about the case you want to report
+          {% trans "Fill in the information about the case you want to report" %}
           </p>
         </div>
         <form action="/report_case" method="post">
           {% csrf_token %}
           <div class="mb-2 flex flex-col my-8">
-            <label for="title" class="font-bold">Case Title *</label>
+            <label for="title" class="font-bold">{% trans "Case Title *" %}</label>
             <input
               type="text"
               name="title"
@@ -67,19 +94,19 @@
           </div>
           <div class="mb-2 flex gap-2 my-8">
             <div class="flex flex-col flex-1">
-              <label for="category" class="font-bold">Category*</label>
+              <label for="category" class="font-bold">{% trans "Category *" %}</label>
               <select
                 name="category"
                 id="category"
                 class="bg-[#f8fafc] p-2 rounded-md"
               >
                 <option value="" disabled selected hidden>
-                  Select a category
+                  {% trans "Select a category" %}
                 </option>
-                <option value="police">Police</option>
-                <option value="hospital">Hospital</option>
-                <option value="municipality">Municipality</option>
-                <option value="unknown">Unknown</option>
+                <option value="police">{% trans "Police" %}</option>
+                <option value="hospital">{% trans "Hospital" %}</option>
+                <option value="municipality">{% trans "Municipality" %}</option>
+                <option value="unknown">{% trans "Unknown" %}</option>
               </select>
               {% comment %}
               <select
@@ -96,7 +123,7 @@
             </div>
             <div class="flex flex-col flex-1">
               <label for="authorities" class="font-bold"
-                >Specialized Authorities*</label
+                >{% trans "Specialized Authorities *" %}</label
               >
               <select
                 name="authorities"
@@ -104,14 +131,14 @@
                 class="bg-[#f8fafc] p-2 rounded-md"
               >
                 <option value="" disabled selected hidden class="text-red-200">
-                  Select an authority type
+                  {% trans "Select an authority type" %}
                 </option>
               </select>
             </div>
           </div>
           <div class="mb-2 flex items-center gap-x-4 my-8">
             <div class="flex flex-col flex-1">
-              <label for="location" class="font-bold">Location *</label>
+              <label for="location" class="font-bold">{% trans "Location *" %}</label>
               <div class="flex flex-1 gap-x-2">
                 <input
                   type="text"
@@ -138,41 +165,41 @@
               </div>
             </div>
             <div class="flex flex-col flex-1">
-              <label for="status" class="font-bold">Danger Level*</label>
+              <label for="status" class="font-bold">{% trans "Danger Level *" %}</label>
               <select
                 name="status"
                 id="status"
                 class="bg-[#f8fafc] p-2 rounded-md"
               >
                 <option value="" disabled selected hidden class="text-red-200">
-                  Select The Status
+                  {% trans "Select The Status" %}
                 </option>
               </select>
             </div>
           </div>
           <div class="mb-2 flex flex-col my-8">
-            <p>Describe the Case</p>
+            <p>{% trans "Describe the Case" %}</p>
             <div class="flex bg-[#f1f5f9] rounded-lg">
               <button
                 type="button"
                 class="flex-1 bg-[#f1f5f9] rounded-lg p-1 cursor-pointer"
                 id="text-btn"
               >
-                Text
+                {% trans "Text" %}
               </button>
               <button
                 type="button"
                 class="flex-1 bg-[#f1f5f9] rounded-lg p-1 cursor-pointer"
                 id="voice-btn"
               >
-                Voice
+               {% trans "Voice" %}
               </button>
               <button
                 type="button"
                 class="flex-1 bg-[#f1f5f9] rounded-lg p-1 cursor-pointer"
                 id="image-btn"
               >
-                Image
+               {% trans "Image" %}
               </button>
             </div>
             <textarea
@@ -198,9 +225,9 @@
                 id="record-btn"
                 class="bg-red-500 text-white px-4 py-2 rounded"
               >
-                Start Recording
+               {% trans "Start Recording" %}
               </button>
-              <span id="record-status">Not recording</span>
+              <span id="record-status">{% trans "Not recording" %}</span>
             </div>
           </div>
           <div class="flex gap-x-8 mt-12 mb-3">
@@ -208,12 +235,12 @@
               type="submit"
               class="hover:bg-red-400 hover:border-red-500 border-1 flex-1 text-center rounded-lg text-[#f17e46] border-gray-400 hover:text-white p-2 cursor-pointer"
             >
-              Submit Case
+              {% trans "Submit Case" %}
             </button>
             <a
               href="/dashboard"
               class="hover:bg-[#003247] flex-1 text-center rounded-lg border-1 border-gray-400 text-blue-800 hover:text-white p-2"
-              >Cancel</a
+              >{% trans "Cancel" %}</a
             >
           </div>
         </form>

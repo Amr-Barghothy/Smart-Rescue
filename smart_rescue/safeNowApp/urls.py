@@ -18,7 +18,7 @@ urlpatterns = [
     path("volunteer_service_submit", views.volunteer_service_submit, name="volunteer_service_submit"),
     path("become_a_volunteer", views.become_a_volunteer, name="Become_a_volunteer"),
     path("cancel_service", views.cancel_service, name="cancel_service"),
-    
+    path('set-language', views.set_language, name='set_language'),
     
 
 ]
