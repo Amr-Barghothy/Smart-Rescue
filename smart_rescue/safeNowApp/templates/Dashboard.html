@@ -106,12 +106,17 @@
         <div class="text-sm text-gray-600 space-x-4">
         <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded">
           <select name="level">
-            <option value="">{% trans "All Levels" %}</option>
+            <option value="" disabled selected hidden>{% trans "All Levels" %}</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="High">High</option>
+              <option value="urgent">Urgent</option>
+
           </select>
         </span>
             <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded">
           <select name="category">
-            <option value="">{% trans "All Categories" %}</option>
+            <option value="" disabled selected hidden>{% trans "All Categories" %}</option>
           </select>
         </span>
         </div>
@@ -146,5 +151,7 @@
     </main>
 
     <script src="{% static 'script.js' %}"></script>
+    <script src="{% static 'search.js' %}"></script>
+
 </body>
 </html>
