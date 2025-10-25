@@ -14,7 +14,7 @@
     {% load static %}
 </head>
 <body class="bg-[##fafbfd]">
-  <nav class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow sticky top-0">
+    <nav class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow sticky top-0">
         <div class="flex items-center space-x-3">
             <img src="{% static 'images/Logo.png' %}" alt="WAHA Logo" class="w-12 h-12 rounded-xl">
             <a href="/dashboard" class="font-semibold text-2xl">Smart Rescue</a>
@@ -23,59 +23,59 @@
             <li>
                 <div class="flex items-center space-x-1">
                     <span class="material-icons">home</span>
-          <a href="/dashboard" class="hover:text-gray-300">{% trans "Dashboard" %}</a>
+                    <a href="/dashboard" class="hover:text-gray-300">{% trans "Dashboard" %}</a>
                 </div>
             </li>
             <li>
                 <div class="flex items-center space-x-1">
                     <span class="material-icons">add</span>
-          <a href="/create_case" class="hover:text-gray-300">{% trans "Create Case" %}</a>
+                    <a href="/create_case" class="hover:text-gray-300">{% trans "Create Case" %}</a>
                 </div>
             </li>
             {% if user.role == volunteer %}
             <li>
                 <div class="flex items-center space-x-1">
                     <span class="material-icons">volunteer_activism</span>
-          <a href="/volunteer" class="hover:text-gray-300">{% trans "Volunteer" %}</a>
+                    <a href="/volunteer" class="hover:text-gray-300">{% trans "Volunteer" %}</a>
                 </div>
             </li>
             {% endif %}
             <li>
                 <div class="flex items-center space-x-1">
                     <span class="material-symbols-outlined">heart_arrow</span>
-        <li><a href="/services" class="hover:text-gray-300">{% trans "Services" %}</a></li>
+                    <li><a href="/services" class="hover:text-gray-300">{% trans "Services" %}</a></li>
                 </div>
             </li>
-                             <li class="relative group">
-                                                <div class="flex items-center space-x-1">
-                                                                                                                                                                         <span class="material-icons">language</span>
+            <li class="relative group">
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">language</span>
 
 
-  <a href="#" class="hover:text-gray-300">{% trans "Language" %}</a>
-                                                                </div
-  <ul class="absolute left-0 mt-1 hidden group-hover:block bg-white text-black rounded shadow-lg w-40 z-10">
-    <li>
-      <form action="{% url 'set_language' %}" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="language" value="en">
-        <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-200">
-          English
-        </button>
-      </form>
-    </li>
-    <li>
-      <form action="{% url 'set_language' %}" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="language" value="ar">
-        <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-200">
-          العربية
-        </button>
-      </form>
-    </li>
-  </ul>
-</li>
-                
-                                                       
+                    <a href="#" class="hover:text-gray-300">{% trans "Language" %}</a>
+                </div>
+                <ul class="absolute left-0 mt-1 hidden group-hover:block bg-white text-black rounded shadow-lg w-40 z-10">
+                    <li>
+                        <form action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="language" value="en">
+                            <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-200">
+                                English
+                            </button>
+                        </form>
+                    </li>
+                    <li>
+                        <form action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="language" value="ar">
+                            <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-200">
+                                العربية
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </li>
+
+
             </li>
             <li>
                 <div class="flex items-center space-x-1">
@@ -90,7 +90,7 @@
                 </div>
             </li>
         </ul>
-   
+
     </nav>
 
     <main class="w-85/100 mx-auto my-10">
