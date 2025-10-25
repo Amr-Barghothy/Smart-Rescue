@@ -11,6 +11,19 @@ from django.shortcuts import render
 from dotenv import load_dotenv
 from elevenlabs.client import ElevenLabs
 from openai import OpenAI
+from django.utils import translation
+from django.conf import settings
+from django.utils.translation import gettext_lazy as _
+
+
+
+def dashboard_view(request):
+    cases = CaseEmergency.objects.all()
+    return render(request, 'dashboard.html', {'cases': cases})
+
+
+def about_view(request):
+    return render(request, 'about.html')
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from .models import *
@@ -19,37 +32,37 @@ from .models import *
 def about(request):
     user = get_user(request.session['user_id'])
     context = {
-        "features": [
-            {"title": "Real-Time Reporting",
-             "description": "Submit cases with text, voice, or image uploads for comprehensive incident documentation."},
-            {"title": "AI Assistance",
-             "description": "Our AI translates voice to text and helps categorize cases for quick processing."},
-            {"title": "Quality Assurance",
-             "description": "Rate and review services to maintain high standards of emergency response."},
-            {"title": "Community Driven",
-             "description": "Volunteers can register and contribute their skills to help those in need."},
-            {"title": "User-Friendly Interface",
-             "description": "Simple, intuitive design for easy navigation."},
-            {"title": "Multi-Language Support",
-             "description": "Accessible in multiple languages for wider usability."},
-        ],
-        "extra_text": [
-            {"title": "Safety First",
-             "description": "Every decision we make prioritizes the safety and well-being of workers and rescuers"},
-            {"title": "Innovation",
-             "description": "Leveraging cutting-edge technology to improve emergency response capabilities"},
-            {"title": "Collaboration",
-             "description": "Building strong partnerships between authorities, volunteers, and communities"},
-        ],
-        "core_values": [
-            {"title": "Accessibility", "description": "Making emergency reporting easy for everyone, anywhere."},
-            {"title": "Transparency", "description": "Keeping users informed about the status of their reports."},
-            {"title": "Innovation", "description": "Leveraging AI and smart technology to improve emergency services."},
-            {"title": "Empathy",
-             "description": "Understanding the urgency of emergencies and prioritizing human life."},
-        ],
-        "user": user
-    }
+    "features": [
+        {"title": _("Real-Time Reporting"),
+         "description": _("Submit cases with text, voice, or image uploads for comprehensive incident documentation.")},
+        {"title": _("AI Assistance"),
+         "description": _("Our AI translates voice to text and helps categorize cases for quick processing.")},
+        {"title": _("Quality Assurance"),
+         "description": _("Rate and review services to maintain high standards of emergency response.")},
+        {"title": _("Community Driven"),
+         "description": _("Volunteers can register and contribute their skills to help those in need.")},
+        {"title": _("User-Friendly Interface"),
+         "description": _("Simple, intuitive design for easy navigation.")},
+        {"title": _("Multi-Language Support"),
+         "description": _("Accessible in multiple languages for wider usability.")},
+    ],
+    "extra_text": [
+        {"title": _("Safety First"),
+         "description": _("Every decision we make prioritizes the safety and well-being of workers and rescuers")},
+        {"title": _("Innovation"),
+         "description": _("Leveraging cutting-edge technology to improve emergency response capabilities")},
+        {"title": _("Collaboration"),
+         "description": _("Building strong partnerships between authorities, volunteers, and communities")},
+    ],
+    "core_values": [
+        {"title": _("Accessibility"), "description": _("Making emergency reporting easy for everyone, anywhere.")},
+        {"title": _("Transparency"), "description": _("Keeping users informed about the status of their reports.")},
+        {"title": _("Innovation"), "description": _("Leveraging AI and smart technology to improve emergency services.")},
+        {"title": _("Empathy"), "description": _("Understanding the urgency of emergencies and prioritizing human life.")},
+    ],
+       "user": user
+
+}
     return render(request, "about.html", context)
 
 
@@ -358,7 +371,13 @@ def chat_ai(request):
 
         except Exception as e:
             return JsonResponse({"reply": f"⚠️ Error: {str(e)}"})
-    else:
-        text_description = request.POST.get("description", "")
-        ai_response = text_analysis(text_description)
-        return render(request, 'success.html', {'description': ai_response})
+    # if request.method == "POST":
+    #     text_description = request.POST.get("description", "")
+    #     ai_response = text_analysis(text_description)
+    #     return render(request, 'success.html', {'description': ai_response})
+def set_language(request):
+   lang = request.GET.get('lang', 'en')
+   if lang in dict(settings.LANGUAGES):
+       translation.activate(lang)
+       request.session[translation.LANGUAGE_SESSION_KEY] = lang
+   return redirect(request.META.get('HTTP_REFERER', '/'))

@@ -1,10 +1,13 @@
+{% load i18n %}
+
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="{{ LANGUAGE_CODE }}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About | Smart Rescue</title>
+    <title>{% trans "About | Smart Rescue" %} </title>
     {% load static %}
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -14,7 +17,7 @@
 </head>
 
 <body class="bg-[##fafbfd]">
-    <nav class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow sticky top-0">
+<nav class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow sticky top-0">
         <div class="flex items-center space-x-3">
             <img src="{% static 'images/Logo.png' %}" alt="WAHA Logo" class="w-12 h-12 rounded-xl">
             <a href="/dashboard" class="font-semibold text-2xl">Smart Rescue</a>
@@ -23,34 +26,59 @@
             <li>
                 <div class="flex items-center space-x-1">
                     <span class="material-icons">home</span>
-                    <a href="/dashboard" class="hover:text-gray-300">Dashboard</a>
+          <a href="/dashboard" class="hover:text-gray-300">{% trans "Dashboard" %}</a>
                 </div>
             </li>
             <li>
                 <div class="flex items-center space-x-1">
                     <span class="material-icons">add</span>
-                    <a href="/create_case" class="hover:text-gray-300">Create Case</a>
+          <a href="/create_case" class="hover:text-gray-300">{% trans "Create Case" %}</a>
                 </div>
             </li>
-            {% if user.is_volunteer %}
+            {% if user.role == volunteer %}
             <li>
                 <div class="flex items-center space-x-1">
                     <span class="material-icons">volunteer_activism</span>
-                    <a href="/volunteer" class="hover:text-gray-300">Volunteer</a>
+          <a href="/volunteer" class="hover:text-gray-300">{% trans "Volunteer" %}</a>
                 </div>
             </li>
             {% endif %}
             <li>
                 <div class="flex items-center space-x-1">
                     <span class="material-symbols-outlined">heart_arrow</span>
-                    <a href="/services" class="hover:text-gray-300">Services</a>
+        <li><a href="/services" class="hover:text-gray-300">{% trans "Services" %}</a></li>
                 </div>
             </li>
-            <li>
-                <div class="flex items-center space-x-1">
-                    <span class="material-icons">language</span>
-                    <a href="#" class="hover:text-gray-300">Language</a>
-                </div>
+                             <li class="relative group">
+                                                <div class="flex items-center space-x-1">
+                                                                                                                                                                         <span class="material-icons">language</span>
+
+
+  <a href="#" class="hover:text-gray-300">{% trans "Language" %}</a>
+                                                                </div
+  <ul class="absolute left-0 mt-1 hidden group-hover:block bg-white text-black rounded shadow-lg w-40 z-10">
+    <li>
+      <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="language" value="en">
+        <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-200">
+          English
+        </button>
+      </form>
+    </li>
+    <li>
+      <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="language" value="ar">
+        <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-200">
+          العربية
+        </button>
+      </form>
+    </li>
+  </ul>
+</li>
+                
+                                                       
             </li>
             <li>
                 <div class="flex items-center space-x-1">
@@ -67,58 +95,41 @@
         </ul>
     </nav>
 
+
     <section class="bg-gradient-to-r from-red-500 to-pink-800  text-white text-center py-16">
         <div class="max-w-5xl mx-auto px-4">
             <img src="{% static 'images/logo.png' %}" alt="Smart Rescue Logo" class="mx-auto mb-6 w-16">
-            <h2 class="text-3xl md:text-4xl font-semibold mb-3">About Smart Rescue</h2>
+            <h2 class="text-3xl md:text-4xl font-semibold mb-3">{% trans "About Smart Rescue" %}</h2>
             <p class="text-gray-300 max-w-2xl mx-auto">
-                Empowering communities to report and respond to working at height emergencies with speed, precision, and
-                care.
-            </p>
+                {% trans "Empowering communities to report and respond to working at height emergencies with speed, precision, and care." %} </p>
         </div>
     </section>
 
     <section class="bg-gray-50 py-16">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-10 px-6">
             <div class="md:w-1/2">
-                <h3 class="text-lg font-semibold mb-4 text-gray-900">Our Mission</h3>
+                <h3 class="text-lg font-semibold mb-4 text-gray-900">{% trans "Our Mission" %}</h3>
                 <p class="text-gray-700 mb-4 leading-relaxed">
-                    At Smart Rescue, our mission is to make emergency reporting simple, fast, and accessible for
-                    everyone.
-                    We aim to bridge the gap between citizens and emergency services by providing an intelligent
-                    platform
-                    that allows users to report incidents, upload images, and even describe cases via voice, while
-                    automatically connecting them to the appropriate authorities.
-                </p>
+                  {% trans  "At Smart Rescue, our mission is to make emergency reporting simple, fast, and accessible for everyone. We aim to bridge the gap between citizens and emergency services by providing an intelligent platform that allows users to report incidents, upload images, and even describe cases via voice, while automatically connecting them to the appropriate authorities." %} </p>
                 <p class="text-gray-700 leading-relaxed">
-                    We believe that every second counts in emergency situations. Our platform leverages modern
-                    technology to streamline case reporting,
-                    coordinate volunteer responders, and provide real-time updates to ensure rapid and effective rescue
-                    operations.
-                </p>
+                  {%trans  "We believe that every second counts in emergency situations. Our platform leverages modern technology to streamline case reporting,coordinate volunteer responders, and provide real-time updates to ensure rapid and effective rescue operations." %}</p>
             </div>
 
             <div class="md:w-1/2 bg-white border border-gray-200 rounded-lg shadow-md p-6">
-                <h4 class="text-lg font-semibold mb-4 text-gray-900">What We Do </h4>
+                <h4 class="text-lg font-semibold mb-4 text-gray-900">{% trans "What We Do" %}</h4>
                 <br>
                 <ul>
-                    <li>Emergency Response Coordination <p>Connect citizens with specialized rescue authorities
-                        instantly
-
-                    </p>
+                    <li>{% trans "Emergency Response Coordination <p>Connect citizens with specialized rescue authorities instantly" %}</p>
                     </li>
                     <br>
-                    <li>Volunteer Network
+                    <li>{% trans "Volunteer Network" %}
 
-                        <p>Build a community of trained volunteers ready to assist
-
-                        </p>
+                        <p>{% trans "Build a community of trained volunteers ready to assist" %}</p>
                     </li>
                     <br>
-                    <li>Precise Location Tracking
+                    <li>{% trans "Precise Location Tracking" %}
 
-                        <p>GPS and map integration for accurate incident reporting
-                        </p>
+                        <p>{% trans "GPS and map integration for accurate incident reporting" %}</p>
                     </li>
 
                 </ul>
@@ -141,7 +152,7 @@
 
     <section class="bg-gradient-to-r from-red-500 to-pink-800 text-white py-16">
         <div class="max-w-5xl mx-auto text-center">
-            <h4 class="text-xl font-semibold mb-10">Platform Features</h4>
+            <h4 class="text-xl font-semibold mb-10">{% trans "Platform Features" %}</h4>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 {% for feature in features %}
                 <div>
@@ -156,7 +167,7 @@
 
     <section class="bg-gray-50 py-16">
         <div class="max-w-6xl mx-auto px-6 text-center">
-            <h4 class="text-xl font-semibold mb-10 text-gray-900">Our Core Values</h4>
+            <h4 class="text-xl font-semibold mb-10 text-gray-900">{% trans "Our Core Values" %}</h4>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 {% for value in core_values %}
                 <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-5">
@@ -170,23 +181,21 @@
 
     <section class="bg-gradient-to-r from-red-500 to-pink-800 text-white text-center py-16">
         <div class="max-w-4xl mx-auto px-6">
-            <h4 class="text-xl font-semibold mb-3">Join Us in Making a Difference</h4>
+            <h4 class="text-xl font-semibold mb-3">{% trans "Join Us in Making a Difference" %}</h4>
             <p class="text-gray-300 mb-8">
-                Whether you need assistance or want to volunteer, Smart Rescue connects you to a network dedicated to
-                saving lives.
-            </p>
+              {% trans  "Whether you need assistance or want to volunteer, Smart Rescue connects you to a network dedicated to saving lives." %} </p>
             <div class="flex flex-col md:flex-row justify-center gap-4">
                 <div>
                     <a href="{% url 'create_case' %}"
                        class="bg-white text-[#04364A] font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition">
-                        Report a Case
+                        {% trans "Report a Case" %}
                     </a>
                 </div>
                 <div>
 
                     <a href="{% url 'Become_a_volunteer' %}"
                        class="bg-white text-[#04364A] font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition">
-                        Become a Volunteer
+                        {% trans "Become a Volunteer" %}
                     </a>
 
 
