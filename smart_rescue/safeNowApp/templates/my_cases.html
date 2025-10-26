@@ -28,6 +28,7 @@
         <div class="grid md:grid-cols-2 gap-6">
             {% for case in cases %}
             <div class="bg-white border border-gray-200 rounded-xl shadow p-5">
+                <p>{{case.created_by.firstname}} {{case.created_by.lastname}}</p>
                 <h3 class="font-semibold text-lg">{{ case.title }}</h3>
                 <p class="text-gray-600 text-sm mt-1">{{ case.description }}</p>
 
