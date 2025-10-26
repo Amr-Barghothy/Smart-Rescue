@@ -52,9 +52,15 @@
                     {% if case.current_status == 'PENDING' %}
                     <form action="/change_status/{{case.id}}" method="post">
                         {% csrf_token %}
-                        <div class="flex space-x-2">
-                            <button type="submit" name="chaneStatus" value="accept">Accept</button>
-                            <button type="submit" name="chaneStatus" value="decline">Decline</button>
+                        <div class="flex space-x-2 mt-5">
+                            <button type="submit" name="chaneStatus" value="accept"
+                                    class="bg-teal-500 text-white px-6 py-2 rounded-md hover:bg-teal-600 transition"
+                            >Accept
+                            </button>
+                            <button type="submit" name="chaneStatus" value="decline"
+                                    class="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600 transition"
+                            >Decline
+                            </button>
                         </div>
                     </form>
                     {% endif %}
