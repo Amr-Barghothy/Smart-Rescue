@@ -1,0 +1,61 @@
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "My Cases" %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-red-500 to-pink-700 text-white py-6 px-8 flex justify-between items-center">
+        <h1 class="text-2xl font-bold">{% trans "Your Reported Cases" %}</h1>
+        <a href="{% url 'dashboard' %}" 
+           class="bg-white text-red-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition">
+            {% trans "Back to Dashboard" %}
+        </a>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto mt-8 px-6">
+        <h2 class="text-2xl font-semibold mb-6">{% trans "Your Cases" %}</h2>
+
+        {% if cases %}
+        <div class="grid md:grid-cols-2 gap-6">
+            {% for case in cases %}
+            <div class="bg-white border border-gray-200 rounded-xl shadow p-5">
+                <h3 class="font-semibold text-lg">{{ case.title }}</h3>
+                <p class="text-gray-600 text-sm mt-1">{{ case.description }}</p>
+
+                <!-- Case Info -->
+                <div class="mt-3 text-sm text-gray-500">
+                    <p><strong>{% trans "Category" %}:</strong> {{ case.category }}</p>
+                    <p><strong>{% trans "Created at" %}:</strong> {{ case.created_at|date:"Y-m-d H:i" }}</p>
+                </div>
+
+                <!-- Case Status -->
+                <div class="mt-4">
+                    {% if case.status == 'pending' %}
+                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-medium">{% trans "Pending" %}</span>
+                    {% elif case.status == 'accepted' %}
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium">{% trans "Accepted" %}</span>
+                    {% elif case.status == 'rejected' %}
+                        <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-medium">{% trans "Rejected" %}</span>
+                    {% else %}
+                        <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-medium">{% trans "Unknown" %}</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-gray-500 mt-10 text-center text-lg">{% trans "You have no cases or you are not logged in." %}</p>
+        {% endif %}
+    </main>
+
+</body>
+</html>
