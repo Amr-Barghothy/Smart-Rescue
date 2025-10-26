@@ -61,7 +61,7 @@ class UserManager(models.Manager):
                 errors['age'] = "You must be 18-year old to perform this action"
         return errors
 
-    
+
     def basic_validator_volunteer(self, postData):
         errors = {}
         if postData["title"] == '' :
@@ -75,7 +75,7 @@ class UserManager(models.Manager):
         if not "category" in postData:
             errors["category"] = "Category is required"
         return errors
-    
+
 
 
 class User(models.Model):
@@ -135,6 +135,7 @@ class Services(models.Model):
     category = models.CharField(max_length=255)
     rating = models.IntegerField()
     owner = models.ForeignKey(User, related_name="services", on_delete=models.CASCADE)
+    requested_by = models.ManyToManyField(User, related_name="requested")
     availability = models.CharField(max_length=255)
     status = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -174,12 +175,12 @@ def login_user(post, session):
     return False
 
 
-def create_case(post, image, audio_data, text_description,user):
+def create_case(post, image, audio_data, text_description,user,lat,long):
     return CaseEmergency.objects.create(title=post.get("title"),
                                         category=post.get("category"),
                                         authorities=post.get("authorities"),
-                                        lat=33.7490,
-                                        long=-84.3880,
+                                        lat=lat,
+                                        long=long,
                                         description=text_description,
                                         image=image,
                                         audio=audio_data,
@@ -228,3 +229,7 @@ def get_all_ratings():
 
 def create_service(title, description, location, category,availability,user):
     return Services.objects.create(title = title, description = description,location = location,category = category,owner=user,rating=0,availability = availability,status = "ACTIVE")
+
+
+def service_request(service,user):
+    return service.requested_by.add(user)

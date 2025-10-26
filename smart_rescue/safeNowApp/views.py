@@ -176,7 +176,7 @@ def volunteer(request):
     if user.role != "volunteer":
         messages.error(request, "You don't have permission to do that.")
         return redirect(display_dashboard)
-    return render(request, 'volunteer.html',{'user': user})
+    return render(request, 'volunteer.html', {'user': user})
 
 
 def volunteer_service_submit(request):
@@ -184,7 +184,8 @@ def volunteer_service_submit(request):
         messages.error(request, "You need to login first")
         return redirect(index)
     user = get_user(request.session['user_id'])
-    if not user.is_volunteer:
+    print(user.role)
+    if user.role != "volunteer":
         messages.error(request, "You don't have permission to do that.")
         return redirect(display_dashboard)
     if request.method == "POST":
@@ -246,22 +247,28 @@ def report_case(request):
             audio_bytes = base64.b64decode(encoded)
             audio_text = transcribe_audio(audio_bytes)
             text_description += " " + audio_text
-        if image:
-            ai_response = image_analysis(image)
-        else:
-            ai_response = text_analysis(text_description)
-        request.session["ai_response"] = ai_response
         request.session["text_description"] = text_description
         user = get_user(request.session['user_id'])
-        case = create_case(request.POST, image, audio_data, text_description, user)
+        lat = request.POST['latitude']
+        long = request.POST['longitude']
+        case = create_case(request.POST, image, audio_data, text_description, user, lat, long)
         pdf_buffer = BytesIO()
         pdf = canvas.Canvas(pdf_buffer, pagesize=A4)
         pdf.setFont("Helvetica-Bold", 16)
         pdf.drawString(100, 800, f"Case #{case.id}")
+
         pdf.setFont("Helvetica", 12)
         pdf.drawString(100, 770, "Description:")
+
         pdf.setFont("Helvetica", 11)
         pdf.drawString(120, 750, text_description[:800])
+
+        pdf.setFont("Helvetica", 12)
+        pdf.drawString(100, 720, "Location:")
+
+        pdf.setFont("Helvetica", 10)
+        pdf.drawString(120, 700, request.POST["location"][:800])
+
         pdf.save()
         pdf_buffer.seek(0)
 
@@ -297,8 +304,6 @@ def transcribe_audio(audio_bytes):
         timestamps_granularity="word"
 
     )
-    print(result)
-    print(result.text)
     return result.text
 
 
@@ -325,7 +330,6 @@ def text_analysis(text):
     message = completion.choices[0].message
     content = message["content"] if isinstance(message, dict) else message.content
 
-    print(content)
     return content
 
 
@@ -369,7 +373,9 @@ def success_description(request):
     if not "user_id" in request.session:
         messages.error(request, "You need to login first")
         return redirect(index)
-    print(request.session["ai_response"])
+
+    ai_response = text_analysis(request.session["text_description"])
+    request.session["ai_response"] = ai_response
     return render(request, "success.html",
                   {"description": request.session["text_description"], "response": request.session["ai_response"]})
 
@@ -449,9 +455,20 @@ def change_status(request, case_id):
         return redirect(index)
     if request.method == "POST":
         case = get_case_by_id(case_id)
-        if(request.POST['chaneStatus'] == "accept"):
+        if (request.POST['chaneStatus'] == "accept"):
             case.current_status = "ACCEPTED"
         else:
             case.current_status = "REJECTED"
         case.save()
         return redirect(my_cases)
+
+
+def request_service(request, service_id):
+    if not "user_id" in request.session:
+        messages.error(request, "You need to login first.")
+        return redirect(index)
+    if request.method == "POST":
+        service = get_service_by_id(service_id)
+        user = get_user(request.session['user_id'])
+        service_request(service, user)
+        return redirect(show_services)
