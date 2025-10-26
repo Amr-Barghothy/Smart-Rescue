@@ -20,6 +20,7 @@ urlpatterns = [
     path("become_a_volunteer", views.become_a_volunteer, name="Become_a_volunteer"),
     path("cancel_service", views.cancel_service, name="cancel_service"),
     path('set-language', views.set_language, name='set_language'),
+    path('rate_a_service/<service_id>', views.rate_a_service, name='rate_a_service'),
     path('my_cases', views.my_cases, name='my_cases'),
     path("filter_cases/", views.filter_cases, name="filter_cases"),
 

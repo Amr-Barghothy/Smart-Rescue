@@ -147,10 +147,16 @@ def show_services(request):
     if not "user_id" in request.session:
         messages.error(request, "You need to login first")
         return redirect(index)
+
     user = get_user(request.session['user_id'])
+    services = get_all_services()
+
+    rated_service_ids = ServiceRating.objects.filter(user=user).values_list('service_id', flat=True)
+
     context = {
         'user': user,
-        'services': get_all_services()
+        'services': services,
+        'rated_service_ids': list(rated_service_ids),
     }
     return render(request, 'services.html', context)
 
@@ -383,6 +389,12 @@ def set_language(request):
        request.session[translation.LANGUAGE_SESSION_KEY] = lang
    return redirect(request.META.get('HTTP_REFERER', '/'))
 
+
+def rate_a_service(request,service_id):
+    if request.method == "POST":
+        rating = int(request.POST.get("rating", 0))
+        rate_service(service_id,request.session["user_id"],rating)
+    return redirect(request.META.get('HTTP_REFERER', '/'))
 def my_cases(request):
     if "user_id" not in request.session:
         messages.error(request, "You need to login first.")
