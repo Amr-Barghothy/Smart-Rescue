@@ -41,21 +41,23 @@
                 <div class="mt-4">
                     {% if case.current_status == 'PENDING' %}
                     <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-medium">{% trans "Pending" %}</span>
-                    {% elif case.current_status == 'accepted' %}
+                    {% elif case.current_status == 'ACCEPTED' %}
                     <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium">{% trans "Accepted" %}</span>
-                    {% elif case.current_status == 'rejected' %}
+                    {% elif case.current_status == 'REJECTED' %}
                     <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-medium">{% trans "Rejected" %}</span>
                     {% else %}
                     <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-medium">{% trans "Unknown" %}</span>
                     {% endif %}
                     {% if user.role != "user" and user.role != "volunteer" %}
-                    <form action="" method="post">
+                    {% if case.current_status == 'PENDING' %}
+                    <form action="/change_status/{{case.id}}" method="post">
                         {% csrf_token %}
                         <div class="flex space-x-2">
-                            <button type="submit">Accept</button>
-                            <button type="submit">Decline</button>
+                            <button type="submit" name="chaneStatus" value="accept">Accept</button>
+                            <button type="submit" name="chaneStatus" value="decline">Decline</button>
                         </div>
                     </form>
+                    {% endif %}
                     {% endif %}
                 </div>
             </div>

@@ -29,12 +29,14 @@
                     <a href="/dashboard" class="hover:text-gray-300">{% trans "Dashboard" %}</a>
                 </div>
             </li>
+            {% if user.role == 'user' or user.role == 'volunteer' %}
             <li>
                 <div class="flex items-center space-x-1">
                     <span class="material-icons">{% trans "add" %}</span>
                     <a href="/create_case" class="hover:text-gray-300">{% trans "Create Case" %}</a>
                 </div>
             </li>
+            {% endif %}
             {% if user.role == "volunteer" %}
             <li>
                 <div class="flex items-center space-x-1">
