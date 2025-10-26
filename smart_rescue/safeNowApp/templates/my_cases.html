@@ -14,7 +14,7 @@
     <!-- Header -->
     <header class="bg-gradient-to-r from-red-500 to-pink-700 text-white py-6 px-8 flex justify-between items-center">
         <h1 class="text-2xl font-bold">{% trans "Your Reported Cases" %}</h1>
-        <a href="{% url 'dashboard' %}" 
+        <a href="{% url 'dashboard' %}"
            class="bg-white text-red-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition">
             {% trans "Back to Dashboard" %}
         </a>
@@ -39,14 +39,23 @@
 
                 <!-- Case Status -->
                 <div class="mt-4">
-                    {% if case.status == 'pending' %}
-                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-medium">{% trans "Pending" %}</span>
-                    {% elif case.status == 'accepted' %}
-                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium">{% trans "Accepted" %}</span>
-                    {% elif case.status == 'rejected' %}
-                        <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-medium">{% trans "Rejected" %}</span>
+                    {% if case.current_status == 'PENDING' %}
+                    <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-medium">{% trans "Pending" %}</span>
+                    {% elif case.current_status == 'accepted' %}
+                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium">{% trans "Accepted" %}</span>
+                    {% elif case.current_status == 'rejected' %}
+                    <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-medium">{% trans "Rejected" %}</span>
                     {% else %}
-                        <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-medium">{% trans "Unknown" %}</span>
+                    <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-medium">{% trans "Unknown" %}</span>
+                    {% endif %}
+                    {% if user.role != "user" and user.role != "volunteer" %}
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="flex space-x-2">
+                            <button type="submit">Accept</button>
+                            <button type="submit">Decline</button>
+                        </div>
+                    </form>
                     {% endif %}
                 </div>
             </div>

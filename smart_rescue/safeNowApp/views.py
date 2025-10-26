@@ -15,7 +15,7 @@ from openai import OpenAI
 from django.utils import translation
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
-
+from .ai_utils import *
 
 
 def dashboard_view(request):
@@ -25,6 +25,8 @@ def dashboard_view(request):
 
 def about_view(request):
     return render(request, 'about.html')
+
+
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from .models import *
@@ -33,37 +35,40 @@ from .models import *
 def about(request):
     user = get_user(request.session['user_id'])
     context = {
-    "features": [
-        {"title": _("Real-Time Reporting"),
-         "description": _("Submit cases with text, voice, or image uploads for comprehensive incident documentation.")},
-        {"title": _("AI Assistance"),
-         "description": _("Our AI translates voice to text and helps categorize cases for quick processing.")},
-        {"title": _("Quality Assurance"),
-         "description": _("Rate and review services to maintain high standards of emergency response.")},
-        {"title": _("Community Driven"),
-         "description": _("Volunteers can register and contribute their skills to help those in need.")},
-        {"title": _("User-Friendly Interface"),
-         "description": _("Simple, intuitive design for easy navigation.")},
-        {"title": _("Multi-Language Support"),
-         "description": _("Accessible in multiple languages for wider usability.")},
-    ],
-    "extra_text": [
-        {"title": _("Safety First"),
-         "description": _("Every decision we make prioritizes the safety and well-being of workers and rescuers")},
-        {"title": _("Innovation"),
-         "description": _("Leveraging cutting-edge technology to improve emergency response capabilities")},
-        {"title": _("Collaboration"),
-         "description": _("Building strong partnerships between authorities, volunteers, and communities")},
-    ],
-    "core_values": [
-        {"title": _("Accessibility"), "description": _("Making emergency reporting easy for everyone, anywhere.")},
-        {"title": _("Transparency"), "description": _("Keeping users informed about the status of their reports.")},
-        {"title": _("Innovation"), "description": _("Leveraging AI and smart technology to improve emergency services.")},
-        {"title": _("Empathy"), "description": _("Understanding the urgency of emergencies and prioritizing human life.")},
-    ],
-       "user": user
+        "features": [
+            {"title": _("Real-Time Reporting"),
+             "description": _(
+                 "Submit cases with text, voice, or image uploads for comprehensive incident documentation.")},
+            {"title": _("AI Assistance"),
+             "description": _("Our AI translates voice to text and helps categorize cases for quick processing.")},
+            {"title": _("Quality Assurance"),
+             "description": _("Rate and review services to maintain high standards of emergency response.")},
+            {"title": _("Community Driven"),
+             "description": _("Volunteers can register and contribute their skills to help those in need.")},
+            {"title": _("User-Friendly Interface"),
+             "description": _("Simple, intuitive design for easy navigation.")},
+            {"title": _("Multi-Language Support"),
+             "description": _("Accessible in multiple languages for wider usability.")},
+        ],
+        "extra_text": [
+            {"title": _("Safety First"),
+             "description": _("Every decision we make prioritizes the safety and well-being of workers and rescuers")},
+            {"title": _("Innovation"),
+             "description": _("Leveraging cutting-edge technology to improve emergency response capabilities")},
+            {"title": _("Collaboration"),
+             "description": _("Building strong partnerships between authorities, volunteers, and communities")},
+        ],
+        "core_values": [
+            {"title": _("Accessibility"), "description": _("Making emergency reporting easy for everyone, anywhere.")},
+            {"title": _("Transparency"), "description": _("Keeping users informed about the status of their reports.")},
+            {"title": _("Innovation"),
+             "description": _("Leveraging AI and smart technology to improve emergency services.")},
+            {"title": _("Empathy"),
+             "description": _("Understanding the urgency of emergencies and prioritizing human life.")},
+        ],
+        "user": user
 
-}
+    }
     return render(request, "about.html", context)
 
 
@@ -382,34 +387,29 @@ def chat_ai(request):
     #     text_description = request.POST.get("description", "")
     #     ai_response = text_analysis(text_description)
     #     return render(request, 'success.html', {'description': ai_response})
+
+
 def set_language(request):
-   lang = request.GET.get('lang', 'en')
-   if lang in dict(settings.LANGUAGES):
-       translation.activate(lang)
-       request.session[translation.LANGUAGE_SESSION_KEY] = lang
-   return redirect(request.META.get('HTTP_REFERER', '/'))
+    lang = request.GET.get('lang', 'en')
+    if lang in dict(settings.LANGUAGES):
+        translation.activate(lang)
+        request.session[translation.LANGUAGE_SESSION_KEY] = lang
+    return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
-def rate_a_service(request,service_id):
+def rate_a_service(request, service_id):
     if request.method == "POST":
         rating = int(request.POST.get("rating", 0))
-        rate_service(service_id,request.session["user_id"],rating)
+        rate_service(service_id, request.session["user_id"], rating)
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
 def my_cases(request):
     if "user_id" not in request.session:
         messages.error(request, "You need to login first.")
         return redirect(index)
 
     user = get_user(request.session['user_id'])
-
-    if request.method == "POST":
-        case_id = request.POST.get("case_id")
-        new_status = request.POST.get("status")
-        case = CaseEmergency.objects.filter(id=case_id, created_by=user).first()
-        if case:
-            case.status = new_status
-            case.save()
-        return redirect("my_cases")
 
     cases = CaseEmergency.objects.filter(created_by=user).order_by('-id')
 
@@ -419,7 +419,6 @@ def my_cases(request):
     }
     return render(request, "my_cases.html", context)
 
-    
 
 def filter_cases(request):
     search = request.GET.get("search", "").strip()
