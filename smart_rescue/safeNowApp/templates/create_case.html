@@ -336,7 +336,7 @@
                             },
                             () => {
                                 alert("Unable to get your location. You can move the marker manually.");
-                                map.setView([31.9522, 35.2332], 8); // default region
+                                map.setView([31.9522, 35.2332], 8);
                                 marker = L.marker([31.9522, 35.2332], {draggable: true}).addTo(map);
                             }
                         );
@@ -346,11 +346,24 @@
                 }
             });
 
-            confirmBtn.addEventListener("click", () => {
+            confirmBtn.addEventListener("click", async () => {
                 const {lat, lng} = marker.getLatLng();
                 latInput.value = lat;
                 lonInput.value = lng;
-                locationInput.value = `Lat: ${lat.toFixed(5)}, Lon: ${lng.toFixed(5)}`;
+
+                // Reverse geocode using OpenStreetMap Nominatim
+                try {
+                    const res = await fetch(
+                        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
+                    );
+                    const data = await res.json();
+                    const address = data.display_name || "Unknown location";
+                    locationInput.value = address;
+                } catch (err) {
+                    console.error("Reverse geocoding failed:", err);
+                    locationInput.value = `Lat: ${lat.toFixed(5)}, Lon: ${lng.toFixed(5)}`;
+                }
+
                 mapPopup.classList.add("hidden");
             });
 

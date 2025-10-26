@@ -171,8 +171,15 @@
                         <p>{{service.owner.email}}</p>
                     </div>
                 </div>
-                <button class="w-full bg-[#f17e46] text-white rounded-xl p-2 mt-4 ">{% trans "Contact Volunteer" %}
-                </button>
+                {% if not user in service.requested_by.all %}
+                <form action="/request_service/{{service.id}}" method="post">
+                    {% csrf_token %}
+                    <button class="w-full bg-[#f17e46] cursor-pointer text-white rounded-xl p-2 mt-4 ">{% trans "Request Service" %}
+                    </button>
+                </form>
+                {% else %}
+                <p>hello</p>
+                {% endif %}
             </div>
             {% endfor %}
         </div>
