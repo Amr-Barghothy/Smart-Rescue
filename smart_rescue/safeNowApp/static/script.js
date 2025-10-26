@@ -84,7 +84,6 @@ function initLanguageMenu() {
     dropdown.classList.remove('hidden');
 
     dropdown.addEventListener('mouseleave', () => {
-        console.log("wow")
         timer = setTimeout(() => dropdown.classList.add('hidden'), 200);
     });
 }

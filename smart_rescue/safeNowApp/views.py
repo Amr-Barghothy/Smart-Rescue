@@ -8,6 +8,7 @@ from django.core.files.base import ContentFile
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.template.loader import render_to_string
 from dotenv import load_dotenv
 from elevenlabs.client import ElevenLabs
 from openai import OpenAI
@@ -394,3 +395,45 @@ def rate_a_service(request,service_id):
         rating = int(request.POST.get("rating", 0))
         rate_service(service_id,request.session["user_id"],rating)
     return redirect(request.META.get('HTTP_REFERER', '/'))
+def my_cases(request):
+    if "user_id" not in request.session:
+        messages.error(request, "You need to login first.")
+        return redirect(index)
+
+    user = get_user(request.session['user_id'])
+
+    if request.method == "POST":
+        case_id = request.POST.get("case_id")
+        new_status = request.POST.get("status")
+        case = CaseEmergency.objects.filter(id=case_id, created_by=user).first()
+        if case:
+            case.status = new_status
+            case.save()
+        return redirect("my_cases")
+
+    cases = CaseEmergency.objects.filter(created_by=user).order_by('-id')
+
+    context = {
+        "user": user,
+        "cases": cases,
+    }
+    return render(request, "my_cases.html", context)
+
+    
+
+def filter_cases(request):
+    search = request.GET.get("search", "").strip()
+    level = request.GET.get("level", "")
+    category = request.GET.get("category", "")
+
+    cases = CaseEmergency.objects.all()
+
+    if search:
+        cases = cases.filter(title__icontains=search) | cases.filter(description__icontains=search)
+    if level:
+        cases = cases.filter(status__iexact=level)
+    if category:
+        cases = cases.filter(category__iexact=category)
+
+    html = render_to_string("partials/case_list.html", {"cases": cases})
+    return JsonResponse({"html": html})

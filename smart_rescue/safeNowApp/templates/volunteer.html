@@ -20,12 +20,12 @@
     <nav class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow sticky top-0">
         <div class="flex items-center space-x-3">
             <img src="{% static 'images/Logo.png' %}" alt="WAHA Logo" class="w-12 h-12 rounded-xl">
-            <a href="/dashboard" class="font-semibold text-2xl">Smart Rescue</a>
+            <a href="/dashboard" class="font-semibold text-2xl">{% trans "Smart Rescue" %}</a>
         </div>
         <ul class="flex space-x-5 text-lg">
             <li>
                 <div class="flex items-center space-x-1">
-                    <span class="material-icons">home</span>
+                    <span class="material-icons">{% trans "home" %}</span>
                     <a href="/dashboard" class="hover:text-gray-300">{% trans "Dashboard" %}</a>
                 </div>
             </li>
@@ -37,19 +37,24 @@
             </li>
             <li>
                 <div class="flex items-center space-x-1">
-                    <span class="material-icons">volunteer_activism</span>
+                    <span class="material-icons">{% trans "volunteer_activism" %}</span>
                     <a href="/volunteer" class="hover:text-gray-300">{% trans "Volunteer" %}</a>
                 </div>
+                <li>
+  <div class="flex items-center space-x-1">
+    <span class="material-icons">list</span>
+    <a href="{% url 'my_cases' %}" class="hover:text-gray-300">{% trans "My Cases" %}</a>
+  </div>
             </li>
             <li>
                 <div class="flex items-center space-x-1">
-                    <span class="material-symbols-outlined">heart_arrow</span>
+                    <span class="material-symbols-outlined">{% trans "heart_arrow" %}</span>
                     <a href="/services" class="hover:text-gray-300">{% trans "Services" %}</a>
                 </div>
             </li>
             <li class="relative language-menu" onmouseenter="initLanguageMenu()">
                 <div class="flex items-center space-x-1 cursor-pointer">
-                    <span class="material-icons">language</span>
+                    <span class="material-icons">{% trans "language" %}</span>
                     <span class="hover:text-gray-300">{% trans "Language" %}</span>
                 </div>
 
@@ -83,7 +88,7 @@
             </li>
             <li>
                 <div class="flex items-center space-x-1">
-                    <span class="material-icons">logout</span>
+                    <span class="material-icons">{% trans "logout" %}</span>
                     <a href="/logoutform" class="hover:text-gray-300">{% trans "Logout" %}</a>
                 </div>
             </li>
@@ -104,7 +109,7 @@
               class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-md space-y-6">
             {% csrf_token %}
             <div>
-                <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                <label for="title" class="block text-sm font-medium text-gray-700 mb-1">{% trans "Title" %}</label>
                 <input
                         type="text"
                         id="title"
@@ -203,8 +208,7 @@
         {% if success %}
         <div class="bg-red-400 text-white p-3 rounded-md">
             {% trans "❤️ Thank you for volunteering!" %}<br>
-            {% trans "Your service will help people in need. We'll review your submission and add it to our volunteer
-            directory." %}
+            {% trans "Your service will help people in need. We'll review your submission and add it to our volunteer directory." %}
         </div>
         {% endif %}
 
