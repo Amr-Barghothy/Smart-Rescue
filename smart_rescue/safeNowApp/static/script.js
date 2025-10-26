@@ -85,7 +85,7 @@ function initLanguageMenu() {
     clearTimeout(timer);
     dropdown.classList.remove('hidden');
 
-    menuItem.addEventListener('mouseleave', () => {
+    dropdown.addEventListener('mouseleave', () => {
         timer = setTimeout(() => dropdown.classList.add('hidden'), 200);
     });
 }

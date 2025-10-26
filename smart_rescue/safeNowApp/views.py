@@ -8,6 +8,7 @@ from django.core.files.base import ContentFile
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.template.loader import render_to_string
 from dotenv import load_dotenv
 from elevenlabs.client import ElevenLabs
 from openai import OpenAI
@@ -407,3 +408,20 @@ def my_cases(request):
     return render(request, "my_cases.html", context)
 
     
+
+def filter_cases(request):
+    search = request.GET.get("search", "").strip()
+    level = request.GET.get("level", "")
+    category = request.GET.get("category", "")
+
+    cases = CaseEmergency.objects.all()
+
+    if search:
+        cases = cases.filter(title__icontains=search) | cases.filter(description__icontains=search)
+    if level:
+        cases = cases.filter(status__iexact=level)
+    if category:
+        cases = cases.filter(category__iexact=category)
+
+    html = render_to_string("partials/case_list.html", {"cases": cases})
+    return JsonResponse({"html": html})
