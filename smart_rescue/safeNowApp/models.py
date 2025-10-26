@@ -209,6 +209,8 @@ def cancel_volunteer(postData):
 def get_all_cases():
     return CaseEmergency.objects.all()
 
+def get_case_by_id(id):
+    return CaseEmergency.objects.get(id=id)
 
 def get_all_services():
     return Services.objects.all()

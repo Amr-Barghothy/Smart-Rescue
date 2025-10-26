@@ -73,6 +73,8 @@ def about(request):
 
 
 def index(request):
+    if "user_id" in request.session:
+        return redirect('dashboard')
     context = {
         'current_year': datetime.now().year
     }
@@ -171,10 +173,10 @@ def volunteer(request):
         messages.error(request, "You need to login first")
         return redirect(index)
     user = get_user(request.session['user_id'])
-    if not user.is_volunteer:
+    if user.role != "volunteer":
         messages.error(request, "You don't have permission to do that.")
         return redirect(display_dashboard)
-    return render(request, 'volunteer.html')
+    return render(request, 'volunteer.html',{'user': user})
 
 
 def volunteer_service_submit(request):
@@ -277,7 +279,7 @@ def report_case(request):
 
         case.save()
         messages.success(request, "Case created successfully with QR code!")
-        return redirect(create_case_page)
+        return redirect(success_description)
 
     return render(request, 'create_case.html')
 
@@ -364,21 +366,22 @@ def image_analysis(image):
 
 
 def success_description(request):
-    # if request.method == "POST":
-    #     description = request.POST.get("description")
-    return render(request, "success.html", {"description": "description"})
-
-
-# return render(request, "create_case.html")
+    if not "user_id" in request.session:
+        messages.error(request, "You need to login first")
+        return redirect(index)
+    print(request.session["ai_response"])
+    return render(request, "success.html",
+                  {"description": request.session["text_description"], "response": request.session["ai_response"]})
 
 
 def chat_ai(request):
-    if request.method != "POST":
-        user_message = request.POST.get("message")
-        case_description = request.POST.get("case_description")
-
+    if request.method == "POST":
+        user_message = request.POST.get("user_message")
+        print(user_message)
         try:
-            ai_reply = request.session["ai_response"]
+            ai_res = text_analysis(user_message)
+            ai_reply = ai_res
+            request.session["ai_response"] = ai_reply
             return JsonResponse({"reply": ai_reply})
 
         except Exception as e:
@@ -410,8 +413,10 @@ def my_cases(request):
         return redirect(index)
 
     user = get_user(request.session['user_id'])
-
-    cases = CaseEmergency.objects.filter(created_by=user).order_by('-id')
+    if user.role == "user" or user.role == "volunteer":
+        cases = CaseEmergency.objects.filter(created_by=user).order_by('-id')
+    else:
+        cases = CaseEmergency.objects.filter(authorities=user.role).order_by('-id')
 
     context = {
         "user": user,
@@ -436,3 +441,17 @@ def filter_cases(request):
 
     html = render_to_string("partials/case_list.html", {"cases": cases})
     return JsonResponse({"html": html})
+
+
+def change_status(request, case_id):
+    if not "user_id" in request.session:
+        messages.error(request, "You need to login first.")
+        return redirect(index)
+    if request.method == "POST":
+        case = get_case_by_id(case_id)
+        if(request.POST['chaneStatus'] == "accept"):
+            case.current_status = "ACCEPTED"
+        else:
+            case.current_status = "REJECTED"
+        case.save()
+        return redirect(my_cases)

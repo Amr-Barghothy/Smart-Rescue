@@ -29,22 +29,23 @@
                     <a href="/dashboard" class="hover:text-gray-300">{% trans "Dashboard" %}</a>
                 </div>
             </li>
+            {% if user.role == 'user' or user.role == 'volunteer' %}
             <li>
                 <div class="flex items-center space-x-1">
-                    <span class="material-icons">add</span>
+                    <span class="material-icons">{% trans "add" %}</span>
                     <a href="/create_case" class="hover:text-gray-300">{% trans "Create Case" %}</a>
                 </div>
             </li>
+            {% endif %}
+            <div class="flex items-center space-x-1">
+                <span class="material-icons">{% trans "volunteer_activism" %}</span>
+                <a href="/volunteer" class="hover:text-gray-300">{% trans "Volunteer" %}</a>
+            </div>
             <li>
                 <div class="flex items-center space-x-1">
-                    <span class="material-icons">{% trans "volunteer_activism" %}</span>
-                    <a href="/volunteer" class="hover:text-gray-300">{% trans "Volunteer" %}</a>
+                    <span class="material-icons">list</span>
+                    <a href="{% url 'my_cases' %}" class="hover:text-gray-300">{% trans "My Cases" %}</a>
                 </div>
-                <li>
-  <div class="flex items-center space-x-1">
-    <span class="material-icons">list</span>
-    <a href="{% url 'my_cases' %}" class="hover:text-gray-300">{% trans "My Cases" %}</a>
-  </div>
             </li>
             <li>
                 <div class="flex items-center space-x-1">
@@ -208,7 +209,8 @@
         {% if success %}
         <div class="bg-red-400 text-white p-3 rounded-md">
             {% trans "❤️ Thank you for volunteering!" %}<br>
-            {% trans "Your service will help people in need. We'll review your submission and add it to our volunteer directory." %}
+            {% trans "Your service will help people in need. We'll review your submission and add it to our volunteer
+            directory." %}
         </div>
         {% endif %}
 

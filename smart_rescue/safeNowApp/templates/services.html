@@ -26,12 +26,14 @@
                     <a href="/dashboard" class="hover:text-gray-300">{% trans "Dashboard" %}</a>
                 </div>
             </li>
+            {% if user.role == 'user' or user.role == 'volunteer' %}
             <li>
                 <div class="flex items-center space-x-1">
                     <span class="material-icons">{% trans "add" %}</span>
                     <a href="/create_case" class="hover:text-gray-300">{% trans "Create Case" %}</a>
                 </div>
             </li>
+            {% endif %}
             {% if user.role == "volunteer" %}
             <li>
                 <div class="flex items-center space-x-1">
@@ -41,10 +43,10 @@
             </li>
             {% endif %}
             <li>
-  <div class="flex items-center space-x-1">
-    <span class="material-icons">list</span>
-    <a href="{% url 'my_cases' %}" class="hover:text-gray-300">{% trans "My Cases" %}</a>
-  </div>
+                <div class="flex items-center space-x-1">
+                    <span class="material-icons">list</span>
+                    <a href="{% url 'my_cases' %}" class="hover:text-gray-300">{% trans "My Cases" %}</a>
+                </div>
             <li>
                 <div class="flex items-center space-x-1">
                     <span class="material-symbols-outlined">{% trans "heart_arrow" %}</span>
@@ -169,7 +171,8 @@
                         <p>{{service.owner.email}}</p>
                     </div>
                 </div>
-                <button class="w-full bg-[#f17e46] text-white rounded-xl p-2 mt-4 ">{% trans "Contact Volunteer" %}</button>
+                <button class="w-full bg-[#f17e46] text-white rounded-xl p-2 mt-4 ">{% trans "Contact Volunteer" %}
+                </button>
             </div>
             {% endfor %}
         </div>
