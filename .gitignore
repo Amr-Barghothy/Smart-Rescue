@@ -5,3 +5,4 @@
 __pycache__/
 *.pyc
 /smart_rescue/.env
+/smart_rescue/db.sqlite3
