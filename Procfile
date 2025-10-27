@@ -1,1 +1,0 @@
-web: gunicorn smaer_rescue.wsgi

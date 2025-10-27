@@ -3,6 +3,7 @@ import os
 from io import BytesIO
 
 import qrcode
+import requests
 from django.contrib import messages
 from django.core.files.base import ContentFile
 from django.http import JsonResponse
@@ -24,7 +25,6 @@ def dashboard_view(request):
 
 def about_view(request):
     return render(request, 'about.html')
-
 
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
@@ -97,6 +97,14 @@ def create_user_form(request):
 
 
 def display_dashboard(request):
+    if "user_id" in request.session:
+        user = User.objects.filter(id=request.session['user_id'])
+        if len(user) == 0:
+            del request.session['user_id']
+            return redirect(index)
+    if not request.session.get('user_id'):
+        messages.error(request, "You need to login first")
+        return redirect(index)
     user = get_user(request.session['user_id'])
     if 'user_id' in request.session:
         context = {
