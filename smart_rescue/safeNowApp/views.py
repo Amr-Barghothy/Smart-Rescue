@@ -15,7 +15,6 @@ from openai import OpenAI
 from django.utils import translation
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
-from .ai_utils import *
 
 
 def dashboard_view(request):
