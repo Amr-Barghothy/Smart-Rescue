@@ -25,6 +25,10 @@ urlpatterns = [
     path("filter_cases/", views.filter_cases, name="filter_cases"),
     path("change_status/<case_id>", views.change_status, name="change_status"),
     path('request_service/<service_id>', views.request_service, name='request_service'),
+    path('filter_services/', views.filter_services, name='filter_services'),
+    path('my_services', views.my_services, name='my_services'),
+    path('delete_service/<service_id>', views.delete_service, name='delete_service'),
+
 ]
 
 if settings.DEBUG:

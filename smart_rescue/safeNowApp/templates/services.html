@@ -98,29 +98,36 @@
 
     </nav>
 
-    <main class="w-85/100 mx-auto my-10">
+    <main class="w-85/100 relative mx-auto my-10">
+        {% if user.role == 'volunteer' %}
+        <a href="/my_services" class="absolute top-0 right-0 bg-red-400 text-white cursor-pointer p-2 rounded-lg">My Services</a>
+        {% endif %}
         <h2 class="text-2xl font-semibold text-orange-600 mb-2">{% trans "Volunteer Services" %}</h2>
         <p class="text-gray-500 mb-10">{% trans "Find and rate volunteer services in your community" %}</p>
         <section class="flex justify-between items-center mt-4 gap-8">
             <input type="text" placeholder="🔍 Search services..."
+                   name="search"
                    class="border border-gray-300 rounded-lg px-4 py-2 flex-1 focus:ring-2 focus:ring-teal-500">
             <div class="text-sm text-gray-600 space-x-4">
 
-                <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded"> <select name="category" id="">
+                <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded">
+                    <select name="category" id="">
                     <option value="">{% trans "All Categories" %}</option>
-                </select></span>
-                <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded"> <select name="level" id="">
-                    <option value="">{% trans "Rating" %}</option>
-                </select></span>
+                    <option value="rescue">{% trans "Rescue" %}</option>
+                    <option value="medical">{% trans "Medical" %}</option>
+                    <option value="technical">{% trans "Technical" %}</option>
+                    <option value="logistics">{% trans "Logistics" %}</option>
+                    </select>
+                </span>
             </div>
         </section>
-        <div class="grid grid-cols-3 gap-10 my-10 ">
+        <div class="grid gir-cols-1 lg:grid-cols-3 gap-10 my-10 ">
             {% for service in services %}
-            <div class="rounded-lg border-1 border-gray-400 p-4 h-100">
+            <div class="rounded-lg border-1 border-gray-400 p-4 pb-8">
                 <div class="flex justify-between">
                     <div class="flex-col">
                         <h2 class="text-base">{{service.owner.firstname}} {{service.owner.lastname}}</h2>
-                        <p class="mb-3 text-sm">{{service.type}}</p>
+                        <p class="mb-3 text-sm">{{service.category}}</p>
                         <p class="bg-[#003247] w-fit text-white rounded-lg p-1 text-xs">{{service.category}}</p>
                     </div>
                     <div class="flex-col">
@@ -153,7 +160,9 @@
 
                         </div>
 
-                        <p class="text-xs text-gray-500">{% trans "5.0 (18 rating)" %}</p>
+                        <p class="text-xs text-gray-500">
+                            {{ service.avg_rating|default:0|floatformat:1 }} ⭐ ({{ service.total_ratings }} ratings)
+                        </p>
                     </div>
                 </div>
                 <div class="flex flex-col space-y-3">
@@ -174,11 +183,13 @@
                 {% if not user in service.requested_by.all %}
                 <form action="/request_service/{{service.id}}" method="post">
                     {% csrf_token %}
-                    <button class="w-full bg-[#f17e46] cursor-pointer text-white rounded-xl p-2 mt-4 ">{% trans "Request Service" %}
+                    <button class="w-full bg-[#f17e46] cursor-pointer text-white rounded-xl p-2 mt-4 ">
+                        {% trans "Request Service" %}
                     </button>
                 </form>
                 {% else %}
-                <p>hello</p>
+                <p class="text-center w-full bg-[#f17e46] text-white rounded-xl p-2 mt-4 ">{{service.status}}
+                </p>
                 {% endif %}
             </div>
             {% endfor %}
@@ -186,5 +197,6 @@
     </main>
     <script src="{% static 'script.js' %}"></script>
     <script src="{% static 'rating.js' %}"></script>
+    <script src="{% static 'service_search.js' %}"></script>
 </body>
 </html>
