@@ -232,4 +232,10 @@ def create_service(title, description, location, category,availability,user):
 
 
 def service_request(service,user):
+    service.status = "PENDING"
+    service.save()
     return service.requested_by.add(user)
+
+def delete_a_service(service_id):
+    service = get_service_by_id(service_id)
+    return service.delete()

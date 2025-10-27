@@ -150,13 +150,20 @@ def create_case_page(request):
     return render(request, 'create_case.html', context)
 
 
+from django.db.models import Avg, Count, Q
+
+
 def show_services(request):
-    if not "user_id" in request.session:
+    if "user_id" not in request.session:
         messages.error(request, "You need to login first")
         return redirect(index)
 
     user = get_user(request.session['user_id'])
-    services = get_all_services()
+
+    services = Services.objects.annotate(
+        avg_rating=Avg('service_rating__rating'),
+        total_ratings=Count('service_rating')
+    )
 
     rated_service_ids = ServiceRating.objects.filter(user=user).values_list('service_id', flat=True)
 
@@ -247,6 +254,11 @@ def report_case(request):
             audio_bytes = base64.b64decode(encoded)
             audio_text = transcribe_audio(audio_bytes)
             text_description += " " + audio_text
+        if image:
+            ai_response = image_analysis(image)
+        else:
+            ai_response = text_analysis(text_description)
+        request.session["ai_response"] = ai_response
         request.session["text_description"] = text_description
         user = get_user(request.session['user_id'])
         lat = request.POST['latitude']
@@ -374,8 +386,6 @@ def success_description(request):
         messages.error(request, "You need to login first")
         return redirect(index)
 
-    ai_response = text_analysis(request.session["text_description"])
-    request.session["ai_response"] = ai_response
     return render(request, "success.html",
                   {"description": request.session["text_description"], "response": request.session["ai_response"]})
 
@@ -417,7 +427,6 @@ def my_cases(request):
     if "user_id" not in request.session:
         messages.error(request, "You need to login first.")
         return redirect(index)
-
     user = get_user(request.session['user_id'])
     if user.role == "user" or user.role == "volunteer":
         cases = CaseEmergency.objects.filter(created_by=user).order_by('-id')
@@ -472,3 +481,55 @@ def request_service(request, service_id):
         user = get_user(request.session['user_id'])
         service_request(service, user)
         return redirect(show_services)
+
+
+def filter_services(request):
+    services = Services.objects.all()
+    print("hi")
+    # Search & filter params
+    search = request.GET.get('search', '')
+    category = request.GET.get('category', '')
+
+    if search:
+        services = services.filter(
+            Q(owner__firstname__icontains=search) |
+            Q(owner__lastname__icontains=search) |
+            Q(description__icontains=search) |
+            Q(category__icontains=search)
+        )
+
+    if category:
+        services = services.filter(category__iexact=category)
+
+    html = render_to_string('partials/_services_list.html', {
+        'services': services,
+        'user': request.user
+    })
+
+    return JsonResponse({'html': html})
+
+
+def my_services(request):
+    if not "user_id" in request.session:
+        messages.error(request, "You need to login first.")
+        return redirect(index)
+    user = get_user(request.session['user_id'])
+    if user.role != 'volunteer':
+        messages.error(request, "You need to login first.")
+        return redirect(index)
+    services = Services.objects.filter(owner=user).order_by('-id')
+
+    context = {
+        "user": user,
+        "services": services,
+    }
+    return render(request, "my_services.html", context)
+
+
+def delete_service(request, service_id):
+    if not "user_id" in request.session:
+        messages.error(request, "You need to login first.")
+        return redirect(index)
+    if request.method == "POST":
+        delete_a_service(service_id)
+        return redirect(my_services)
