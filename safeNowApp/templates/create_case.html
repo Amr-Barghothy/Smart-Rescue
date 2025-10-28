@@ -35,88 +35,106 @@
     </style>
 </head>
 <body class="bg-[##fafbfd]">
-    <nav class="between bg-gradient-to-r from-red-500 to-pink-800 p-12 text-white flex justify-between items-center px-6 py-3 shadow sticky top-0">
-        <div class="flex items-center space-x-3">
-            <img src="{% static 'images/Logo.png' %}" alt="WAHA Logo" class="w-12 h-12 rounded-xl">
-            <a href="/dashboard" class="font-semibold text-2xl">{% trans "Smart Rescue" %}</a>
+     <nav class="bg-gradient-to-r from-red-500 to-pink-800 text-white shadow sticky top-0 z-50">
+  <div class=" mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16 items-center">
+      <!-- Logo -->
+      <div class="flex-shrink-0 flex items-center space-x-3">
+        <img src="{% static 'images/Logo.png' %}" alt="WAHA Logo" class="w-12 h-12 rounded-xl">
+        <a href="/dashboard" class="font-semibold text-2xl">{% trans "Smart Rescue" %}</a>
+      </div>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex md:items-center md:space-x-5 text-lg">
+        <a href="/dashboard" class="flex items-center space-x-1 hover:text-gray-300">
+          <span class="material-icons">home</span>
+          <span>{% trans "Dashboard" %}</span>
+        </a>
+        <a href="/create_case" class="flex items-center space-x-1 hover:text-gray-300">
+          <span class="material-icons">add</span>
+          <span>{% trans "Create Case" %}</span>
+        </a>
+        {% if user.role == "volunteer" %}
+        <a href="/volunteer" class="flex items-center space-x-1 hover:text-gray-300">
+          <span class="material-icons">volunteer_activism</span>
+          <span>{% trans "Volunteer" %}</span>
+        </a>
+        {% endif %}
+        <a href="{% url 'my_cases' %}" class="flex items-center space-x-1 hover:text-gray-300">
+          <span class="material-icons">list</span>
+          <span>{% trans "My Cases" %}</span>
+        </a>
+        <a href="/services" class="flex items-center space-x-1 hover:text-gray-300">
+          <span class="material-symbols-outlined">heart_arrow</span>
+          <span>{% trans "Services" %}</span>
+        </a>
+
+        <!-- Language Dropdown -->
+            <div class="relative group language-menu" onmouseenter="initLanguageMenu()">
+          <button class="flex items-center space-x-1 hover:text-gray-300">
+            <span class="material-icons">language</span>
+            <span>{% trans "Language" %}</span>
+          </button>
+          <ul class="dropdown absolute left-0 mt-1 hidden group-hover:block bg-white text-black rounded shadow-lg w-40 z-10">
+            <li>
+              <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="language" value="en">
+                <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-200">English</button>
+              </form>
+            </li>
+            <li>
+              <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="language" value="ar">
+                <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-200">العربية</button>
+              </form>
+            </li>
+          </ul>
         </div>
-        <ul class="flex space-x-5 text-lg">
-            <li>
-                <div class="flex items-center space-x-1">
-                    <span class="material-icons">{% trans "home" %}</span>
-                    <a href="/dashboard" class="hover:text-gray-300">{% trans "Dashboard" %}</a>
-                </div>
-            </li>
-            {% if user.role == 'user' or user.role == 'volunteer' %}
-            <li>
-                <div class="flex items-center space-x-1">
-                    <span class="material-icons">{% trans "add" %}</span>
-                    <a href="/create_case" class="hover:text-gray-300">{% trans "Create Case" %}</a>
-                </div>
-            </li>
-            {% endif %}
-            {% if user.role == "volunteer" %}
-            <li>
-                <div class="flex items-center space-x-1">
-                    <span class="material-icons">{% trans "volunteer_activism" %}</span>
-                    <a href="/volunteer" class="hover:text-gray-300">{% trans "Volunteer" %}</a>
-                </div>
-            </li>
-            {% endif %}
-            <li>
-                <div class="flex items-center space-x-1">
-                    <span class="material-icons">list</span>
-                    <a href="{% url 'my_cases' %}" class="hover:text-gray-300">{% trans "My Cases" %}</a>
-                </div>
-            <li>
-                <div class="flex items-center space-x-1">
-                    <span class="material-symbols-outlined">{% trans "heart_arrow" %}</span>
-                    <a href="/services" class="hover:text-gray-300">{% trans "Services" %}</a>
-                </div>
-            </li>
-            <li class="relative language-menu" onmouseenter="initLanguageMenu()">
-                <div class="flex items-center space-x-1 cursor-pointer">
-                    <span class="material-icons">{% trans "language" %}</span>
-                    <span class="hover:text-gray-300">{% trans "Language" %}</span>
-                </div>
 
-                <ul class="dropdown absolute left-0 mt-1 hidden bg-white text-black rounded shadow-lg w-40 z-10">
-                    <li>
-                        <form action="{% url 'set_language' %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="language" value="en">
-                            <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-200">
-                                English
-                            </button>
-                        </form>
-                    </li>
-                    <li>
-                        <form action="{% url 'set_language' %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="language" value="ar">
-                            <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-200">
-                                العربية
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-            </li>
+        <a href="{% url 'about' %}" class="flex items-center space-x-1 hover:text-gray-300">
+          <span class="material-icons">info</span>
+          <span>{% trans "About Us" %}</span>
+        </a>
+        <a href="/logoutform" class="flex items-center space-x-1 hover:text-gray-300">
+          <span class="material-icons">logout</span>
+          <span>{% trans "Logout" %}</span>
+        </a>
+      </div>
 
+      <!-- Mobile menu button -->
+      <div class="md:hidden flex items-center">
+        <button id="mobile-menu-button" class="focus:outline-none">
+          <span class="material-icons">menu</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
-            <li>
-                <div class="flex items-center space-x-1">
-                    <span class="material-icons">{% trans "info" %}</span>
-                    <a href="{% url 'about' %}" class="hover:text-gray-300">{% trans "About Us" %}</a>
-                </div>
-            </li>
-            <li>
-                <div class="flex items-center space-x-1">
-                    <span class="material-icons">{% trans "logout" %}</span>
-                    <a href="/logoutform" class="hover:text-gray-300">{% trans "Logout" %}</a>
-                </div>
-            </li>
-        </ul>
-    </nav>
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-gradient-to-r from-red-500 to-pink-800 text-white">
+    <div class="px-2 pt-2 pb-3 space-y-1">
+      <a href="/dashboard" class="block px-3 py-2 rounded hover:bg-red-600">Dashboard</a>
+      <a href="/create_case" class="block px-3 py-2 rounded hover:bg-red-600">Create Case</a>
+      {% if user.role == "volunteer" %}
+      <a href="/volunteer" class="block px-3 py-2 rounded hover:bg-red-600">Volunteer</a>
+      {% endif %}
+      <a href="{% url 'my_cases' %}" class="block px-3 py-2 rounded hover:bg-red-600">My Cases</a>
+      <a href="/services" class="block px-3 py-2 rounded hover:bg-red-600">Services</a>
+      <a href="{% url 'about' %}" class="block px-3 py-2 rounded hover:bg-red-600">About Us</a>
+      <a href="/logoutform" class="block px-3 py-2 rounded hover:bg-red-600">Logout</a>
+    </div>
+  </div>
+
+  <script>
+    const menuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
+</nav>
 
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="my-7 text-center md:text-left">
